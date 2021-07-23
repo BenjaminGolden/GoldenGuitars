@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import "./App.css";
+import ApplicationViews from "./components/ApplicationViews";
+import Header from "./components/Header";
+import { onLoginStatusChange } from "./modules/authManager";
+import { Spinner } from "reactstrap";
+
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  useEffect(() => {
+    onLoginStatusChange(setIsLoggedIn);
+  }, []);
+
+  if (isLoggedIn === null) {
+    return <Spinner className="app-spinner dark"/>;
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Header isLoggedIn={isLoggedIn} />
+        <ApplicationViews isLoggedIn={isLoggedIn} />
+      </Router>
     </div>
   );
 }
