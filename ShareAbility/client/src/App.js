@@ -3,9 +3,10 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 import ApplicationViews from "./components/ApplicationViews";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import { onLoginStatusChange } from "./modules/authManager";
 import { Spinner } from "reactstrap";
+import Header from "./components/Header";
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header isLoggedIn={isLoggedIn} />
+        {/* <Header isLoggedIn={isLoggedIn} /> */}
         <ApplicationViews isLoggedIn={isLoggedIn} />
       </Router>
     </div>

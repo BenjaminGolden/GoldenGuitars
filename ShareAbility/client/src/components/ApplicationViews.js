@@ -7,6 +7,11 @@ import { Switch, Route, Redirect } from "react-router-dom";
 const ApplicationViews = ({ isLoggedIn }) => {
   return (
     <Switch>
+
+        {/* <Route path="/" exact>
+          {isLoggedIn ? <QuoteList /> : <Redirect to="/login" />}
+        </Route> */}
+
       <Route path="/login">
           <Login />
         </Route>

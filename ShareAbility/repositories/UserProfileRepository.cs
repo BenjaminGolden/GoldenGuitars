@@ -33,7 +33,7 @@ namespace GoldenGuitars.repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "Name"),
                             Email = DbUtils.GetString(reader, "Email"),
-                            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId")
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
 
 
                         });
@@ -54,13 +54,13 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, Up.FirebaseUserId, up.Name, up.Email, up.ImageUrl, up.DateCreated
+                        SELECT up.Id, Up.FirebaseId, up.Name, up.Email
                                
                           FROM UserProfile up
                                
-                         WHERE FirebaseUserId = @FirebaseuserId";
+                         WHERE FirebaseId = @FirebaseId";
 
-                    DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
+                    DbUtils.AddParameter(cmd, "@FirebaseId", firebaseUserId);
 
                     UserProfile userProfile = null;
 
@@ -70,8 +70,8 @@ namespace GoldenGuitars.repositories
                         userProfile = new UserProfile()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                            Name = DbUtils.GetString(reader, "UserProfileName"),
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId"),
+                            Name = DbUtils.GetString(reader, "Name"),
                             Email = DbUtils.GetString(reader, "Email")
 
                         };
@@ -155,64 +155,7 @@ namespace GoldenGuitars.repositories
         //    }
         //}
 
-        //public UserProfile GetByIdWithVideos(int id)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                SELECT up.Id, up.Name, up.Email, up.ImageUrl, up.DateCreated, 
-        //                v.Id as VideoId, v.Title, v.Description, v.DateCreated as VideoDateCreated, V.Url, v.UserProfileId as VideoUserProfileId
-                      
-        //                FROM UserProfile up
-        //                Left Join Video v ON up.Id = v.UserProfileId
-        //                WHERE up.Id = @Id";
-
-        //            DbUtils.AddParameter(cmd, "@Id", id);
-
-        //            var reader = cmd.ExecuteReader();
-
-        //            UserProfile user = null;
-        //            while (reader.Read())
-        //            {
-        //                if (user == null)
-        //                {
-        //                    user = new UserProfile()
-        //                    {
-
-        //                        Id = id,
-        //                        Name = DbUtils.GetString(reader, "Name"),
-        //                        Email = DbUtils.GetString(reader, "Email"),
-        //                        DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
-        //                        ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-        //                        Videos = new List<Video>()
-        //                    };
-        //                }
-        //                if (DbUtils.IsNotDbNull(reader, "VideoId"))
-        //                {
-        //                    user.Videos.Add(new Video()
-        //                    {
-        //                        Id = DbUtils.GetInt(reader, "VideoId"),
-        //                        Title = DbUtils.GetString(reader, "Title"),
-        //                        Description = DbUtils.GetString(reader, "Description"),
-        //                        DateCreated = DbUtils.GetDateTime(reader,
-        //                        "VideoDateCreated"),
-        //                        Url = DbUtils.GetString(reader, "Url"),
-        //                        UserProfileId = DbUtils.GetInt(reader, "VideoUserProfileId"),
-        //                    });
-        //                }
-
-
-        //            }
-
-        //            reader.Close();
-
-        //            return user;
-        //        }
-        //    }
-        //}
+       
         public UserProfile GetById(int id)
         {
             using (var conn = Connection)
@@ -221,7 +164,7 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                              SELECT Id, Name, Email, FirebaseUserId
+                              SELECT Id, Name, Email, FirebaseId
                       
                         FROM UserProfile 
                        
@@ -240,7 +183,7 @@ namespace GoldenGuitars.repositories
                             Id = id,
                             Name = DbUtils.GetString(reader, "Name"),
                             Email = DbUtils.GetString(reader, "Email"),
-                            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId")
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
 
 
                         };
@@ -253,30 +196,29 @@ namespace GoldenGuitars.repositories
             }
         }
 
-       
-
-        //public void Add(UserProfile user)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                INSERT INTO UserProfile (Name, Email, ImageUrl, DateCreated)
-        //                OUTPUT INSERTED.ID
-        //                VALUES (@Name, @Email, @ImageUrl, @DateCreated)";
-
-        //            DbUtils.AddParameter(cmd, "@Title", user.Name);
-        //            DbUtils.AddParameter(cmd, "@Description", user.Email);
-        //            DbUtils.AddParameter(cmd, "@DateCreated", user.ImageUrl);
-        //            DbUtils.AddParameter(cmd, "@Url", user.DateCreated);
 
 
-        //            user.Id = (int)cmd.ExecuteScalar();
-        //        }
-        //    }
-        //}
+        public void Add(UserProfile userProfile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO UserProfile (Name, Email, firebaseId)
+                        OUTPUT INSERTED.ID
+                        VALUES (@Name, @Email, @firebaseId)";
+
+                    DbUtils.AddParameter(cmd, "@Name", userProfile.Name);
+                    DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
+                    DbUtils.AddParameter(cmd, "@firebaseId", userProfile.FirebaseId);
+
+
+                    userProfile.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
 
         //public void Update(UserProfile user)
         //{
@@ -291,7 +233,7 @@ namespace GoldenGuitars.repositories
         //                       Email = @Email,
         //                       ImageUrl = @ImageUrl,
         //                       DateCreated = @DateCreated,
-                               
+
         //                 WHERE Id = @Id";
 
         //            DbUtils.AddParameter(cmd, "@Title", user.Name);

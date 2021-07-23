@@ -16,7 +16,7 @@ namespace GoldenGuitars.models
         [Required]
         public string Email { get; set; }
 
-        public string FirebaseUserId { get; set; }
+        public string FirebaseId { get; set; }
 
       
     }
