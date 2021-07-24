@@ -20,7 +20,7 @@ export default function Header({ isLoggedIn }) {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand tag={RRNavLink} to="/">Tabloid</NavbarBrand>
+        <NavbarBrand tag={RRNavLink} to="/">Golden Guitars</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
@@ -31,23 +31,15 @@ export default function Header({ isLoggedIn }) {
                   <NavLink tag={RRNavLink} to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/post">All Posts</NavLink>
+                  <NavLink tag={RRNavLink} to="/add">New Project</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/myPosts">My Posts</NavLink>
+                  <NavLink tag={RRNavLink} to="/viewProjects">View Projects</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/post/add">New Post</NavLink>
+                  <NavLink tag={RRNavLink} to="/myTasks">My Tasks</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/category">Category Management</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/tag">Tag Management</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/userProfile">User Profiles</NavLink>
-                </NavItem>
+          
               </>
             }
           </Nav>

@@ -56,13 +56,14 @@ namespace GoldenGuitars.Controllers
                 return Ok(video);
             }
 
+        //changed the CreatedAtAction nameof from getByFirebaseUserId to Get. Not sure why this fixed the problem. 
         [HttpPost]
         public IActionResult Register(UserProfile userProfile)
         {
           
             _userProfileRepository.Add(userProfile);
             return CreatedAtAction(
-                nameof(GetByFirebaseUserId), new { FirebaseId = userProfile.FirebaseId }, userProfile);
+                nameof(Get), new { FirebaseId = userProfile.FirebaseId }, userProfile);
         }
 
         //[HttpGet("GetByIdWithComments/{id}")]
