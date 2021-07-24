@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {/* <Header isLoggedIn={isLoggedIn} /> */}
+        <Header isLoggedIn={isLoggedIn} />
         <ApplicationViews isLoggedIn={isLoggedIn} />
       </Router>
     </div>

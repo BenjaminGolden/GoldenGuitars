@@ -18,6 +18,7 @@ export default function Login() {
 
   return (
     <Form onSubmit={loginSubmit}>
+      {/* <img src=""/> */}
       <fieldset>
         <FormGroup>
           <Label for="email">Email</Label>
