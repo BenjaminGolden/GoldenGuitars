@@ -29,6 +29,10 @@ namespace ShareAbility
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IInventoryRepository, InventoryRepository>();
+            services.AddTransient<ISoldProjectsRepository, SoldProjectsRepository>();
+            services.AddTransient<IStatusRepository, StatusRepository>();
+            services.AddTransient<IStageRepository, StageRepository>();
             services.AddTransient<IStageNotesRepository, StageNotesRepository>();
             services.AddTransient<IProjectNotesRepository, ProjectNotesRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
