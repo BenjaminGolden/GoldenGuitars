@@ -7,9 +7,9 @@ namespace GoldenGuitars.models
 {
     public class SoldProjects
     {
-        public int id { get; set; }
-        public int projectId { get; set; }
-        public string clientName { get; set; }
-        public string clientEmail { get; set; }
+        public int Id { get; set; }
+        public int ProjectId { get; set; }
+        public string ClientName { get; set; }
+        public string ClientEmail { get; set; }
     }
 }
