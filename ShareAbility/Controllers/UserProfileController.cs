@@ -56,7 +56,7 @@ namespace GoldenGuitars.Controllers
                 return Ok(video);
             }
 
-        //changed the CreatedAtAction nameof from getByFirebaseUserId to Get. Not sure why this fixed the problem. 
+        //changed the CreatedAtAction nameof from getByFirebaseUserId to Get. Not sure why this fixed the problem.  
         [HttpPost]
         public IActionResult Register(UserProfile userProfile)
         {
