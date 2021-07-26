@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GoldenGuitars.repositories
 {
-    public class ProjectRepository : BaseRepository
+    public class ProjectRepository : BaseRepository, IProjectRepository
     {
         public ProjectRepository(IConfiguration configuration) : base(configuration) { }
 
@@ -28,10 +28,10 @@ namespace GoldenGuitars.repositories
                     {
                         projects.Add(new Project()
                         {
-                            id = DbUtils.GetInt(reader, "Id"),
-                            name = DbUtils.GetString(reader, "name"),
-                            startDate = DbUtils.GetDateTime(reader, "startDate"),
-                            completionDate = DbUtils.GetDateTime(reader, "completionDate")
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "name"),
+                            StartDate = DbUtils.GetDateTime(reader, "startDate"),
+                            CompletionDate = (DateTime)DbUtils.GetNullableDateTime(reader, "completionDate")
 
                         });
 
@@ -101,13 +101,13 @@ namespace GoldenGuitars.repositories
                             Id = id,
                             Name = DbUtils.GetString(reader, "name"),
                             StartDate = DbUtils.GetDateTime(reader, "startDate"),
-                            CompletionDate = DbUtils.GetDateTime(reader, "completionDate")
+                            CompletionDate = (DateTime)DbUtils.GetNullableDateTime(reader, "completionDate")
                         };
                     }
                     reader.Close();
 
                     return project;
-                }    
+                }
             }
         }
 
@@ -124,11 +124,50 @@ namespace GoldenGuitars.repositories
                         VALUES (@Name, @startDate, @completionDate)";
 
                     DbUtils.AddParameter(cmd, "@Name", project.Name);
-                    DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
-                    DbUtils.AddParameter(cmd, "@firebaseId", userProfile.FirebaseId);
+                    DbUtils.AddParameter(cmd, "@Email", project.StartDate);
+                    DbUtils.AddParameter(cmd, "@firebaseId", project.CompletionDate);
 
 
-                    userProfile.Id = (int)cmd.ExecuteScalar();
+                    project.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(Project project)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Project
+                               SET Name = @Name,
+                                   StartDate= @startDate,
+                                   CompletionDate = @completionDate
+
+                             WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Name", project.Name);
+                    DbUtils.AddParameter(cmd, "@StartDate", project.StartDate);
+                    DbUtils.AddParameter(cmd, "@CompletionDate", project.CompletionDate);
+
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Project WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
