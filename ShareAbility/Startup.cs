@@ -29,6 +29,8 @@ namespace ShareAbility
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IProjectNotesRepository, ProjectNotesRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");

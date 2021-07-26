@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GoldenGuitars.Controllers
 {
-        [Authorize]
+        //[Authorize]
         [Route("api/[controller]")]
         [ApiController]
         public class UserProfileController : ControllerBase
@@ -56,7 +56,7 @@ namespace GoldenGuitars.Controllers
                 return Ok(video);
             }
 
-        //changed the CreatedAtAction nameof from getByFirebaseUserId to Get. Not sure why this fixed the problem. 
+        //changed the CreatedAtAction nameof from getByFirebaseUserId to Get. Not sure why this fixed the problem.  
         [HttpPost]
         public IActionResult Register(UserProfile userProfile)
         {
