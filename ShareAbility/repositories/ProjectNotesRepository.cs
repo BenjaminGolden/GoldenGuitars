@@ -9,35 +9,38 @@ using System.Threading.Tasks;
 
 namespace GoldenGuitars.repositories
 {
-    public class ProjectRepository : BaseRepository, IProjectRepository
+    public class ProjectNotesRepository : BaseRepository, IProjectNotesRepository
     {
-        public ProjectRepository(IConfiguration configuration) : base(configuration) { }
+        public ProjectNotesRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Project> GetAll()
+        public List<ProjectNotes> GetAll()
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM PROJECT";
+                    cmd.CommandText = @"SELECT * FROM ProjectNotes
+                   ";
+
+                    //DbUtils.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
-                    var projects = new List<Project>();
+                    var projectNotes = new List<ProjectNotes>();
                     while (reader.Read())
                     {
-                        projects.Add(new Project()
+                        projectNotes.Add(new ProjectNotes()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            Name = DbUtils.GetString(reader, "name"),
-                            StartDate = DbUtils.GetDateTime(reader, "startDate"),
-                            CompletionDate = DbUtils.GetNullableDateTime(reader, "completionDate")
+                            Content = DbUtils.GetString(reader, "content"),
+                            ProjectId = DbUtils.GetInt(reader, "ProjectId"),
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId")
 
                         });
 
                     }
                     reader.Close();
-                    return projects;
+                    return projectNotes;
                 }
             }
         }
@@ -79,39 +82,40 @@ namespace GoldenGuitars.repositories
             }
         }
 
-        public Project GetById(int id)
+        public ProjectNotes GetByProjectId(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM PROJECT
-                                      WHERE ID = @Id";
+                    cmd.CommandText = @"SELECT pn.id as noteId, pn.content, pn.userProfileId as UserId, pn.projectId as projectId, p.name as ProjectName FROM ProjectNotes pn
+                    Left Join Project p on pn.projectId = p.Id
+                    WHERE p.id = @id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
 
-                    Project project = null;
+                    ProjectNotes projectNote = null;
                     if (reader.Read())
                     {
-                        project = new Project()
+                        projectNote = new ProjectNotes()
                         {
                             Id = id,
-                            Name = DbUtils.GetString(reader, "name"),
-                            StartDate = DbUtils.GetDateTime(reader, "startDate"),
-                            CompletionDate = DbUtils.GetNullableDateTime(reader, "completionDate")
+                            Content = DbUtils.GetString(reader, "content"),
+                            ProjectId = DbUtils.GetInt(reader, "projectId"),
+                            UserProfileId = DbUtils.GetInt(reader, "userId")
                         };
                     }
                     reader.Close();
 
-                    return project;
+                    return projectNote;
                 }
             }
         }
 
-        public void Add(Project project)
+        public void Add(ProjectNotes projectNote)
         {
             using (var conn = Connection)
             {
@@ -119,21 +123,21 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Project (Name, StartDate, CompletionDate)
+                        INSERT INTO ProjectNotes (Content, ProjectId, UserProfileId)
                         OUTPUT INSERTED.ID
-                        VALUES (@Name, @startDate, @completionDate)";
+                        VALUES (@Content, @ProjectId, @userProfileId)";
 
-                    DbUtils.AddParameter(cmd, "@Name", project.Name);
-                    DbUtils.AddParameter(cmd, "@Email", project.StartDate);
-                    DbUtils.AddParameter(cmd, "@firebaseId", project.CompletionDate);
+                    DbUtils.AddParameter(cmd, "@Content", projectNote.Content);
+                    DbUtils.AddParameter(cmd, "@projectId", projectNote.ProjectId);
+                    DbUtils.AddParameter(cmd, "@userProfileId", projectNote.UserProfileId);
 
 
-                    project.Id = (int)cmd.ExecuteScalar();
+                    projectNote.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
 
-        public void Update(Project project)
+        public void Update(ProjectNotes projectNote)
         {
             using (var conn = Connection)
             {
@@ -141,16 +145,16 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            UPDATE Project
-                               SET Name = @Name,
-                                   StartDate= @startDate,
-                                   CompletionDate = @completionDate
+                            UPDATE ProjectNotes
+                               SET Content = @Content,
+                                   ProjectId= @projectId,
+                                   userProfileId = @completionDate
 
                              WHERE Id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@Name", project.Name);
-                    DbUtils.AddParameter(cmd, "@StartDate", project.StartDate);
-                    DbUtils.AddParameter(cmd, "@CompletionDate", project.CompletionDate);
+                    DbUtils.AddParameter(cmd, "@Content", projectNote.Content);
+                    DbUtils.AddParameter(cmd, "@ProjectId", projectNote.ProjectId);
+                    DbUtils.AddParameter(cmd, "@userProfileId", projectNote.UserProfileId);
 
 
                     cmd.ExecuteNonQuery();
@@ -165,7 +169,7 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Project WHERE Id = @Id";
+                    cmd.CommandText = "DELETE FROM ProjectNotes WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
