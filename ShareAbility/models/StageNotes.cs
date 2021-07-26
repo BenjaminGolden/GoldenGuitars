@@ -7,9 +7,9 @@ namespace GoldenGuitars.models
 {
     public class StageNotes
     {
-        public int id { get; set; }
-        public string content { get; set; }
-        public int userProfileId { get; set; }
-        public int stageId { get; set; }
+        public int Id { get; set; }
+        public string Content { get; set; }
+        public int UserProfileId { get; set; }
+        public int StageId { get; set; }
     }
 }
