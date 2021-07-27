@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { getAllSteps } from "../../modules/stepsManager";
+import { getAllUsers } from '../../modules/userManager';
+import { getAllStatuses } from '../../modules/statusManager'
 import { addProject } from '../../modules/projectManager';
 // import MultiSelect from "react-multi-select-component";
 
@@ -12,7 +13,8 @@ const ProjectStageForm = () => {
     };
 
     const [newProjectStage, setNewProjectStage] = useState(emptyProjectStage);
-    const [steps, setSteps] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [status, setStatus] = useState([]);
     const [selected, setSelected] = useState(false);
 
     const history = useHistory();
@@ -33,13 +35,19 @@ const ProjectStageForm = () => {
         setNewProjectStage(projectCopy);
     };
 
-    const getSteps = () => {
-        return getAllSteps()
-        .then(stepsFromAPI => {
-            setSteps(stepsFromAPI)
+    const getUsers = () => {
+        return getAllUsers()
+        .then(usersFromAPI => {
+            setUsers(usersFromAPI)
         })
     }    
 
+    const getStatuses = () => {
+        return getAllStatuses()
+        .then(statusesFromAPI => {
+            setStatus(statusesFromAPI)
+        })
+    }   
 
 
     const handleSave = (evt) => {
@@ -63,7 +71,8 @@ const ProjectStageForm = () => {
     };
 
     useEffect(() => {
-        getSteps();
+        getUsers();
+        getStatuses();
     }, [])
 
 
@@ -71,26 +80,98 @@ const ProjectStageForm = () => {
     return (
         <>
         <Form className="container w-75">
-            <h2>New Project</h2>
+            <h2>Assign workers and select step status: </h2>
             <FormGroup>
-                <Label for="name">Project Name</Label>
-                <Input type="text" name="name" id="name" placeholder="name"
-                    value={newProjectStage.name}
-                    onChange={handleInputChange} />
+                <Label for="step 1">Wood preparation, routing, and drilling. </Label>
+                <select value={newProjectStage.stageId} name="stageId" id="stageId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Assign to: </option>
+                    {users.map(u => (
+                        <option key={u.id} value={u.id}>{u.name}</option>
+                    ))}
+                </select>
+                <select value={newProjectStage.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Status: </option>
+                    {status.map(s => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                </select>
+               
             </FormGroup>
-
-            {/* stage  */}
-
-            {/* <Label for="cars">Select All Steps for this project:</Label>
-
-            <select value={newProject.stepId} name="stage" id="stage" onChange={handleOnChange} multiple>
-            <option value="1">Wood preparation, routing, drilling</option>
-            <option value="2">Finishing</option>
-            <option value="3">Setup and assembly</option>
-            <option value="4">final testing</option>
-            <option value="5">metal scoring and painting</option>
-            <option value="6">Post installation and final assembly</option>
-            </select> */}
+            <FormGroup>
+                <Label for="step 2">Finishing. </Label>
+                <select value={newProjectStage.stageId} name="stageId" id="stageId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Assign to: </option>
+                    {users.map(u => (
+                        <option key={u.id} value={u.id}>{u.name}</option>
+                    ))}
+                </select>
+                <select value={newProjectStage.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Status: </option>
+                    {status.map(s => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                </select>
+            </FormGroup>
+            <FormGroup>
+                <Label for="step 3">Setup and Assembly. </Label>
+                <select value={newProjectStage.stageId} name="stageId" id="stageId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Assign to: </option>
+                    {users.map(u => (
+                        <option key={u.id} value={u.id}>{u.name}</option>
+                    ))}
+                </select>
+                <select value={newProjectStage.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Status: </option>
+                    {status.map(s => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                </select>
+            </FormGroup>
+            <FormGroup>
+                <Label for="step 4">Final Testing. </Label>
+                <select value={newProjectStage.stageId} name="stageId" id="stageId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Assign to: </option>
+                    {users.map(u => (
+                        <option key={u.id} value={u.id}>{u.name}</option>
+                    ))}
+                </select>
+                <select value={newProjectStage.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Status: </option>
+                    {status.map(s => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                </select>
+            </FormGroup>
+            <FormGroup>
+                <Label for="step 5">Metal scoring and painting. </Label>
+                <select value={newProjectStage.stageId} name="stageId" id="stageId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Assign to: </option>
+                    {users.map(u => (
+                        <option key={u.id} value={u.id}>{u.name}</option>
+                    ))}
+                </select>
+                <select value={newProjectStage.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Status: </option>
+                    {status.map(s => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                </select>
+            </FormGroup>
+            <FormGroup>
+                <Label for="step 6">Post installation and final assembly. </Label>
+                <select value={newProjectStage.stageId} name="stageId" id="stageId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Assign to: </option>
+                    {users.map(u => (
+                        <option key={u.id} value={u.id}>{u.name}</option>
+                    ))}
+                </select>
+                <select value={newProjectStage.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='form-control'>
+                    <option value="0">Status: </option>
+                    {status.map(s => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                </select>
+            </FormGroup>
 
            {/* <FormGroup>
            <Label for="stage">Stage </Label>
