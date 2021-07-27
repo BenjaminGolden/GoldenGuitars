@@ -32,7 +32,7 @@ namespace GoldenGuitars.repositories
                         stage.Add(new Stage()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            Name = DbUtils.GetString(reader, "Name"),
+                            StepsId = DbUtils.GetInt(reader, "StepsId"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetNullableInt(reader, "UserProfileId"),
                             StatusId = DbUtils.GetInt(reader, "StatusId")
@@ -66,7 +66,7 @@ namespace GoldenGuitars.repositories
                         stage = new Stage()
                         {
                             Id = id,
-                            Name = DbUtils.GetString(reader, "Name"),
+                            StepsId = DbUtils.GetInt(reader, "StepsId"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetNullableInt(reader, "UserProfileId"),
                             StatusId = DbUtils.GetInt(reader, "StatusId")
@@ -87,11 +87,11 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Stage (Name, ProjectId, UserProfileId, StatusId)
+                        INSERT INTO Stage (StepsId, ProjectId, UserProfileId, StatusId)
                         OUTPUT INSERTED.ID
-                        VALUES (@Name, @ProjectId, @userProfileId, @StatusId)";
+                        VALUES (@StepsId, @ProjectId, @userProfileId, @StatusId)";
 
-                    DbUtils.AddParameter(cmd, "@Name", stage.Name);
+                    DbUtils.AddParameter(cmd, "@StepsId", stage.StepsId);
                     DbUtils.AddParameter(cmd, "@projectId", stage.ProjectId);
                     DbUtils.AddParameter(cmd, "@userProfileId", stage.UserProfileId);
                     DbUtils.AddParameter(cmd, "@Content", stage.StatusId);
@@ -111,14 +111,14 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE Stage
-                               SET Name = @Name
+                               SET StepsId = @StepsId
                                    ProjectId= @projectId,
                                    userProfileId = @userProfileId
                                    statusId = @statusId
 
                              WHERE Id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@Name", stage.Name);
+                    DbUtils.AddParameter(cmd, "@StepsId", stage.StepsId);
                     DbUtils.AddParameter(cmd, "@ProjectId", stage.ProjectId);
                     DbUtils.AddParameter(cmd, "@userProfileId", stage.UserProfileId);
                     DbUtils.AddParameter(cmd, "@Content", stage.StatusId);

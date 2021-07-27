@@ -28,7 +28,7 @@ namespace GoldenGuitars.Controllers
         }
 
         //Get by Id
-        [HttpGet("{id}")]
+        [HttpGet("details/{id}")]
         public IActionResult Get(int id)
         {
             var project = _projectRepository.GetById(id);
@@ -43,8 +43,9 @@ namespace GoldenGuitars.Controllers
         [HttpPost]
         public IActionResult Post(Project project)
         {
+            project.StartDate = DateTime.Now;
             _projectRepository.Add(project);
-            return CreatedAtAction("get", new { id = project.Id }, project);
+            return CreatedAtAction(nameof(Get), new { id = project.Id }, project);
         }
 
         //Delete a project
