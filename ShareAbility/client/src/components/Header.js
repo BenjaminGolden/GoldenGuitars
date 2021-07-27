@@ -34,7 +34,7 @@ export default function Header({ isLoggedIn }) {
                   <NavLink tag={RRNavLink} to="/add">New Project</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/viewProjects">View Projects</NavLink>
+                  <NavLink tag={RRNavLink} to="/allProjects">View Projects</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/myTasks">My Tasks</NavLink>

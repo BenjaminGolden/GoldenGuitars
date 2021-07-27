@@ -20,7 +20,10 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM PROJECT";
+                    cmd.CommandText = @"SELECT p.Id, p.Name, p.StartDate, p.CompletionDate, steps.name as StepName, s.StepsId, s.ProjectId, s.UserProfileId, s.StatusId
+                    From Project p 
+                    Left Join Stage s on p.id = s.projectId
+                    left Join Steps on s.stepsId =  steps.id ";
 
                     var reader = cmd.ExecuteReader();
                     var projects = new List<Project>();
@@ -31,7 +34,11 @@ namespace GoldenGuitars.repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "name"),
                             StartDate = DbUtils.GetDateTime(reader, "startDate"),
-                            CompletionDate = DbUtils.GetNullableDateTime(reader, "completionDate")
+                            CompletionDate = DbUtils.GetNullableDateTime(reader, "completionDate"),
+                            Steps = new Steps()
+                            {
+                                Name = DbUtils.GetString(reader, "StepName"),
+                            }
 
                         });
 
@@ -124,8 +131,8 @@ namespace GoldenGuitars.repositories
                         VALUES (@Name, @startDate, @completionDate)";
 
                     DbUtils.AddParameter(cmd, "@Name", project.Name);
-                    DbUtils.AddParameter(cmd, "@Email", project.StartDate);
-                    DbUtils.AddParameter(cmd, "@firebaseId", project.CompletionDate);
+                    DbUtils.AddParameter(cmd, "@StartDate", project.StartDate);
+                    DbUtils.AddParameter(cmd, "@CompletionDate", project.CompletionDate);
 
 
                     project.Id = (int)cmd.ExecuteScalar();

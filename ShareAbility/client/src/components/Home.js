@@ -33,7 +33,7 @@ const Home = () => {
                 <p><b>New Project: </b></p>
                 </Link>
                             
-                <Link to={`/project/${projects.id}`}> 
+                <Link to={`/project/details/${projects.id}`}> 
                     <select value={projects.Id} name="projectId" id="projectId" onChange={handleInputChange} className='form-control'>
                     <option value="0">Select a Project</option>
                     {projects.map(p => (

@@ -8,7 +8,7 @@ namespace GoldenGuitars.models
     public class Stage
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int StepsId { get; set; }
         public int ProjectId { get; set; }
         public int? UserProfileId { get; set; }
         public int StatusId { get; set; }

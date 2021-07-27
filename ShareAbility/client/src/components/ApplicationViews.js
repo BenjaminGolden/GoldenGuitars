@@ -4,6 +4,8 @@ import Register from "./Register";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from '../components/Home'
 import ProjectForm from "./projects/ProjectForm";
+import ProjectDetails from "./projects/ProjectDetails";
+import ProjectStageForm from "./projects/ProjectStage";
 
 
 const ApplicationViews = ({ isLoggedIn }) => {
@@ -16,6 +18,15 @@ const ApplicationViews = ({ isLoggedIn }) => {
 
         <Route path="/project/add" exact>
           {isLoggedIn ? <ProjectForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/project/stage/:id" exact>
+          {isLoggedIn ? <ProjectStageForm /> : <Redirect to="/login" />}
+        </Route>
+
+        
+        <Route path="/project/details/:id" exact>
+          {isLoggedIn ? <ProjectDetails /> : <Redirect to="/login" />}
         </Route>
 
       <Route path="/login">

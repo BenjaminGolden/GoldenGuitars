@@ -5,13 +5,13 @@ import { getAllSteps } from "../../modules/stepsManager";
 import { addProject } from '../../modules/projectManager';
 // import MultiSelect from "react-multi-select-component";
 
-const ProjectForm = () => {
-    const emptyProject = {       
-        name: ''
+const ProjectStageForm = () => {
+    const emptyProjectStage = {       
+        
        
     };
 
-    const [newProject, setNewProject] = useState(emptyProject);
+    const [newProjectStage, setNewProjectStage] = useState(emptyProjectStage);
     const [steps, setSteps] = useState([]);
     const [selected, setSelected] = useState(false);
 
@@ -27,10 +27,10 @@ const ProjectForm = () => {
         const value = evt.target.value;
         const key = evt.target.id;
 
-        const projectCopy = { ...newProject };
+        const projectCopy = { ...newProjectStage };
 
         projectCopy[key] = value;
-        setNewProject(projectCopy);
+        setNewProjectStage(projectCopy);
     };
 
     const getSteps = () => {
@@ -45,10 +45,10 @@ const ProjectForm = () => {
     const handleSave = (evt) => {
         evt.preventDefault();
 
-        if (newProject.name === '')
+        if (newProjectStage.name === '')
         {
         window.alert('project name is a required fields')
-        setNewProject({
+        setNewProjectStage({
             name: '',
      
         })
@@ -56,15 +56,15 @@ const ProjectForm = () => {
         }
         else 
         {
-            addProject(newProject).then((p) => {
-                history.push(`/project/stage/${p.id}`);
+            addProject(newProjectStage).then((p) => {
+                history.push(`/project/details/${p.id}`);
             });
         }
     };
 
-    // useEffect(() => {
-    //     getSteps();
-    // }, [])
+    useEffect(() => {
+        getSteps();
+    }, [])
 
 
 
@@ -75,7 +75,7 @@ const ProjectForm = () => {
             <FormGroup>
                 <Label for="name">Project Name</Label>
                 <Input type="text" name="name" id="name" placeholder="name"
-                    value={newProject.name}
+                    value={newProjectStage.name}
                     onChange={handleInputChange} />
             </FormGroup>
 
@@ -119,4 +119,4 @@ const ProjectForm = () => {
     );
 };
 
-export default ProjectForm;
+export default ProjectStageForm;
