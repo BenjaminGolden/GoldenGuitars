@@ -21,10 +21,10 @@ namespace GoldenGuitars.Controllers
                 _userProfileRepository = userProfileRepository;
             }
 
-            [HttpGet("DoesUserExist/{firebaseUserId}")]
-            public IActionResult GetByFirebaseUserId(string firebaseUserId)
+            [HttpGet("DoesUserExist/{firebaseId}")]
+            public IActionResult GetByFirebaseUserId(string firebaseId)
             {
-                var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+                var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseId);
                 if (userProfile == null)
                 {
                     return NotFound();
@@ -63,7 +63,7 @@ namespace GoldenGuitars.Controllers
           
             _userProfileRepository.Add(userProfile);
             return CreatedAtAction(
-                nameof(Get), new { FirebaseId = userProfile.FirebaseId }, userProfile);
+                nameof(GetByFirebaseUserId), new { FirebaseId = userProfile.FirebaseId }, userProfile);
         }
 
         //[HttpGet("GetByIdWithComments/{id}")]
