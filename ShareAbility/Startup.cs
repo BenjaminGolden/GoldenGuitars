@@ -33,8 +33,8 @@ namespace ShareAbility
             services.AddTransient<IInventoryRepository, InventoryRepository>();
             services.AddTransient<ISoldProjectsRepository, SoldProjectsRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
-            services.AddTransient<IStageRepository, StageRepository>();
-            services.AddTransient<IStageNotesRepository, StageNotesRepository>();
+            services.AddTransient<IProjectStepRepository, ProjectStepRepository>();
+            services.AddTransient<IProjectStepNotesRepository, ProjectStepNotesRepository>();
             services.AddTransient<IProjectNotesRepository, ProjectNotesRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();

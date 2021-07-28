@@ -8,26 +8,26 @@ namespace GoldenGuitars.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StageNotesController : ControllerBase
+    public class ProjectStepNotesController : ControllerBase
     {
-        private readonly IStageNotesRepository _stageNotesRepository;
-        public StageNotesController(IStageNotesRepository stageNotesRepository)
+        private readonly IProjectStepNotesRepository _ProjectStepNotesRepository;
+        public ProjectStepNotesController(IProjectStepNotesRepository ProjectStepNotesRepository)
         {
-            _stageNotesRepository = stageNotesRepository;
+            _ProjectStepNotesRepository = ProjectStepNotesRepository;
         }
 
         //Get All
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_stageNotesRepository.GetAll());
+            return Ok(_ProjectStepNotesRepository.GetAll());
         }
 
         //Get by Id
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var project = _stageNotesRepository.GetById(id);
+            var project = _ProjectStepNotesRepository.GetById(id);
             if (project == null)
             {
                 return NotFound();
@@ -35,32 +35,32 @@ namespace GoldenGuitars.Controllers
             return Ok(project);
         }
 
-        //Add a stage
+        //Add a ProjectStep
         [HttpPost]
-        public IActionResult Post(StageNotes stage)
+        public IActionResult Post(ProjectStepNotes ProjectStep)
         {
-            _stageNotesRepository.Add(stage);
-            return CreatedAtAction("get", new { id = stage.Id }, stage);
+            _ProjectStepNotesRepository.Add(ProjectStep);
+            return CreatedAtAction("get", new { id = ProjectStep.Id }, ProjectStep);
         }
 
-        //Delete a stage
+        //Delete a ProjectStep
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _stageNotesRepository.Delete(id);
+            _ProjectStepNotesRepository.Delete(id);
             return NoContent();
         }
 
-        //Update a stage
+        //Update a ProjectStep
         [HttpPut("{id}")]
-        public IActionResult Put(int id, StageNotes stage)
+        public IActionResult Put(int id, ProjectStepNotes ProjectStep)
         {
-            if (id != stage.Id)
+            if (id != ProjectStep.Id)
             {
                 return BadRequest();
             }
 
-            _stageNotesRepository.Update(stage);
+            _ProjectStepNotesRepository.Update(ProjectStep);
             return NoContent();
         }
     }

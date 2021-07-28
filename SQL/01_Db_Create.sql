@@ -45,9 +45,9 @@ CREATE TABLE [stageNotes] (
 )
 GO
 
-CREATE TABLE [stage] (
+CREATE TABLE [projectStep] (
   [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
-  [name] varchar(255) NOT NULL,
+  [stepId] INT NOT NULL,
   [projectId] int NOT NULL,
   [userProfileId] int NULL,
   [statusId] int Not NULL
@@ -75,11 +75,22 @@ CREATE TABLE [projectNotes] (
 )
 GO
 
+CREATE TABLE [dbo].[steps] (
+    [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+    [name] NVARCHAR (255) NOT NULL
+);
 
-ALTER TABLE [stage] ADD FOREIGN KEY ([userProfileId]) REFERENCES [UserProfile] ([id])
+
+
+
+
+ALTER TABLE [projectStep] ADD FOREIGN KEY ([userProfileId]) REFERENCES [UserProfile] ([id])
 GO
 
-ALTER TABLE [stage] ADD FOREIGN KEY ([statusId]) REFERENCES [status] ([id])
+ALTER TABLE [projectStep] ADD FOREIGN KEY ([statusId]) REFERENCES [status] ([id])
+GO
+
+ALTER TABLE [projectStep] ADD FOREIGN KEY ([stepId]) REFERENCES [steps] ([id])
 GO
 
 ALTER TABLE [projectNotes] ADD FOREIGN KEY ([projectId]) REFERENCES [project] ([id])
@@ -120,14 +131,17 @@ VALUES
 	(3, 'Complete')
 SET IDENTITY_INSERT [status] OFF
 
-SET IDENTITY_INSERT [stage] ON
-INSERT INTO [stage]
-	([id], [name], [projectId], [userProfileId], [statusId])
+
+
+
+SET IDENTITY_INSERT [steps] ON
+INSERT INTO [steps]
+	([id], [name])
 VALUES
-	(1, 'Wood preparation, routing, drilling', 1, null, 1 ),
-	(2, 'Finishing',  1, null, 1 ),
-	(3, 'Setup and assembly',  1, null, 1 ),
-	(4, 'final testing',  1, null, 1 ),
-	(5, 'metal scoring and painting',  1, null, 1 ),
-	(6, 'Post installation and final assembly',  1, null, 1 )
-SET IDENTITY_INSERT [stage] OFF
+	(1, 'Wood preparation, routing, drilling' ),
+	(2, 'Finishing'),
+	(3, 'Setup and assembly'),
+	(4, 'final testing'),
+	(5, 'metal scoring and painting'),
+	(6, 'Post installation and final assembly')
+SET IDENTITY_INSERT [steps] OFF

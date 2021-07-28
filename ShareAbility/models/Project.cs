@@ -11,7 +11,7 @@ namespace GoldenGuitars.models
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? CompletionDate { get; set; }
-        public Steps Steps { get; set; }
+        //public Steps Steps { get; set; }
 
     }
 }

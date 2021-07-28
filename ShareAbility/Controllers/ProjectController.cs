@@ -17,14 +17,16 @@ namespace GoldenGuitars.Controllers
     {
         private readonly IProjectRepository _projectRepository;
         private readonly IStepsRepository _stepsRepository;
-        private readonly IStageRepository _stageRepository;
+        private readonly IProjectStepRepository _ProjectStepRepository;
         private readonly IUserProfileRepository _userProfileRepository;
-        public ProjectController(IProjectRepository projectRepository, IStepsRepository stepsRepository, IStageRepository stageRepository, IUserProfileRepository userProfileRepository)
+        private readonly IStatusRepository _statusRepository;
+        public ProjectController(IProjectRepository projectRepository, IStepsRepository stepsRepository, IProjectStepRepository ProjectStepRepository, IUserProfileRepository userProfileRepository, IStatusRepository statusRepository)
         {
             _projectRepository = projectRepository;
             _stepsRepository = stepsRepository;
-            _stageRepository = stageRepository;
+            _ProjectStepRepository = ProjectStepRepository;
             _userProfileRepository = userProfileRepository;
+            _statusRepository = statusRepository;
         }
 
         //Get All
@@ -52,7 +54,7 @@ namespace GoldenGuitars.Controllers
         {
             project.StartDate = DateTime.Now;
             var projectId = _projectRepository.Add(project);
-            CreateProjectStages(projectId);
+            CreateProjectProjectSteps(projectId);
             return CreatedAtAction(nameof(Get), new { id = project.Id }, project);
         }
 
@@ -81,20 +83,20 @@ namespace GoldenGuitars.Controllers
 
         
 
-        private void CreateProjectStages(int projectId)
+        private void CreateProjectProjectSteps(int projectId)
         {
             var userProfile = GetCurrentUserProfile();
             var stepList = _stepsRepository.GetAll();
             foreach (var step in stepList)
             {
-                Stage stage = new Stage()
+                ProjectStep ProjectStep = new ProjectStep()
                 {
-                    StepsId = step.Id,
+                    StepId = step.Id,
                     ProjectId = projectId,
                     UserProfileId = userProfile.Id,
                     StatusId = 1
                 };
-                _stageRepository.Add(stage);
+                _ProjectStepRepository.Add(ProjectStep);
             }
         }
          private UserProfile GetCurrentUserProfile()

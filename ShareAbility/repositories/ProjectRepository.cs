@@ -20,10 +20,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.Id, p.Name, p.StartDate, p.CompletionDate, steps.name as StepName, s.StepsId, s.ProjectId, s.UserProfileId, s.StatusId
+                    cmd.CommandText = @"SELECT p.Id, p.Name, p.StartDate, p.CompletionDate
                     From Project p 
-                    Left Join Stage s on p.id = s.projectId
-                    left Join Steps on s.stepsId =  steps.id ";
+                   ";
 
                     var reader = cmd.ExecuteReader();
                     var projects = new List<Project>();
@@ -35,10 +34,7 @@ namespace GoldenGuitars.repositories
                             Name = DbUtils.GetString(reader, "name"),
                             StartDate = DbUtils.GetDateTime(reader, "startDate"),
                             CompletionDate = DbUtils.GetNullableDateTime(reader, "completionDate"),
-                            Steps = new Steps()
-                            {
-                                Name = DbUtils.GetString(reader, "StepName"),
-                            }
+                         
 
                         });
 

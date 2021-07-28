@@ -1,9 +1,9 @@
 import { getToken } from "./authManager";
 
-const baseUrl = '/api/stage';
+const baseUrl = '/api/ProjectStep';
 
 
-export const getAllStages = (id) => {
+export const getAllProjectSteps = (id) => {
     return getToken().then((token) => {
      
         return fetch(`${baseUrl}/project/${id}`, {
@@ -15,13 +15,13 @@ export const getAllStages = (id) => {
             if (resp.ok) {
                 return resp.json();
             } else {
-                throw new Error("An unknown error occurred while trying to get stage.");
+                throw new Error("An unknown error occurred while trying to get ProjectStep.");
             }
         });
     });
 };
 
-export const getStageById = (id) => {
+export const getProjectStepById = (id) => {
     return getToken().then((token) => {
 
         return fetch(`${baseUrl}/${id}`, {
@@ -39,7 +39,7 @@ export const getStageById = (id) => {
     });
 };
 
-// export const getAllStages = () => {
+// export const getAllProjectSteps = () => {
 //     return getToken().then((token) => {
 
 //         return fetch(`${baseUrl}`, {
@@ -57,7 +57,7 @@ export const getStageById = (id) => {
 //     });
 // };
 
-export const addStage = (stage) => {
+export const addProjectStep = (ProjectStep) => {
     return getToken().then((token) => {
 
         return fetch(`${baseUrl}`, {
@@ -66,7 +66,7 @@ export const addStage = (stage) => {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(stage)
+            body: JSON.stringify(ProjectStep)
         }).then(resp => {
             if (resp.ok) {
                 return resp.json();
@@ -79,7 +79,7 @@ export const addStage = (stage) => {
     });
 };
 
-export const deleteStage = (id) => {
+export const deleteProjectStep = (id) => {
     return getToken().then((token) => {
 
         return fetch(`${baseUrl}/${id}`, {
@@ -92,16 +92,16 @@ export const deleteStage = (id) => {
     })
 };
 
-export const updateStage = (editedStage) => {
+export const updateProjectStep = (editedProjectStep) => {
     return getToken().then((token) => {
 
-        return fetch(`${baseUrl}/${editedStage.id}`, {
+        return fetch(`${baseUrl}/${editedProjectStep.id}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(editedStage)
+            body: JSON.stringify(editedProjectStep)
         }).then((res) => {
             if (!res.ok) {
                 window.alert('You are unable to edit this project.');
