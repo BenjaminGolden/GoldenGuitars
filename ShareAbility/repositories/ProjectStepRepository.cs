@@ -9,30 +9,31 @@ using System.Threading.Tasks;
 
 namespace GoldenGuitars.repositories
 {
-    public class StageRepository : BaseRepository, IStageRepository
+    public class ProjectStepRepository : BaseRepository, IProjectStepRepository
     {
-        public StageRepository(IConfiguration configuration) : base(configuration) { }
+        public ProjectStepRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Stage> GetAll()
+        public List<ProjectStep> GetAll(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM Stage
+                    cmd.CommandText = @"SELECT * FROM ProjectStep
+                                        where projectId = @Id;
                    ";
 
-                    //DbUtils.AddParameter(cmd, "@Id", id);
+                    DbUtils.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
-                    var stage = new List<Stage>();
+                    var projectStep = new List<ProjectStep>();
                     while (reader.Read())
                     {
-                        stage.Add(new Stage()
+                        projectStep.Add(new ProjectStep()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            StepsId = DbUtils.GetInt(reader, "StepsId"),
+                            StepId = DbUtils.GetInt(reader, "StepsId"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetNullableInt(reader, "UserProfileId"),
                             StatusId = DbUtils.GetInt(reader, "StatusId")
@@ -41,32 +42,32 @@ namespace GoldenGuitars.repositories
 
                     }
                     reader.Close();
-                    return stage;
+                    return projectStep;
                 }
             }
         }
 
-        public Stage GetById(int id)
+        public ProjectStep GetById(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM Stage
+                    cmd.CommandText = @"SELECT * FROM ProjectStep
                     WHERE id = @id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
 
-                    Stage stage = null;
+                    ProjectStep projectStep = null;
                     if (reader.Read())
                     {
-                        stage = new Stage()
+                        projectStep = new ProjectStep()
                         {
                             Id = id,
-                            StepsId = DbUtils.GetInt(reader, "StepsId"),
+                            StepId = DbUtils.GetInt(reader, "StepsId"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetNullableInt(reader, "UserProfileId"),
                             StatusId = DbUtils.GetInt(reader, "StatusId")
@@ -74,12 +75,12 @@ namespace GoldenGuitars.repositories
                     }
                     reader.Close();
 
-                    return stage;
+                    return projectStep;
                 }
             }
         }
 
-        public void Add(Stage stage)
+        public void Add(ProjectStep projectStep)
         {
             using (var conn = Connection)
             {
@@ -87,22 +88,22 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Stage (StepsId, ProjectId, UserProfileId, StatusId)
+                        INSERT INTO projectStep (StepsId, ProjectId, UserProfileId, StatusId)
                         OUTPUT INSERTED.ID
                         VALUES (@StepsId, @ProjectId, @userProfileId, @StatusId)";
 
-                    DbUtils.AddParameter(cmd, "@StepsId", stage.StepsId);
-                    DbUtils.AddParameter(cmd, "@projectId", stage.ProjectId);
-                    DbUtils.AddParameter(cmd, "@userProfileId", stage.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@Content", stage.StatusId);
+                    DbUtils.AddParameter(cmd, "@StepsId", projectStep.StepId);
+                    DbUtils.AddParameter(cmd, "@projectId", projectStep.ProjectId);
+                    DbUtils.AddParameter(cmd, "@userProfileId", projectStep.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@StatusId", projectStep.StatusId);
 
 
-                    stage.Id = (int)cmd.ExecuteScalar();
+                    projectStep.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
 
-        public void Update(Stage stage)
+        public void Update(ProjectStep projectStep)
         {
             using (var conn = Connection)
             {
@@ -110,7 +111,7 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            UPDATE Stage
+                            UPDATE ProjectStep
                                SET StepsId = @StepsId
                                    ProjectId= @projectId,
                                    userProfileId = @userProfileId
@@ -118,10 +119,10 @@ namespace GoldenGuitars.repositories
 
                              WHERE Id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@StepsId", stage.StepsId);
-                    DbUtils.AddParameter(cmd, "@ProjectId", stage.ProjectId);
-                    DbUtils.AddParameter(cmd, "@userProfileId", stage.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@Content", stage.StatusId);
+                    DbUtils.AddParameter(cmd, "@StepsId", projectStep.StepId);
+                    DbUtils.AddParameter(cmd, "@ProjectId", projectStep.ProjectId);
+                    DbUtils.AddParameter(cmd, "@userProfileId", projectStep.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@Content", projectStep.StatusId);
 
 
                     cmd.ExecuteNonQuery();
@@ -136,7 +137,7 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Stage WHERE Id = @Id";
+                    cmd.CommandText = "DELETE FROM ProjectStep WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }

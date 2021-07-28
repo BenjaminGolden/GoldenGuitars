@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace GoldenGuitars.repositories
 {
-    public interface IStageNotesRepository
+    public interface IProjectStepNotesRepository
     {
-        void Add(StageNotes stageNotes);
+        void Add(ProjectStepNotes ProjectStepNotes);
         void Delete(int id);
-        List<StageNotes> GetAll();
-        StageNotes GetById(int id);
-        void Update(StageNotes stageNote);
+        List<ProjectStepNotes> GetAll();
+        ProjectStepNotes GetById(int id);
+        void Update(ProjectStepNotes ProjectStepNote);
     }
 }
