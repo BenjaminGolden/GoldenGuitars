@@ -15,8 +15,8 @@ const ProjectStageForm = () => {
     const [stage, setStage] = useState([]);
 
     const history = useHistory();
-    const params = useParams();
-    
+    const { id } = useParams();
+  
     
     
     // const emptyProjectStage = {       
@@ -50,9 +50,10 @@ const ProjectStageForm = () => {
 
     
     const getStages = () => {
-        return getAllStages(params)
+        return getAllStages(id)
         .then(stagesFromAPI => {
             setStage(stagesFromAPI)
+            
         })
     }   
 

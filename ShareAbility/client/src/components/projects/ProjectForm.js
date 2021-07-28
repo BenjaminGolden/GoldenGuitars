@@ -5,22 +5,22 @@ import { getAllStages } from "../../modules/stageManager";
 import { addProject } from '../../modules/projectManager';
 
 const ProjectForm = () => {
-    const emptyProject = {       
+    const emptyProject = {
         name: ''
-       
+
     };
 
     const [newProject, setNewProject] = useState(emptyProject);
     const [steps, setSteps] = useState([]);
-    const [stages, setStages] = useState([]);
+    // const [stages, setStages] = useState([]);
 
-    
-    const getStages= () => {
-        return getAllStages()
-        .then(stagesFromAPI => {
-            setStages(stagesFromAPI)
-        })
-    }    
+
+    // const getStages= () => {
+    //     return getAllStages()
+    //     .then(stagesFromAPI => {
+    //         setStages(stagesFromAPI)
+    //     })
+    // }    
 
     const history = useHistory();
 
@@ -36,43 +36,41 @@ const ProjectForm = () => {
 
     const handleSave = (evt) => {
         evt.preventDefault();
+        debugger
+        if (newProject.name === '') {
+            window.alert('project name is a required fields')
+            setNewProject({
+                name: '',
 
-        if (newProject.name === '')
-        {
-        window.alert('project name is a required fields')
-        setNewProject({
-            name: '',
-     
-        })
-        return history.push(`/project/add`);
+            })
+            return history.push(`/project/add`);
         }
-        else 
-        {
+        else {
             addProject(newProject).then((p) => {
                 history.push(`/project/${p.id}`);
             });
         }
     };
 
-    useEffect(() =>{
-        getStages()
-    }, []);
+    // useEffect(() =>{
+    //     getStages()
+    // }, []);
 
     return (
         <>
-        <Form className="container w-75">
-            <h2>New Project</h2>
-            <FormGroup>
-                <Label for="name">Project Name</Label>
-                <Input type="text" name="name" id="name" placeholder="name"
-                    value={newProject.name}
-                    onChange={handleInputChange} />
-            </FormGroup>
+            <Form className="container w-75">
+                <h2>New Project</h2>
+                <FormGroup>
+                    <Label for="name">Project Name</Label>
+                    <Input type="text" name="name" id="name" placeholder="name"
+                        value={newProject.name}
+                        onChange={handleInputChange} />
+                </FormGroup>
 
-            <Button className="btn btn-primary" onClick={handleSave}>Submit</Button>
-            <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Cancel</Button>
+                <Button className="btn btn-primary" onClick={handleSave}>Submit</Button>
+                <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Cancel</Button>
 
-        </Form>
+            </Form>
         </>
     );
 };

@@ -21,7 +21,7 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT * FROM Stage
-                                        where projectId = @id;
+                                        where projectId = @Id;
                    ";
 
                     DbUtils.AddParameter(cmd, "@Id", id);

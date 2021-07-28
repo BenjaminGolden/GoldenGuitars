@@ -20,7 +20,7 @@ namespace GoldenGuitars.Controllers
         }
 
         //Get All
-        [HttpGet]
+        [HttpGet("project/{id}")]
         public IActionResult GetAll(int id)
         {
             return Ok(_stageRepository.GetAll(id));

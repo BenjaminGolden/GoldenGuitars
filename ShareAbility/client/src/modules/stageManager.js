@@ -2,10 +2,11 @@ import { getToken } from "./authManager";
 
 const baseUrl = '/api/stage';
 
+
 export const getAllStages = (id) => {
     return getToken().then((token) => {
-
-        return fetch(`${baseUrl}/${id}`, {
+     
+        return fetch(`${baseUrl}/project/${id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
@@ -14,7 +15,7 @@ export const getAllStages = (id) => {
             if (resp.ok) {
                 return resp.json();
             } else {
-                throw new Error("An unknown error occurred while trying to get project.");
+                throw new Error("An unknown error occurred while trying to get stage.");
             }
         });
     });
