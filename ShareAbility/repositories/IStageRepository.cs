@@ -7,7 +7,7 @@ namespace GoldenGuitars.repositories
     {
         void Add(Stage stage);
         void Delete(int id);
-        List<Stage> GetAll();
+        List<Stage> GetAll(int id);
         Stage GetById(int id);
         void Update(Stage stage);
     }

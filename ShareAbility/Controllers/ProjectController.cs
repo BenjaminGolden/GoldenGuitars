@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GoldenGuitars.Controllers
@@ -15,9 +16,15 @@ namespace GoldenGuitars.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectRepository _projectRepository;
-        public ProjectController(IProjectRepository projectRepository)
+        private readonly IStepsRepository _stepsRepository;
+        private readonly IStageRepository _stageRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
+        public ProjectController(IProjectRepository projectRepository, IStepsRepository stepsRepository, IStageRepository stageRepository, IUserProfileRepository userProfileRepository)
         {
             _projectRepository = projectRepository;
+            _stepsRepository = stepsRepository;
+            _stageRepository = stageRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         //Get All
@@ -44,7 +51,8 @@ namespace GoldenGuitars.Controllers
         public IActionResult Post(Project project)
         {
             project.StartDate = DateTime.Now;
-            _projectRepository.Add(project);
+            var projectId = _projectRepository.Add(project);
+            CreateProjectStages(projectId);
             return CreatedAtAction(nameof(Get), new { id = project.Id }, project);
         }
 
@@ -67,6 +75,32 @@ namespace GoldenGuitars.Controllers
 
             _projectRepository.Update(project);
             return NoContent();
+        }
+
+        //create a helper method 
+
+        
+
+        private void CreateProjectStages(int projectId)
+        {
+            var userProfile = GetCurrentUserProfile();
+            var stepList = _stepsRepository.GetAll();
+            foreach (var step in stepList)
+            {
+                Stage stage = new Stage()
+                {
+                    StepsId = step.Id,
+                    ProjectId = projectId,
+                    UserProfileId = userProfile.Id,
+                    StatusId = 1
+                };
+                _stageRepository.Add(stage);
+            }
+        }
+         private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace GoldenGuitars.repositories
     {
         public StageRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Stage> GetAll()
+        public List<Stage> GetAll(int id)
         {
             using (var conn = Connection)
             {
@@ -21,9 +21,10 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT * FROM Stage
+                                        where projectId = @id;
                    ";
 
-                    //DbUtils.AddParameter(cmd, "@Id", id);
+                    DbUtils.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
                     var stage = new List<Stage>();
@@ -94,7 +95,7 @@ namespace GoldenGuitars.repositories
                     DbUtils.AddParameter(cmd, "@StepsId", stage.StepsId);
                     DbUtils.AddParameter(cmd, "@projectId", stage.ProjectId);
                     DbUtils.AddParameter(cmd, "@userProfileId", stage.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@Content", stage.StatusId);
+                    DbUtils.AddParameter(cmd, "@StatusId", stage.StatusId);
 
 
                     stage.Id = (int)cmd.ExecuteScalar();

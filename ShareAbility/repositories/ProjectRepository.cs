@@ -118,7 +118,7 @@ namespace GoldenGuitars.repositories
             }
         }
 
-        public void Add(Project project)
+        public int Add(Project project)
         {
             using (var conn = Connection)
             {
@@ -136,6 +136,7 @@ namespace GoldenGuitars.repositories
 
 
                     project.Id = (int)cmd.ExecuteScalar();
+                    return project.Id;
                 }
             }
         }

@@ -2,10 +2,10 @@ import { getToken } from "./authManager";
 
 const baseUrl = '/api/stage';
 
-export const getAllStages = () => {
+export const getAllStages = (id) => {
     return getToken().then((token) => {
 
-        return fetch(`${baseUrl}`, {
+        return fetch(`${baseUrl}/${id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`

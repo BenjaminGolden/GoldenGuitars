@@ -5,7 +5,7 @@ namespace GoldenGuitars.repositories
 {
     public interface IProjectRepository
     {
-        void Add(Project project);
+        int Add(Project project);
         void Delete(int id);
         List<Project> GetAll();
         UserProfile GetByFirebaseUserId(string firebaseUserId);
