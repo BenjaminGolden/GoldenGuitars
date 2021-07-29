@@ -39,24 +39,6 @@ export const getProjectStepById = (id) => {
     });
 };
 
-// export const getAllProjectSteps = () => {
-//     return getToken().then((token) => {
-
-//         return fetch(`${baseUrl}`, {
-//             method: "GET",
-//             headers: {
-//                 Authorization: `Bearer ${token}`
-//             }
-//         }).then(resp => {
-//             if (resp.ok) {
-//                 return resp.json();
-//             } else {
-//                 throw new Error("An unknown error occurred while trying to get your projects.");
-//             }
-//         });
-//     });
-// };
-
 export const addProjectStep = (ProjectStep) => {
     return getToken().then((token) => {
 

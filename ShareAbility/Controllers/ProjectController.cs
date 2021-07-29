@@ -48,6 +48,19 @@ namespace GoldenGuitars.Controllers
             return Ok(project);
         }
 
+        //[HttpGet("myTasks/{id}")]
+        //public IActionResult GetPostsByUserId()
+        //{
+        //    string currentUserProfileId = GetCurrentFirebaseUserProfileId();
+        //    var posts = _postRepository.GetAllPostsFromUser(currentUserProfileId);
+        //    if (posts == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(posts);
+        //}
+
         //Add a project
         [HttpPost]
         public IActionResult Post(Project project)
@@ -87,6 +100,7 @@ namespace GoldenGuitars.Controllers
         {
             var userProfile = GetCurrentUserProfile();
             var stepList = _stepsRepository.GetAll();
+            var id = 1;
             foreach (var step in stepList)
             {
                 ProjectStep ProjectStep = new ProjectStep()
@@ -94,7 +108,7 @@ namespace GoldenGuitars.Controllers
                     StepId = step.Id,
                     ProjectId = projectId,
                     UserProfileId = userProfile.Id,
-                    StatusId = 1
+                    StatusId = id
                 };
                 _ProjectStepRepository.Add(ProjectStep);
             }
@@ -104,5 +118,11 @@ namespace GoldenGuitars.Controllers
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
+
+        //private string GetCurrentFirebaseUserProfileId()
+        //{
+        //    string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    return id;
+        //}
     }
 }

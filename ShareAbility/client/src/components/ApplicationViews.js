@@ -20,9 +20,9 @@ const ApplicationViews = ({ isLoggedIn }) => {
           {isLoggedIn ? <ProjectForm /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/project/:id" exact>
+        {/* <Route path="/project/:id" exact>
           {isLoggedIn ? <ProjectStepForm /> : <Redirect to="/login" />}
-        </Route>
+        </Route> */}
 
         
         <Route path="/project/details/:id" exact>

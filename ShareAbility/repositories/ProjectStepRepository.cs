@@ -20,8 +20,8 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM ProjectStep
-                                        where projectId = @Id;
+                    cmd.CommandText = @"SELECT p.id, p.stepsId, p.ProjectId, p.userProfileId, p.statusId FROM ProjectStep p
+                    where p.projectId = @Id;
                    ";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
@@ -112,17 +112,19 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE ProjectStep
-                               SET StepsId = @StepsId
+                               SET StepsId = @StepsId,
                                    ProjectId= @projectId,
-                                   userProfileId = @userProfileId
+                                   userProfileId = @userProfileId,
                                    statusId = @statusId
 
                              WHERE Id = @Id";
 
+                    DbUtils.AddParameter(cmd, "@id", projectStep.Id);
+
                     DbUtils.AddParameter(cmd, "@StepsId", projectStep.StepId);
                     DbUtils.AddParameter(cmd, "@ProjectId", projectStep.ProjectId);
                     DbUtils.AddParameter(cmd, "@userProfileId", projectStep.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@Content", projectStep.StatusId);
+                    DbUtils.AddParameter(cmd, "@StatusId", projectStep.StatusId);
 
 
                     cmd.ExecuteNonQuery();

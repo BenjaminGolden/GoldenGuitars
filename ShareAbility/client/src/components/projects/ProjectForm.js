@@ -47,7 +47,7 @@ const ProjectForm = () => {
         }
         else {
             addProject(newProject).then((p) => {
-                history.push(`/project/${p.id}`);
+                history.push(`/project/details/${p.id}`);
             });
         }
     };
