@@ -20,8 +20,8 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM ProjectStep
-                                        where projectId = @Id;
+                    cmd.CommandText = @"SELECT p.id, p.stepsId, p.ProjectId, p.userProfileId, p.statusId FROM ProjectStep p
+                    where p.projectId = @Id;
                    ";
 
                     DbUtils.AddParameter(cmd, "@Id", id);

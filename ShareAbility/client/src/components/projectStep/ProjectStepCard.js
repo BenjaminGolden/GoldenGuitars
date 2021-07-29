@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Card, CardBody } from "reactstrap";
 import { getAllUsers } from "../../modules/userManager";
 import { getAllStatuses } from "../../modules/statusManager";
-import { getAllSteps, getStepById } from "../../modules/stepsManager";
+import { getStepById } from "../../modules/stepsManager";
 import { updateProjectStep } from '../../modules/projectStepManager';
 
-const ProjectStep = ({projectStep, setEdit, edit}) => {
+const ProjectStepCard = ({projectStep, setEdit, edit, ShowDetails}) => {
 
-    const [newProjectStep, setNewProjectStep] = useState([]);
     const [users, setUsers] = useState([]);
     const [status, setStatus] = useState([]);
     const [singleStep, setSingleStep] = useState({});
@@ -57,15 +56,16 @@ const ProjectStep = ({projectStep, setEdit, edit}) => {
                 <p>{singleStep.name}</p>
                 <select defaultValue={projectStep.userProfileId} name="userProfileId" id="userProfileId" onChange={handleInputChange} className='form-control'>
                     <option value="0">Select a Worker</option>
-                    {users.map(p => (
-                        projectStep.userProfileId == parseInt(p.id) ? <option id="userProfileId" selected key={p.id} value={p.id}>{p.name}</option> : <option id="userProfileId" key={p.id} value={p.id}>{p.name}</option>
+                    {users.map(u => (
+                        projectStep.userProfileId == parseInt(u.id) ? <option id="userProfileId" selected key={u.id} value={u.id}>{u.name}</option> : <option id="userProfileId" key={u.id} value={u.id}>{u.name}</option>
                     ))}
                 </select>
                 
                 <select defaultValue={projectStep.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='form-control'>
                     <option value="0">Select a Status</option>
-                    {status.map(p => (
-                        <option key={p.id} value={p.id}>{p.name}</option>
+                    {status.map(s => (
+                        projectStep.statusId == parseInt(s.id) ?
+                        <option id="statusId" selected key={s.id} value={s.id}>{s.name}</option> : <option id="statusId" key={s.id} value={s.id}>{s.name}</option> 
                     ))}
                 </select>
                 
@@ -75,4 +75,4 @@ const ProjectStep = ({projectStep, setEdit, edit}) => {
     );
 };
 
-export default ProjectStep;
+export default ProjectStepCard;

@@ -4,16 +4,26 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { getProjectById } from "../../modules/projectManager";
 import { Link } from "react-router-dom";
-
+import { getAllProjectSteps } from "../../modules/projectStepManager";
+import ProjectStepForm from "../projectStep/ProjectStepForm";
 
 
 const ProjectDetails = () => {
     const [projectDetails, setProjectDetails] = useState({});
+    const [projectStep, setProjectStep] = useState([]);
     const { id } = useParams();
 
     const getProjectDetails = () => {
         getProjectById(id)
             .then(setProjectDetails)
+    }
+
+    const getProjectSteps = () => {
+        return getAllProjectSteps(id)
+            .then(projectStepsFromAPI => {
+                setProjectStep(projectStepsFromAPI)
+
+            })
     }
 
     const handleStartDate = () => {
@@ -36,6 +46,7 @@ const ProjectDetails = () => {
 
     useEffect(() => {
         getProjectDetails();
+        getProjectSteps();
     }, []);
 
     return (
@@ -47,14 +58,7 @@ const ProjectDetails = () => {
                 <p><b>Name: </b>{projectDetails.name}</p>
                 <p><b>StartDate: </b>{handleStartDate()}</p>
                 <p><b>CompletionDate: </b>{projectDetails.completionDate}</p>
-                <p><b>Steps: </b>{projectDetails?.steps?.Name}</p>
-                <p><b>Status: </b>{projectDetails?.status?.Name}</p>
-                {/* <Link to={`/comment/ProjectId/${projectDetails.id}`}>
-                    <Button className="btn btn-primary">View Comments</Button>
-                </Link>
-                <Link to={`/comment/add/${projectDetails.id}`}>
-                    <Button className="btn btn-success">Add Comment</Button>
-                </Link> */}
+                <p>{ProjectStepForm()}</p>
             </CardBody>
         </Card >
         </>
