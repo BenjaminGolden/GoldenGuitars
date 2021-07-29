@@ -47,6 +47,41 @@ namespace GoldenGuitars.repositories
             }
         }
 
+        public List<ProjectStep> GetAllFromUserByProjectId(int userId, int projectId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT p.id, p.stepsId, p.ProjectId, p.userProfileId, p.statusId FROM ProjectStep p
+                    where p.userProfileId = @userId AND p.ProjectId = @projectId;
+                   ";
+
+                    DbUtils.AddParameter(cmd, "@userId", userId);
+                    DbUtils.AddParameter(cmd, "@projectId", projectId);
+
+                    var reader = cmd.ExecuteReader();
+                    var projectStep = new List<ProjectStep>();
+                    while (reader.Read())
+                    {
+                        projectStep.Add(new ProjectStep()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            StepId = DbUtils.GetInt(reader, "StepsId"),
+                            ProjectId = DbUtils.GetInt(reader, "ProjectId"),
+                            UserProfileId = DbUtils.GetNullableInt(reader, "UserProfileId"),
+                            StatusId = DbUtils.GetInt(reader, "StatusId")
+
+                        });
+
+                    }
+                    reader.Close();
+                    return projectStep;
+                }
+            }
+        }
+
         public ProjectStep GetById(int id)
         {
             using (var conn = Connection)
@@ -79,6 +114,8 @@ namespace GoldenGuitars.repositories
                 }
             }
         }
+
+   
 
         public void Add(ProjectStep projectStep)
         {

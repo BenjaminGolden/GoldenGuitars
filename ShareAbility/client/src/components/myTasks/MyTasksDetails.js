@@ -12,7 +12,7 @@ const AllPostsFromCurrentUser= () => {
 
     const getAllProjectTasksFromUser = () => {
         getAllProjectTasksFromCurrentUser(id)
-        .then(posts => setPosts(posts))
+        .then(myTasks => setMyTasks(myTasks))
         
     }
 

@@ -17,14 +17,14 @@ namespace GoldenGuitars.Controllers
     {
         private readonly IProjectRepository _projectRepository;
         private readonly IStepsRepository _stepsRepository;
-        private readonly IProjectStepRepository _ProjectStepRepository;
+        private readonly IProjectStepRepository _projectStepRepository;
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IStatusRepository _statusRepository;
-        public ProjectController(IProjectRepository projectRepository, IStepsRepository stepsRepository, IProjectStepRepository ProjectStepRepository, IUserProfileRepository userProfileRepository, IStatusRepository statusRepository)
+        public ProjectController(IProjectRepository projectRepository, IStepsRepository stepsRepository, IProjectStepRepository projectStepRepository, IUserProfileRepository userProfileRepository, IStatusRepository statusRepository)
         {
             _projectRepository = projectRepository;
             _stepsRepository = stepsRepository;
-            _ProjectStepRepository = ProjectStepRepository;
+            _projectStepRepository = projectStepRepository;
             _userProfileRepository = userProfileRepository;
             _statusRepository = statusRepository;
         }
@@ -48,18 +48,19 @@ namespace GoldenGuitars.Controllers
             return Ok(project);
         }
 
-        //[HttpGet("myTasks/{id}")]
-        //public IActionResult GetPostsByUserId()
-        //{
-        //    string currentUserProfileId = GetCurrentFirebaseUserProfileId();
-        //    var posts = _postRepository.GetAllPostsFromUser(currentUserProfileId);
-        //    if (posts == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpGet("myTasks/{id}")]
+        public IActionResult GetProjectStepsByUserId(int id)
+        {
+            var userProfile= GetCurrentUserProfile();
+            var myTasks = _projectStepRepository.GetAllFromUserByProjectId(userProfile.Id, id);
+            
+            if (myTasks == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(posts);
-        //}
+            return Ok(myTasks);
+        }
 
         //Add a project
         [HttpPost]
@@ -110,7 +111,7 @@ namespace GoldenGuitars.Controllers
                     UserProfileId = userProfile.Id,
                     StatusId = id
                 };
-                _ProjectStepRepository.Add(ProjectStep);
+                _projectStepRepository.Add(ProjectStep);
             }
         }
          private UserProfile GetCurrentUserProfile()

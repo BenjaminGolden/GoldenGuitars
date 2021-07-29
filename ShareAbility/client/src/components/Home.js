@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
     
 const Home = () => {
     const [projects, setProjects]= useState([]);
-
+    const history = useHistory();
     const getAllGuitarProjects = () => {
         getAllProjects()
         .then(projects => setProjects(projects))
@@ -20,7 +20,10 @@ const Home = () => {
 
         projectCopy[key] = value;
         setProjects(projectCopy);
+        history.push(`project/details/${value}`)
     };
+
+    
 
     useEffect(() => {
         getAllGuitarProjects()
@@ -33,14 +36,14 @@ const Home = () => {
                 <p><b>New Project: </b></p>
                 </Link>
                             
-                <Link to={`/project/details/${projects.id}`}> 
+                
                     <select value={projects.Id} name="projectId" id="projectId" onChange={handleInputChange} className='form-control'>
                     <option value="0">Select a Project</option>
                     {projects.map(p => (
                         <option key={p.id} value={p.id}>{p.name}</option>
                     ))}
                     </select>
-                </Link>
+                
             </CardBody>
         </Card>
     );
