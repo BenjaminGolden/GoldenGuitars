@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { updateProjectStep } from '../../modules/projectStepManager';
+import { Button, Form } from 'reactstrap';
 import { getAllProjectSteps } from '../../modules/projectStepManager';
 import ProjectStepCard from './ProjectStepCard';
 
@@ -39,7 +38,8 @@ const ProjectStepForm = () => {
                         ))}
                     </div>
                              
-                    <Button className="btn btn-primary" onClick={() => history.push(`/project/myTasks/${id}`)}>My Tasks</Button>
+                    {/* <Button className="btn btn-primary" onClick={() => history.push(`/project/myTasks/${id}`)}>My Tasks</Button> */}
+
                     <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
 
                 </Form>

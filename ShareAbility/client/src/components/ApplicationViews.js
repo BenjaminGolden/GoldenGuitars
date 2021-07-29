@@ -5,7 +5,9 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Home from '../components/Home'
 import ProjectForm from "./projects/ProjectForm";
 import ProjectDetails from "./projects/ProjectDetails";
-import ProjectStepForm from "./projectStep/ProjectStepForm";
+import StepNotesForm from "./stepNotes/StepNotesAddForm";
+
+
 
 
 const ApplicationViews = ({ isLoggedIn }) => {
@@ -20,9 +22,9 @@ const ApplicationViews = ({ isLoggedIn }) => {
           {isLoggedIn ? <ProjectForm /> : <Redirect to="/login" />}
         </Route>
 
-        {/* <Route path="/project/:id" exact>
-          {isLoggedIn ? <ProjectStepForm /> : <Redirect to="/login" />}
-        </Route> */}
+        <Route path="/stepNotes/:id" exact>
+          {isLoggedIn ? <StepNotesForm /> : <Redirect to="/login" />}
+        </Route>
 
         
         <Route path="/project/details/:id" exact>

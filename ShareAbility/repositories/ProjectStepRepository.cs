@@ -20,7 +20,7 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.id, p.stepsId, p.ProjectId, p.userProfileId, p.statusId FROM ProjectStep p
+                    cmd.CommandText = @"SELECT p.id, p.stepId, p.ProjectId, p.userProfileId, p.statusId FROM ProjectStep p
                     where p.projectId = @Id;
                    ";
 
@@ -33,7 +33,7 @@ namespace GoldenGuitars.repositories
                         projectStep.Add(new ProjectStep()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            StepId = DbUtils.GetInt(reader, "StepsId"),
+                            StepId = DbUtils.GetInt(reader, "StepId"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetNullableInt(reader, "UserProfileId"),
                             StatusId = DbUtils.GetInt(reader, "StatusId")
@@ -54,7 +54,7 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.id, p.stepsId, p.ProjectId, p.userProfileId, p.statusId FROM ProjectStep p
+                    cmd.CommandText = @"SELECT p.id, p.stepId, p.ProjectId, p.userProfileId, p.statusId FROM ProjectStep p
                     where p.userProfileId = @userId AND p.ProjectId = @projectId;
                    ";
 
@@ -68,7 +68,7 @@ namespace GoldenGuitars.repositories
                         projectStep.Add(new ProjectStep()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            StepId = DbUtils.GetInt(reader, "StepsId"),
+                            StepId = DbUtils.GetInt(reader, "StepId"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetNullableInt(reader, "UserProfileId"),
                             StatusId = DbUtils.GetInt(reader, "StatusId")
@@ -102,7 +102,7 @@ namespace GoldenGuitars.repositories
                         projectStep = new ProjectStep()
                         {
                             Id = id,
-                            StepId = DbUtils.GetInt(reader, "StepsId"),
+                            StepId = DbUtils.GetInt(reader, "StepId"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetNullableInt(reader, "UserProfileId"),
                             StatusId = DbUtils.GetInt(reader, "StatusId")
@@ -125,11 +125,11 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO projectStep (StepsId, ProjectId, UserProfileId, StatusId)
+                        INSERT INTO projectStep (StepId, ProjectId, UserProfileId, StatusId)
                         OUTPUT INSERTED.ID
-                        VALUES (@StepsId, @ProjectId, @userProfileId, @StatusId)";
+                        VALUES (@StepId, @ProjectId, @userProfileId, @StatusId)";
 
-                    DbUtils.AddParameter(cmd, "@StepsId", projectStep.StepId);
+                    DbUtils.AddParameter(cmd, "@StepId", projectStep.StepId);
                     DbUtils.AddParameter(cmd, "@projectId", projectStep.ProjectId);
                     DbUtils.AddParameter(cmd, "@userProfileId", projectStep.UserProfileId);
                     DbUtils.AddParameter(cmd, "@StatusId", projectStep.StatusId);
@@ -149,7 +149,7 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE ProjectStep
-                               SET StepsId = @StepsId,
+                               SET StepId = @StepId,
                                    ProjectId= @projectId,
                                    userProfileId = @userProfileId,
                                    statusId = @statusId
@@ -158,7 +158,7 @@ namespace GoldenGuitars.repositories
 
                     DbUtils.AddParameter(cmd, "@id", projectStep.Id);
 
-                    DbUtils.AddParameter(cmd, "@StepsId", projectStep.StepId);
+                    DbUtils.AddParameter(cmd, "@StepId", projectStep.StepId);
                     DbUtils.AddParameter(cmd, "@ProjectId", projectStep.ProjectId);
                     DbUtils.AddParameter(cmd, "@userProfileId", projectStep.UserProfileId);
                     DbUtils.AddParameter(cmd, "@StatusId", projectStep.StatusId);

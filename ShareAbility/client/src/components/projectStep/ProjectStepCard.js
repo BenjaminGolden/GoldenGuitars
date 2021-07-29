@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, Button } from "reactstrap";
 import { getAllUsers } from "../../modules/userManager";
 import { getAllStatuses } from "../../modules/statusManager";
 import { getStepById } from "../../modules/stepsManager";
 import { updateProjectStep } from '../../modules/projectStepManager';
+import { useHistory } from 'react-router-dom';
+
 
 const ProjectStepCard = ({projectStep, setEdit, edit, ShowDetails}) => {
 
     const [users, setUsers] = useState([]);
     const [status, setStatus] = useState([]);
     const [singleStep, setSingleStep] = useState({});
-    
+    const history = useHistory();
+    console.log(singleStep);
     const handleInputChange = (evt) => {
         const value = evt.target.value;
         const key = evt.target.id;
@@ -69,6 +72,7 @@ const ProjectStepCard = ({projectStep, setEdit, edit, ShowDetails}) => {
                     ))}
                 </select>
                 
+                <Button className="btn btn-primary" onClick={() => history.push(`/stepNotes/${singleStep.id}`)}>add a note</Button>
 
             </CardBody>
         </Card>

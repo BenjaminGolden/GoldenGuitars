@@ -3,7 +3,6 @@ import { Card, CardBody, ListGroupItem, ListGroup, Button } from "reactstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { getProjectById } from "../../modules/projectManager";
-import { Link } from "react-router-dom";
 import { getAllProjectSteps } from "../../modules/projectStepManager";
 import ProjectStepForm from "../projectStep/ProjectStepForm";
 
@@ -27,7 +26,6 @@ const ProjectDetails = () => {
     }
 
     const handleStartDate = () => {
-
         let date = new Date(projectDetails.startDate).toDateString();
         return date;
     };

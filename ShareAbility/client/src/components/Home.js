@@ -35,10 +35,11 @@ const Home = () => {
                 <Link to={`/project/add`}>
                 <p><b>New Project: </b></p>
                 </Link>
-                            
-                
+            </CardBody>
+            
+            <CardBody>            
                     <select value={projects.Id} name="projectId" id="projectId" onChange={handleInputChange} className='form-control'>
-                    <option value="0">Select a Project</option>
+                    <option value="0">Select an Existing Project</option>
                     {projects.map(p => (
                         <option key={p.id} value={p.id}>{p.name}</option>
                     ))}

@@ -37,11 +37,20 @@ CREATE TABLE [inventory] (
 ) 
 GO
 
-CREATE TABLE [stageNotes] (
+CREATE TABLE [projectStepNotes] (
   [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
   [content] nvarchar(max) NOT NULL,
   [userProfileId] int NOT NULL,
-  [stageId] int NOT NULL
+  [stepId] int NOT NULL
+
+)
+GO
+
+CREATE TABLE [projectNotes] (
+  [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [content] nvarchar(max) NOT NULL,
+  [projectId] int NOT NULL,
+  [userProfileId] int NOT NULL
 )
 GO
 
@@ -68,12 +77,6 @@ CREATE TABLE [soldProjects] (
 )
 GO
 
-CREATE TABLE [projectNotes] (
-  [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
-  [content] nvarchar(255) NOT NULL,
-  [projectId] int NOT NULL
-)
-GO
 
 CREATE TABLE [dbo].[steps] (
     [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
@@ -96,10 +99,10 @@ GO
 ALTER TABLE [projectNotes] ADD FOREIGN KEY ([projectId]) REFERENCES [project] ([id])
 GO
 
-ALTER TABLE [stageNotes] ADD FOREIGN KEY ([stageId]) REFERENCES [stageNotes] ([id])
+ALTER TABLE [projectStepNotes] ADD FOREIGN KEY ([stepId]) REFERENCES [projectStepNotes] ([id])
 GO
 
-ALTER TABLE [stageNotes] ADD FOREIGN KEY ([UserProfileid]) REFERENCES [userProfile] ([id])
+ALTER TABLE [projectStepNotes] ADD FOREIGN KEY ([UserProfileid]) REFERENCES [userProfile] ([id])
 GO
 
 ALTER TABLE [soldProjects] ADD FOREIGN KEY ([projectId]) REFERENCES [project] ([id])
@@ -115,13 +118,6 @@ VALUES
 	(3, 'Jared Peterman', 'jared@gg.com', '7ooZX42H7UWeNZMxORXVtqE5Jlu2')
 SET IDENTITY_INSERT [UserProfile] OFF
 
-SET IDENTITY_INSERT [project] ON
-INSERT INTO [project]
-	([id], [name], [startDate], [completionDate])
-VALUES
-	(1, 'Blue Dream', 2020/10/25, null)
-SET IDENTITY_INSERT [project] OFF
-
 SET IDENTITY_INSERT [status] ON
 INSERT INTO [status]
 	([id], [name])
@@ -131,17 +127,14 @@ VALUES
 	(3, 'Complete')
 SET IDENTITY_INSERT [status] OFF
 
-
-
-
 SET IDENTITY_INSERT [steps] ON
 INSERT INTO [steps]
 	([id], [name])
 VALUES
-	(1, 'Wood preparation, routing, drilling' ),
+	(1, 'Wood preparation, Routing, Drilling' ),
 	(2, 'Finishing'),
-	(3, 'Setup and assembly'),
-	(4, 'final testing'),
-	(5, 'metal scoring and painting'),
-	(6, 'Post installation and final assembly')
+	(3, 'Setup and Assembly'),
+	(4, 'Final Testing'),
+	(5, 'Metal Scoring and Painting'),
+	(6, 'Post Installation and Final Assembly')
 SET IDENTITY_INSERT [steps] OFF
