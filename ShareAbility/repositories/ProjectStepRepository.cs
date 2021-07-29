@@ -112,17 +112,19 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE ProjectStep
-                               SET StepsId = @StepsId
+                               SET StepsId = @StepsId,
                                    ProjectId= @projectId,
-                                   userProfileId = @userProfileId
+                                   userProfileId = @userProfileId,
                                    statusId = @statusId
 
                              WHERE Id = @Id";
 
+                    DbUtils.AddParameter(cmd, "@id", projectStep.Id);
+
                     DbUtils.AddParameter(cmd, "@StepsId", projectStep.StepId);
                     DbUtils.AddParameter(cmd, "@ProjectId", projectStep.ProjectId);
                     DbUtils.AddParameter(cmd, "@userProfileId", projectStep.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@Content", projectStep.StatusId);
+                    DbUtils.AddParameter(cmd, "@StatusId", projectStep.StatusId);
 
 
                     cmd.ExecuteNonQuery();

@@ -87,6 +87,7 @@ namespace GoldenGuitars.Controllers
         {
             var userProfile = GetCurrentUserProfile();
             var stepList = _stepsRepository.GetAll();
+            var id = 1;
             foreach (var step in stepList)
             {
                 ProjectStep ProjectStep = new ProjectStep()
@@ -94,7 +95,7 @@ namespace GoldenGuitars.Controllers
                     StepId = step.Id,
                     ProjectId = projectId,
                     UserProfileId = userProfile.Id,
-                    StatusId = 1
+                    StatusId = id
                 };
                 _ProjectStepRepository.Add(ProjectStep);
             }
