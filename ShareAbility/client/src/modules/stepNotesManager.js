@@ -54,7 +54,7 @@ export const addStepNote = (stepNote) => {
             } else if (resp.status === 401) {
                 throw new Error("Unauthorized");
             } else {
-                throw new Error("An unknown error occurred while trying to save a new project.");
+                throw new Error("An unknown error occurred while trying to save a new note.");
             }
         });
     });

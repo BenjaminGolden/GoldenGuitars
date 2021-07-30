@@ -1,30 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, Button } from "reactstrap";
+import { Card, CardBody, Button, FormGroup, Input } from "reactstrap";
 import { getAllUsers } from "../../modules/userManager";
 import { getAllStatuses } from "../../modules/statusManager";
 import { getStepById } from "../../modules/stepsManager";
 import { updateProjectStep } from '../../modules/projectStepManager';
+import { addStepNote, getAllStepNotesByProjectId } from "../../modules/stepNotesManager";
 import { useHistory } from 'react-router-dom';
 
 
-const ProjectStepCard = ({projectStep, setEdit, edit, ShowDetails}) => {
+const ProjectStepCard = ({projectStep, setEdit, edit }) => {
 
     const [users, setUsers] = useState([]);
     const [status, setStatus] = useState([]);
     const [singleStep, setSingleStep] = useState({});
+    const [showStepNotesForm, setShowStepNotesForm] = useState(false);
+    const [newStepNote, setNewStepNote] = useState({
+        stepId: projectStep.stepId,
+        content: ''
+    })
+
     const history = useHistory();
-    console.log(singleStep);
+
     const handleInputChange = (evt) => {
         const value = evt.target.value;
         const key = evt.target.id;
         const projectStepCopy = { ...projectStep };
         
         projectStepCopy[key] = parseInt(value);
-        console.log(projectStepCopy);
         updateProjectStep(projectStepCopy)
         .then(setEdit(!edit));
 
     };
+
+    const toggle = () => setShowStepNotesForm(!showStepNotesForm)
+    console.log(projectStep)
+    console.log(newStepNote)
+        
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        addStepNote(newStepNote).then(() => getAllStepNotesByProjectId(projectStep.projectId)).then(() => history.push(`/project/stepId/${singleStep.id}`));
+    }
 
     const getUsers = () => {
         return getAllUsers()
@@ -72,7 +87,20 @@ const ProjectStepCard = ({projectStep, setEdit, edit, ShowDetails}) => {
                     ))}
                 </select>
                 
-                <Button className="btn btn-primary" onClick={() => history.push(`/stepNotes/${singleStep.id}`)}>add a note</Button>
+                <Button className="btn btn-primary" onClick={toggle}>{showStepNotesForm ? 'Cancel' : 'Add New Note'}</Button>
+
+                {showStepNotesForm &&
+                <>
+                    <FormGroup>
+                        <Input type="textarea" row="4" col="10" name="projectStepNotes" id="projectStepNotes" placeholder="projectStepNotes"
+                            value={newStepNote.content}
+                            onChange={handleInputChange} />
+                    </FormGroup>
+                  
+                    <Button className="btn btn-primary" onClick={handleSubmit}>Save note</Button>
+                 
+                </>
+            }
 
             </CardBody>
         </Card>
