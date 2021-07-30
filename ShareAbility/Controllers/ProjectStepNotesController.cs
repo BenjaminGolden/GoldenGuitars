@@ -2,7 +2,7 @@
 using GoldenGuitars.models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Claims;
 
 namespace GoldenGuitars.Controllers
 {
@@ -10,24 +10,26 @@ namespace GoldenGuitars.Controllers
     [ApiController]
     public class ProjectStepNotesController : ControllerBase
     {
-        private readonly IProjectStepNotesRepository _ProjectStepNotesRepository;
-        public ProjectStepNotesController(IProjectStepNotesRepository ProjectStepNotesRepository)
+        private readonly IProjectStepNotesRepository _projectStepNotesRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
+        public ProjectStepNotesController(IProjectStepNotesRepository projectStepNotesRepository, IUserProfileRepository userProfileRepository)
         {
-            _ProjectStepNotesRepository = ProjectStepNotesRepository;
+            _projectStepNotesRepository = projectStepNotesRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         //Get All
-        [HttpGet]
-        public IActionResult GetAll(int id)
+        [HttpGet("/{projectId}/{stepId}")]
+        public IActionResult GetAll(int projectId, int stepId)
         {
-            return Ok(_ProjectStepNotesRepository.GetAll(id));
+            return Ok(_projectStepNotesRepository.GetAllNotesByProjectAndStepId(projectId, stepId));
         }
 
         //Get by Id
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var project = _ProjectStepNotesRepository.GetById(id);
+            var project = _projectStepNotesRepository.GetById(id);
             if (project == null)
             {
                 return NotFound();
@@ -35,33 +37,41 @@ namespace GoldenGuitars.Controllers
             return Ok(project);
         }
 
-        //Add a ProjectStep
+        //Add a ProjectStep Note
         [HttpPost]
-        public IActionResult Post(ProjectStepNotes ProjectStep)
+        public IActionResult Post(ProjectStepNotes projectStepNote)
         {
-            _ProjectStepNotesRepository.Add(ProjectStep);
-            return CreatedAtAction("get", new { id = ProjectStep.Id }, ProjectStep);
+            var userProfile = GetCurrentUserProfile();
+            projectStepNote.UserProfileId = userProfile.Id;
+            _projectStepNotesRepository.Add(projectStepNote);
+            return CreatedAtAction("get", new { id = projectStepNote.Id }, projectStepNote);
         }
 
-        //Delete a ProjectStep
+        //Delete a ProjectStepNote
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _ProjectStepNotesRepository.Delete(id);
+            _projectStepNotesRepository.Delete(id);
             return NoContent();
         }
 
-        //Update a ProjectStep
+        //Update a ProjectStepNote
         [HttpPut("{id}")]
-        public IActionResult Put(int id, ProjectStepNotes ProjectStep)
+        public IActionResult Put(int id, ProjectStepNotes projectStepNote)
         {
-            if (id != ProjectStep.Id)
+            if (id != projectStepNote.Id)
             {
                 return BadRequest();
             }
 
-            _ProjectStepNotesRepository.Update(ProjectStep);
+            _projectStepNotesRepository.Update(projectStepNote);
             return NoContent();
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

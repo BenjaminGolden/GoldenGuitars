@@ -1,8 +1,8 @@
 import { getToken } from "./authManager";
 
-const baseUrl = '/api/projectStepNotes';
+const baseUrl = '/api/projectNotes';
 
-export const getAllNotesByProjectAndStepId = (id) => {
+export const getAllProjectNotesbyProjectId = (id) => {
     return getToken().then((token) => {
 
         return fetch(`${baseUrl}/${id}`, {
@@ -14,13 +14,13 @@ export const getAllNotesByProjectAndStepId = (id) => {
             if (resp.ok) {
                 return resp.json();
             } else {
-                throw new Error("An unknown error occurred while trying to get project.");
+                throw new Error("An unknown error occurred while trying to get project notes.");
             }
         });
     });
 };
 
-export const getStepNoteById = (id) => {
+export const getProjectNoteById = (id) => {
     return getToken().then((token) => {
 
         return fetch(`${baseUrl}/${id}`, {
@@ -38,7 +38,7 @@ export const getStepNoteById = (id) => {
     });
 };
 
-export const addStepNote = (stepNote) => {
+export const addProjectNote = (projectNote) => {
     return getToken().then((token) => {
 
         return fetch(`${baseUrl}`, {
@@ -47,7 +47,7 @@ export const addStepNote = (stepNote) => {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(stepNote)
+            body: JSON.stringify(projectNote)
         }).then(resp => {
             if (resp.ok) {
                 return resp.json();
@@ -60,7 +60,7 @@ export const addStepNote = (stepNote) => {
     });
 };
 
-export const deleteStepNote = (id) => {
+export const deleteProjectNote = (id) => {
     return getToken().then((token) => {
 
         return fetch(`${baseUrl}/${id}`, {
@@ -73,19 +73,19 @@ export const deleteStepNote = (id) => {
     })
 };
 
-export const updateStepNote = (editedStepNote) => {
+export const updateProjectNote = (editedProjectNote) => {
     return getToken().then((token) => {
 
-        return fetch(`${baseUrl}/${editedStepNote.id}`, {
+        return fetch(`${baseUrl}/${editedProjectNote.id}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(editedStepNote)
+            body: JSON.stringify(editedProjectNote)
         }).then((res) => {
             if (!res.ok) {
-                window.alert('You are unable to edit this project.');
+                window.alert('You are unable to edit this note.');
             }
         })
 

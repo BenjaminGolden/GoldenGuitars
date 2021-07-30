@@ -4,7 +4,7 @@ import { getAllUsers } from "../../modules/userManager";
 import { getAllStatuses } from "../../modules/statusManager";
 import { getStepById } from "../../modules/stepsManager";
 import { updateProjectStep } from '../../modules/projectStepManager';
-import { addStepNote, getAllStepNotesByProjectId } from "../../modules/stepNotesManager";
+import { addStepNote, getAllNotesByProjectAndStepId } from "../../modules/stepNotesManager";
 import { useHistory } from 'react-router-dom';
 
 
@@ -33,12 +33,10 @@ const ProjectStepCard = ({projectStep, setEdit, edit }) => {
     };
 
     const toggle = () => setShowStepNotesForm(!showStepNotesForm)
-    console.log(projectStep)
-    console.log(newStepNote)
         
     const handleSubmit = (event) => {
         event.preventDefault();
-        addStepNote(newStepNote).then(() => getAllStepNotesByProjectId(projectStep.projectId)).then(() => history.push(`/project/stepId/${singleStep.id}`));
+        addStepNote(newStepNote).then(() => getAllNotesByProjectAndStepId(projectStep.projectId)).then(() => history.push(`/project/stepId/${singleStep.id}`));
     }
 
     const getUsers = () => {
@@ -87,20 +85,7 @@ const ProjectStepCard = ({projectStep, setEdit, edit }) => {
                     ))}
                 </select>
                 
-                <Button className="btn btn-primary" onClick={toggle}>{showStepNotesForm ? 'Cancel' : 'Add New Note'}</Button>
-
-                {showStepNotesForm &&
-                <>
-                    <FormGroup>
-                        <Input type="textarea" row="4" col="10" name="projectStepNotes" id="projectStepNotes" placeholder="projectStepNotes"
-                            value={newStepNote.content}
-                            onChange={handleInputChange} />
-                    </FormGroup>
-                  
-                    <Button className="btn btn-primary" onClick={handleSubmit}>Save note</Button>
-                 
-                </>
-            }
+                <Button className="btn btn-primary" onClick={() => history.push(`/project/${projectStep.projectId}/stepNote/${singleStep.id}`)}>Add a note</Button>
 
             </CardBody>
         </Card>
