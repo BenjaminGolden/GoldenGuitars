@@ -13,17 +13,18 @@ namespace GoldenGuitars.repositories
     {
         public ProjectNotesRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<ProjectNotes> GetAll()
+        public List<ProjectNotes> GetAll(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM ProjectNotes
-                   ";
+                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, up.name as userName FROM ProjectNotes pn
+                        Left Join userProfile up on pn.userProfileId = up.id
+                       WHERE pn.projectId = @Id";
 
-                    //DbUtils.AddParameter(cmd, "@Id", id);
+                    DbUtils.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
                     var projectNotes = new List<ProjectNotes>();
@@ -34,7 +35,11 @@ namespace GoldenGuitars.repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             Content = DbUtils.GetString(reader, "content"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId")
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            UserProfile = new UserProfile()
+                            {
+                                Name = DbUtils.GetString(reader, "userName")
+                            }
 
                         });
 

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { getAllProjectSteps } from "../../modules/projectStepManager";
 import { addProject } from '../../modules/projectManager';
 
 const ProjectForm = () => {
@@ -11,16 +10,6 @@ const ProjectForm = () => {
     };
 
     const [newProject, setNewProject] = useState(emptyProject);
-    const [steps, setSteps] = useState([]);
-    // const [ProjectSteps, setProjectSteps] = useState([]);
-
-
-    // const getProjectSteps= () => {
-    //     return getAllProjectSteps()
-    //     .then(ProjectStepsFromAPI => {
-    //         setProjectSteps(ProjectStepsFromAPI)
-    //     })
-    // }    
 
     const history = useHistory();
 
@@ -51,10 +40,6 @@ const ProjectForm = () => {
             });
         }
     };
-
-    // useEffect(() =>{
-    //     getProjectSteps()
-    // }, []);
 
     return (
         <>

@@ -2,7 +2,7 @@
 using GoldenGuitars.repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Claims;
 
 namespace GoldenGuitars.Controllers
 {
@@ -11,20 +11,22 @@ namespace GoldenGuitars.Controllers
     public class ProjectNotesController : ControllerBase
     {
         private readonly IProjectNotesRepository _projectNotesRepository;
-        public ProjectNotesController(IProjectNotesRepository projectNotesRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+        public ProjectNotesController(IProjectNotesRepository projectNotesRepository, IUserProfileRepository userProfileRepository)
         {
             _projectNotesRepository = projectNotesRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         //Get All
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpGet("{id}")]
+        public IActionResult GetAll(int id)
         {
-            return Ok(_projectNotesRepository.GetAll());
+            return Ok(_projectNotesRepository.GetAll(id));
         }
 
         //Get by Id
-        [HttpGet("{id}")]
+        [HttpGet("singleNote/{id}")]
         public IActionResult Get(int id)
         {
             var project = _projectNotesRepository.GetByProjectId(id);
@@ -39,6 +41,8 @@ namespace GoldenGuitars.Controllers
         [HttpPost]
         public IActionResult Post(ProjectNotes project)
         {
+            var userProfile = GetCurrentUserProfile();
+            project.UserProfileId = userProfile.Id;
             _projectNotesRepository.Add(project);
             return CreatedAtAction("get", new { id = project.Id }, project);
         }
@@ -62,6 +66,11 @@ namespace GoldenGuitars.Controllers
 
             _projectNotesRepository.Update(project);
             return NoContent();
+        }
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

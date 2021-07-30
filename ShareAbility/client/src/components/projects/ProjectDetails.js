@@ -1,9 +1,8 @@
 import React from "react";
 import { Card, CardBody, ListGroupItem, ListGroup, Button } from "reactstrap";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { getProjectById } from "../../modules/projectManager";
-import { Link } from "react-router-dom";
 import { getAllProjectSteps } from "../../modules/projectStepManager";
 import ProjectStepForm from "../projectStep/ProjectStepForm";
 
@@ -12,6 +11,7 @@ const ProjectDetails = () => {
     const [projectDetails, setProjectDetails] = useState({});
     const [projectStep, setProjectStep] = useState([]);
     const { id } = useParams();
+    const history = useHistory();
 
     const getProjectDetails = () => {
         getProjectById(id)
@@ -27,7 +27,6 @@ const ProjectDetails = () => {
     }
 
     const handleStartDate = () => {
-
         let date = new Date(projectDetails.startDate).toDateString();
         return date;
     };
@@ -59,6 +58,7 @@ const ProjectDetails = () => {
                 <p><b>StartDate: </b>{handleStartDate()}</p>
                 <p><b>CompletionDate: </b>{projectDetails.completionDate}</p>
                 <p>{ProjectStepForm()}</p>
+                <Button className="btn btn-primary" onClick={() => history.push(`/projectNotes/${projectDetails.id}`)}>Add a Project Note</Button>
             </CardBody>
         </Card >
         </>
