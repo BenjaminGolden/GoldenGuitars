@@ -87,16 +87,16 @@ namespace GoldenGuitars.repositories
             }
         }
 
-        public ProjectNotes GetByProjectId(int id)
+        public ProjectNotes GetById(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT pn.id as noteId, pn.content, pn.userProfileId as UserId, pn.projectId as projectId, p.name as ProjectName FROM ProjectNotes pn
-                    Left Join Project p on pn.projectId = p.Id
-                    WHERE p.id = @id";
+                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, up.name as userName FROM ProjectNotes pn
+                        Left Join userProfile up on pn.userProfileId = up.id
+                    WHERE pn.id = @id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -107,10 +107,14 @@ namespace GoldenGuitars.repositories
                     {
                         projectNote = new ProjectNotes()
                         {
-                            Id = id,
+                            Id = DbUtils.GetInt(reader, "Id"),
                             Content = DbUtils.GetString(reader, "content"),
-                            ProjectId = DbUtils.GetInt(reader, "projectId"),
-                            UserProfileId = DbUtils.GetInt(reader, "userId")
+                            ProjectId = DbUtils.GetInt(reader, "ProjectId"),
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            UserProfile = new UserProfile()
+                            {
+                                Name = DbUtils.GetString(reader, "userName")
+                            }
                         };
                     }
                     reader.Close();
@@ -151,16 +155,11 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE ProjectNotes
-                               SET Content = @Content,
-                                   ProjectId= @projectId,
-                                   userProfileId = @completionDate
-
+                               SET Content = @Content
                              WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Content", projectNote.Content);
-                    DbUtils.AddParameter(cmd, "@ProjectId", projectNote.ProjectId);
-                    DbUtils.AddParameter(cmd, "@userProfileId", projectNote.UserProfileId);
-
+                    DbUtils.AddParameter(cmd, "@Id", projectNote.Id);
 
                     cmd.ExecuteNonQuery();
                 }

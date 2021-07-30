@@ -23,7 +23,7 @@ export const getAllProjectNotesbyProjectId = (id) => {
 export const getProjectNoteById = (id) => {
     return getToken().then((token) => {
 
-        return fetch(`${baseUrl}/${id}`, {
+        return fetch(`${baseUrl}/singleNote/${id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
