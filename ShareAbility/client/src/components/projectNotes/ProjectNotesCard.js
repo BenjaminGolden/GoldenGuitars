@@ -23,6 +23,10 @@ const ProjectNotesCard = ({ note, getNotes }) => {
     //     let date = new Date(notes.createDateTime).toDateString();
     //     return date;
     // };
+    
+    useEffect(() =>{
+
+    })
 
 
     return (

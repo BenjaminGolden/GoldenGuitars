@@ -20,8 +20,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, up.name as userName FROM ProjectNotes pn
+                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, up.name as userName  FROM ProjectNotes pn
                         Left Join userProfile up on pn.userProfileId = up.id
+                        
                        WHERE pn.projectId = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
@@ -40,7 +41,7 @@ namespace GoldenGuitars.repositories
                             {
                                 Name = DbUtils.GetString(reader, "userName")
                             }
-
+                       
                         });
 
                     }

@@ -13,6 +13,8 @@ const ProjectNoteEditForm = () => {
         getProjectNoteById(id)
         .then(note => setEditProjectNote(note));
     }
+
+    console.log(editProjectNote);
     
     const handleInputChange = (event) => {
         const selectedVal = event.target.value;
@@ -30,7 +32,7 @@ const ProjectNoteEditForm = () => {
         };
         updateProjectNote(editedProjectNote)
         .then((res) => {
-            history.push(`/projectNotes/${editProjectNote.id}`)
+            history.push(`/projectNotes/${editProjectNote.projectId}`)
         })
     }
 
@@ -51,7 +53,7 @@ const ProjectNoteEditForm = () => {
             </FormGroup>
 
             <Button className="btn btn-success" onClick={handleSubmit}>Submit</Button>
-            <Button className="btn btn-danger" onClick={() => history.push(`/projectNote/${editProjectNote.id}`)}>Cancel</Button>
+            <Button className="btn btn-danger" onClick={() => history.push(`/projectNotes/${editProjectNote.ProjectId}`)}>Cancel</Button>
         </Form>
     );
 };
