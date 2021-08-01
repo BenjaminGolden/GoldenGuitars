@@ -99,7 +99,7 @@ GO
 ALTER TABLE [projectNotes] ADD FOREIGN KEY ([projectId]) REFERENCES [project] ([id])
 GO
 
-ALTER TABLE [projectStepNotes] ADD FOREIGN KEY ([stepId]) REFERENCES [projectStepNotes] ([id])
+ALTER TABLE [projectStepNotes] ADD FOREIGN KEY ([stepId]) REFERENCES [steps] ([id])
 GO
 
 ALTER TABLE [projectStepNotes] ADD FOREIGN KEY ([UserProfileid]) REFERENCES [userProfile] ([id])

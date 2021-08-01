@@ -19,6 +19,8 @@ const ProjectNotesCard = ({ note, getNotes }) => {
 
     };
 
+    
+
     // const handleDate = () => {
     //     let date = new Date(notes.createDateTime).toDateString();
     //     return date;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import ProjectNotesCard from './ProjectNotesCard';
 import { getAllProjectNotesbyProjectId} from "../../modules/projectNotesManager"; 
 import { getProjectById } from "../../modules/projectManager";
@@ -13,13 +13,14 @@ const ProjectNotesList = () => {
     const [notes, setNotes] = useState([]);
     const [project, setProject] = useState({});
     const { id } = useParams();
+    const history = useHistory();
 
     const getNotesByProjectId = () => {
        getAllProjectNotesbyProjectId(id)
         .then((response) =>
         setNotes(response)
-        );
-       
+        )
+      
     }
 
     const getProject = () => {
@@ -38,7 +39,7 @@ const ProjectNotesList = () => {
     useEffect(() => {
         getNotesByProjectId();
         getProject();
-    }, [notes])
+    }, [])
 
     return (
         <>

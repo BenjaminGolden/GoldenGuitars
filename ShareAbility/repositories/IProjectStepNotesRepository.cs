@@ -7,8 +7,8 @@ namespace GoldenGuitars.repositories
     {
         void Add(ProjectStepNotes ProjectStepNotes);
         void Delete(int id);
-        List<ProjectStepNotes> GetAllNotesByProjectAndStepId(int projectId, int stepId);
+        List<ProjectStepNotes> GetAllNotesByStepId( int id);
         ProjectStepNotes GetById(int id);
         void Update(ProjectStepNotes ProjectStepNote);
     }
-}
+} 

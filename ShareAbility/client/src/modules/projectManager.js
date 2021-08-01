@@ -38,23 +38,23 @@ export const getProjectById = (id) => {
     });
 };
 
-export const getAllProjectTasksFromCurrentUser = (id) => {
-    return getToken().then((token) => {
+// export const getAllProjectTasksFromCurrentUser = (id) => {
+//     return getToken().then((token) => {
 
-        return fetch(`${baseUrl}/myTasks/${id}`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then(resp => {
-            if (resp.ok) {
-                return resp.json();
-            } else {
-                throw new Error("An unknown error occurred while trying to get your posts.");
-            }
-        });
-    });
-};
+//         return fetch(`${baseUrl}/myTasks/${id}`, {
+//             method: "GET",
+//             headers: {
+//                 Authorization: `Bearer ${token}`
+//             }
+//         }).then(resp => {
+//             if (resp.ok) {
+//                 return resp.json();
+//             } else {
+//                 throw new Error("An unknown error occurred while trying to get your project .");
+//             }
+//         });
+//     });
+// };
 
 export const addProject = (project) => {
     return getToken().then((token) => {
