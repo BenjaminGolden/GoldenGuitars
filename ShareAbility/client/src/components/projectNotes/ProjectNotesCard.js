@@ -23,6 +23,10 @@ const ProjectNotesCard = ({ note, getNotes }) => {
     //     let date = new Date(notes.createDateTime).toDateString();
     //     return date;
     // };
+    
+    useEffect(() =>{
+
+    })
 
 
     return (
@@ -32,9 +36,11 @@ const ProjectNotesCard = ({ note, getNotes }) => {
                     <strong>{note.userProfile.name} </strong>
                     <hr />
                 </CardTitle>
+                
                 <CardText>
                     <p>Note: {note.content}</p>
                 </CardText>
+
                 <Button className="btn btn-danger" onClick={handleDelete}>Delete</Button>
                 <Link to={`/projectNote/edit/${note.id}`}>
                     <Button className="btn btn-info">Edit Comment</Button>

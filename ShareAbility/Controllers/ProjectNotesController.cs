@@ -29,7 +29,7 @@ namespace GoldenGuitars.Controllers
         [HttpGet("singleNote/{id}")]
         public IActionResult Get(int id)
         {
-            var project = _projectNotesRepository.GetByProjectId(id);
+            var project = _projectNotesRepository.GetById(id);
             if (project == null)
             {
                 return NotFound();
@@ -57,14 +57,14 @@ namespace GoldenGuitars.Controllers
 
         //Update a project
         [HttpPut("{id}")]
-        public IActionResult Put(int id, ProjectNotes project)
+        public IActionResult Put(int id, ProjectNotes projectNote)
         {
-            if (id != project.Id)
+            if (id != projectNote.Id)
             {
                 return BadRequest();
             }
-
-            _projectNotesRepository.Update(project);
+   
+            _projectNotesRepository.Update(projectNote);
             return NoContent();
         }
         private UserProfile GetCurrentUserProfile()

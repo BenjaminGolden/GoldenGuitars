@@ -4,16 +4,15 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import ProjectNotesCard from './ProjectNotesCard';
 import { getAllProjectNotesbyProjectId} from "../../modules/projectNotesManager"; 
-;
+import { getProjectById } from "../../modules/projectManager";
+
 
 
 const ProjectNotesList = () => {
 
     const [notes, setNotes] = useState([]);
+    const [project, setProject] = useState({});
     const { id } = useParams();
-    console.log(notes);
-    
-    console.log(id);
 
     const getNotesByProjectId = () => {
        getAllProjectNotesbyProjectId(id)
@@ -22,6 +21,14 @@ const ProjectNotesList = () => {
         );
        
     }
+
+    const getProject = () => {
+        getProjectById(id)
+         .then((response) =>
+         setProject(response)
+         );
+    }
+        
     // const handleDate = () => {
     //     let date = new Date(post.publishDateTime).toDateString();
     //     return date;
@@ -30,7 +37,8 @@ const ProjectNotesList = () => {
 
     useEffect(() => {
         getNotesByProjectId();
-    }, [])
+        getProject();
+    }, [notes])
 
     return (
         <>
@@ -38,10 +46,7 @@ const ProjectNotesList = () => {
             <div className="row justify-content-center">
                 <Card >
                     <CardBody>
-
-                        {/* <Link to={`/comment/add/${post.id}`}>
-                            <Button className="btn btn-success">Add Comment</Button>
-                        </Link> */}
+                    <strong>{project.name}</strong>
                     </CardBody>
                 </Card>
             </div>

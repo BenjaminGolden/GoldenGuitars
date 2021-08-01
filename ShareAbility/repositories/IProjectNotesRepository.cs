@@ -9,7 +9,7 @@ namespace GoldenGuitars.repositories
         void Delete(int id);
         List<ProjectNotes> GetAll(int id);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
-        ProjectNotes GetByProjectId(int id);
+        ProjectNotes GetById(int id);
         void Update(ProjectNotes projectNote);
     }
 }
