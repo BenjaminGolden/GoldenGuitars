@@ -15,13 +15,17 @@ const ProjectNotesList = () => {
     const { id } = useParams();
     const history = useHistory();
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     const getNotesByProjectId = () => {
-       getAllProjectNotesbyProjectId(id)
+       sleep(600).then(() => 
+       getAllProjectNotesbyProjectId(id))
         .then((response) =>
         setNotes(response)
         )
-      
-    }
+    };
 
     const getProject = () => {
         getProjectById(id)

@@ -20,11 +20,11 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT sn.id, sn.content, sn.userProfileId, sn.stepId, up.name, p.name as Project, p.id as ProjectId   FROM ProjectStepNotes sn               
+                    cmd.CommandText = @"SELECT sn.id, sn.content, sn.userProfileId, sn.stepId, sn.isDeleted, up.name FROM ProjectStepNotes sn               
                         Left Join ProjectStep ps on sn.stepid = ps.stepId
                         Left join UserProfile up on sn.userProfileId = up.id
-                        left Join Project p on ps.projectId = p.id
-                        WHERE sn.stepId = @stepId";
+                       
+                        WHERE sn.stepId = @stepId AND sn.isDeleted = 0";
 
                     DbUtils.AddParameter(cmd, "@stepId", id);
                     ;
@@ -42,12 +42,8 @@ namespace GoldenGuitars.repositories
                            UserProfile = new UserProfile()
                            {
                             Name = DbUtils.GetString(reader, "Name")
-                           },
-                           Project = new Project()
-                           {
-                               Id = DbUtils.GetInt(reader, "projectId"),
-                               Name = DbUtils.GetString(reader, "Project")
                            }
+                          
                        
                            
                         });
@@ -103,11 +99,11 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, up.name, p.name as Project, p.id as ProjectId   FROM ProjectStepNotes psn               
+                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, up.name, p.name as Project, p.id as ProjectId   FROM ProjectStepNotes psn               
                         Left Join ProjectStep ps on psn.stepid = ps.stepId
                         Left join UserProfile up on psn.userProfileId = up.id
                         left Join Project p on ps.projectId = p.id
-                        WHERE psn.Id =@Id";
+                        WHERE psn.Id = @Id AND psn.isDeleted = 0";
 ;
 
                     DbUtils.AddParameter(cmd, "@Id", id);
@@ -191,7 +187,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM ProjectStepNotes WHERE Id = @Id";
+                    cmd.CommandText = @"UPDATE ProjectStepNotes 
+                                        SET isDeleted = 1
+                                        WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }

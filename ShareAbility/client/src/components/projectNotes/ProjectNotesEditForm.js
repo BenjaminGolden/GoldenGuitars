@@ -14,7 +14,7 @@ const ProjectNoteEditForm = () => {
         .then(note => setEditProjectNote(note));
     }
 
-    console.log(editProjectNote);
+    // console.log(editProjectNote);
     
     const handleInputChange = (event) => {
         const selectedVal = event.target.value;
@@ -47,7 +47,7 @@ const ProjectNoteEditForm = () => {
            
             <FormGroup>
                 <Label for="content">Content</Label>
-                <Input type="text" name="content" id="content" placeholder="" required
+                <Input type="textarea" name="content" id="content" placeholder="" required
                     value={editProjectNote.content}
                     onChange={handleInputChange} />
             </FormGroup>

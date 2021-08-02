@@ -31,11 +31,13 @@ const ProjectStepForm = () => {
                 <Form className="container w-75">
 
                     <h3 >Assign workers and Step Status: </h3>
-                    <div>
+                    <div className="container">
+                        <div className="row m-3 mx-auto justify-content-center"> 
 
                         {projectStep?.map((projectStep) => (
                             <ProjectStepCard projectStep={projectStep} key={projectStep.id} setEdit={setEdit} edit={edit} />
                         ))}
+                        </div>
                     </div>
                              
                     {/* <Button className="btn btn-primary" onClick={() => history.push(`/project/myTasks/${id}`)}>My Tasks</Button> */}

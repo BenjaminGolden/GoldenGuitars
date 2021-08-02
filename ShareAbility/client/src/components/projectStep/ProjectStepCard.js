@@ -15,7 +15,7 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
     const [singleStep, setSingleStep] = useState({});
     const [showStepNotesForm, setShowStepNotesForm] = useState(false);
     const [newStepNote, setNewStepNote] = useState({
-        stepId: projectStep.stepId,
+        stepId: projectStep.id,
         content: ''
     })
 
@@ -51,8 +51,10 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         addStepNote(newStepNote)
-        .then(history.push(`/projectStepNotes/${singleStep.id}`));
+        .then(history.push(`/projectStepNotes/${projectStep.id}`));
     }
+
+// console.log(newStepNote)
 
     const getUsers = () => {
         return getAllUsers()
@@ -104,8 +106,8 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
                             <option id="statusId" selected key={s.id} value={s.id}>{s.name}</option> : <option id="statusId" key={s.id} value={s.id}>{s.name}</option>
                     ))}
                 </select>
-
-                <Button className="btn btn-primary" onClick={() => history.push(`/projectStepNotes/${singleStep.id}`)}>View Step Notes</Button>
+                        {/* View Step Notes */}
+                <Button className="btn btn-primary m-1" onClick={() => history.push(`/projectStepNotes/${projectStep.id}`)}>View Step Notes</Button>
                 <Button className="btn btn-primary" onClick={stepNotesToggle}>Add a note</Button>
 
                 {showStepNotesForm &&

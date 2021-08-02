@@ -20,10 +20,10 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, up.name as userName  FROM ProjectNotes pn
+                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, pn.isDeleted, up.name as userName  FROM ProjectNotes pn
                         Left Join userProfile up on pn.userProfileId = up.id
                         
-                       WHERE pn.projectId = @Id";
+                       WHERE pn.projectId = @Id AND pn.isDeleted = 0";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -95,9 +95,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, up.name as userName FROM ProjectNotes pn
+                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, pn.isDeleted, up.name as userName FROM ProjectNotes pn
                         Left Join userProfile up on pn.userProfileId = up.id
-                    WHERE pn.id = @id";
+                    WHERE pn.id = @id AND pn.isDeleted = 0";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -174,8 +174,10 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM ProjectNotes WHERE Id = @Id";
-                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.CommandText = @"UPDATE ProjectNotes 
+                                        SET isDeleted = 1
+                                        WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@id", id); 
                     cmd.ExecuteNonQuery();
                 }
             }

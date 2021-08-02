@@ -40,7 +40,7 @@ const ProjectNotesCard = ({ note, getNotes }) => {
                 </CardTitle>
                 
                 <CardText>
-                    <p>Note: {note.content}</p>
+                    <p>{note.content}</p>
                 </CardText>
 
                 <Button className="btn btn-danger" onClick={handleDelete}>Delete</Button>
