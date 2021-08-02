@@ -3,31 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { Card, CardTitle, CardBody } from 'reactstrap';
 import CardText from 'reactstrap/lib/CardText';
-import { deleteStepNote} from '../../modules/stepNotesManager';
+import { deleteStepNote } from '../../modules/stepNotesManager';
 import { Link } from "react-router-dom";
 
 
 const StepNotesCard = ({ note, getNotes }) => {
 
-    // const history = useHistory();
     const handleDelete = () => {
         if (window.confirm("Do you really want to delete this comment?")) {
             deleteStepNote(note.id).then(() => getNotes());
-           
-
         }
-
     };
-
-    // const handleDate = () => {
-    //     let date = new Date(notes.createDateTime).toDateString();
-    //     return date;
-    // };
-    
-    useEffect(() =>{
-
-    })
-
 
     return (
         <Card className="m-2 w-50">
@@ -36,7 +22,7 @@ const StepNotesCard = ({ note, getNotes }) => {
                     <strong>{note.userProfile?.name} </strong>
                     <hr />
                 </CardTitle>
-                
+
                 <CardText>
                     <p>{note.content}</p>
                 </CardText>

@@ -51,10 +51,8 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         addStepNote(newStepNote)
-        .then(history.push(`/projectStepNotes/${projectStep.id}`));
+        .then(() => history.push(`/projectStepNotes/${projectStep.id}`));
     }
-
-// console.log(newStepNote)
 
     const getUsers = () => {
         return getAllUsers()
