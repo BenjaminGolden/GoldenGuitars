@@ -12,6 +12,7 @@ const ProjectStepForm = () => {
     const history = useHistory();
     const { id } = useParams();
 
+    //GET ALL PROJECT STEPS
     const getProjectSteps = () => {
         return getAllProjectSteps(id)
             .then(projectStepsFromAPI => {
@@ -25,29 +26,25 @@ const ProjectStepForm = () => {
     }, [edit])
 
 
-  
-        return (
-            <>
-                <Form className="container w-75">
 
-                    <h3 >Assign workers and Step Status: </h3>
-                    <div className="container">
-                        <div className="row m-3 mx-auto justify-content-center"> 
+    return (
+        <>
+            <Form className="container w-75">
+
+                <h3 >Assign workers and Step Status: </h3>
+                <div className="container">
+                    <div className="row m-3 mx-auto justify-content-center">
 
                         {projectStep?.map((projectStep) => (
                             <ProjectStepCard projectStep={projectStep} key={projectStep.id} setEdit={setEdit} edit={edit} />
                         ))}
-                        </div>
                     </div>
-                             
-                    {/* <Button className="btn btn-primary" onClick={() => history.push(`/project/myTasks/${id}`)}>My Tasks</Button> */}
+                </div>
 
-                
+            </Form>
+        </>
+    );
 
-                </Form>
-            </>
-        );
-    
 };
 
 export default ProjectStepForm;

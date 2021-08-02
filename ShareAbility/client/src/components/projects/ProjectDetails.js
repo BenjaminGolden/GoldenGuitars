@@ -20,12 +20,14 @@ const ProjectDetails = () => {
     })
 
     const history = useHistory();
-//get project details
+
+    //get project details
     const getProjectDetails = () => {
         getProjectById(id)
             .then(setProjectDetails)
     }
-//get all project steps
+
+    //get all project steps
     const getProjectSteps = () => {
         return getAllProjectSteps(id)
             .then(projectStepsFromAPI => {
@@ -56,7 +58,7 @@ const ProjectDetails = () => {
     const handleDelete = () => {
         if (window.confirm("Do you really want to delete this project?")) {
             deleteProject(projectDetails.id)
-            .then(() => history.push("/"));
+                .then(() => history.push("/"));
         }
     };
 
@@ -70,21 +72,16 @@ const ProjectDetails = () => {
         return date;
     };
 
-    // console.log(projectDetails)
-
-    //TODO:fix completion date display when null
     //handle completionDate
     const handleCompletionDate = () => {
         let completionDate = new Date(projectDetails.completionDate).toDateString();
 
-        if (projectDetails.completionDate === null)
-        {
+        if (projectDetails.completionDate === null) {
             return <p>"project hasn't been completed"</p>
         }
         return completionDate;
-        
-    }
 
+    }
 
     useEffect(() => {
         getProjectDetails();
@@ -93,21 +90,22 @@ const ProjectDetails = () => {
 
     return (
         <>
-                <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
+            <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
             <Card className="">
                 <CardBody>
-            <h2 className="text-center">Details </h2>
+                    <h2 className="text-center">Details </h2>
 
                     <p><b>Name: </b>{projectDetails.name}</p>
                     <p><b>StartDate: </b>{handleStartDate()}</p>
                     <p><b>CompletionDate: </b>{handleCompletionDate()}</p>
-                    
+
                     <Button className="btn btn-primary m-3" onClick={projectNotesToggle}>
-                    {showProjectNotesForm ? 'Cancel' : 'Add a project Note'}</Button>
+                        {showProjectNotesForm ? 'Cancel' : 'Add a project Note'}</Button>
 
                     <Button className="btn btn-primary" onClick={() => history.push(`/projectNotes/${projectDetails.id}`)}>View Project Notes</Button>
 
                     {/* Add Project Note Toggle     */}
+
                     {showProjectNotesForm &&
                         <>
                             <FormGroup>
@@ -120,10 +118,10 @@ const ProjectDetails = () => {
                         </>
                     }
                     <p>{ProjectStepForm()}</p>
-                <Link to={`/project/edit/${projectDetails.id}`}>
-                    <Button className="btn btn-info m-6">Edit Project</Button>
-                </Link>
-            <Button className="btn btn-danger m-3" onClick={handleDelete}>Delete Project</Button>
+                    <Link to={`/project/edit/${projectDetails.id}`}>
+                        <Button className="btn btn-info m-6">Edit Project</Button>
+                    </Link>
+                    <Button className="btn btn-danger m-3" onClick={handleDelete}>Delete Project</Button>
                 </CardBody>
             </Card >
 

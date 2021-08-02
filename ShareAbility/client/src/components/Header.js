@@ -20,7 +20,8 @@ export default function Header({ isLoggedIn }) {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand tag={RRNavLink} to="/">Golden Guitars</NavbarBrand>
+        <NavbarBrand tag={RRNavLink} src="images/GoldenGuitars_Logo.jpg" to="/">Golden Guitars</NavbarBrand>
+        <img></img>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
@@ -33,9 +34,6 @@ export default function Header({ isLoggedIn }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/project/add">New Project</NavLink>
                 </NavItem>
-                {/* <NavItem>
-                  <NavLink tag={RRNavLink} to="/allProjects">View Projects</NavLink>
-                </NavItem> */}
                
           
               </>

@@ -18,47 +18,47 @@ const ApplicationViews = ({ isLoggedIn }) => {
   return (
     <Switch>
 
-        <Route path="/" exact>
-          {isLoggedIn ? <Home /> : <Redirect to="/login" />}
-        </Route>
+      <Route path="/" exact>
+        {isLoggedIn ? <Home /> : <Redirect to="/login" />}
+      </Route>
 
-        <Route path="/project/add" exact>
-          {isLoggedIn ? <ProjectForm /> : <Redirect to="/login" />}
-        </Route>
+      <Route path="/project/add" exact>
+        {isLoggedIn ? <ProjectForm /> : <Redirect to="/login" />}
+      </Route>
 
-        <Route path="/project/edit/:id" exact>
-          {isLoggedIn ? <ProjectEditForm /> : <Redirect to="/login" />}
-        </Route>
+      <Route path="/project/edit/:id" exact>
+        {isLoggedIn ? <ProjectEditForm /> : <Redirect to="/login" />}
+      </Route>
 
-        <Route path="/projectStepNotes/:id" exact>
-          {isLoggedIn ? <StepNotesList /> : <Redirect to="/login" />}
-        </Route>
+      <Route path="/projectStepNotes/:id" exact>
+        {isLoggedIn ? <StepNotesList /> : <Redirect to="/login" />}
+      </Route>
 
-        
-        <Route path="/project/details/:id" exact>
-          {isLoggedIn ? <ProjectDetails /> : <Redirect to="/login" />}
-        </Route>
 
-        <Route path="/projectNotes/:id" exact>
-          {isLoggedIn ? <ProjectNotesList /> : <Redirect to="/login" />}
-        </Route>
+      <Route path="/project/details/:id" exact>
+        {isLoggedIn ? <ProjectDetails /> : <Redirect to="/login" />}
+      </Route>
 
-        
-        <Route path="/projectNote/edit/:id" exact>
-          {isLoggedIn ? <ProjectNoteEditForm/> : <Redirect to="/login" />}
-        </Route>
+      <Route path="/projectNotes/:id" exact>
+        {isLoggedIn ? <ProjectNotesList /> : <Redirect to="/login" />}
+      </Route>
 
-        <Route path="/projectStepNote/edit/:id" exact>
-          {isLoggedIn ? <ProjectStepNoteEditForm/> : <Redirect to="/login" />}
-        </Route>
+
+      <Route path="/projectNote/edit/:id" exact>
+        {isLoggedIn ? <ProjectNoteEditForm /> : <Redirect to="/login" />}
+      </Route>
+
+      <Route path="/projectStepNote/edit/:id" exact>
+        {isLoggedIn ? <ProjectStepNoteEditForm /> : <Redirect to="/login" />}
+      </Route>
 
       <Route path="/login">
-          <Login />
-        </Route>
+        <Login />
+      </Route>
 
-        <Route path="/register">
-          <Register />
-        </Route>
+      <Route path="/register">
+        <Register />
+      </Route>
     </Switch>
   );
 };

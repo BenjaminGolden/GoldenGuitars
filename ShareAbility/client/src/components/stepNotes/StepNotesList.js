@@ -6,43 +6,32 @@ import StepNotesCard from './StepNotesCard';
 import { getAllStepNotes } from "../../modules/stepNotesManager";
 import { getProjectById } from "../../modules/projectManager";
 
-
-
 const StepNotesList = () => {
 
     const [notes, setNotes] = useState([]);
     const { id } = useParams();
     const history = useHistory();
-    
+
     const getStepNotes = () => {
 
-            getAllStepNotes(id)
+        getAllStepNotes(id)
             .then((response) =>
                 setNotes(response)
             );
 
     }
 
-    console.log(notes)
-
-    // const handleDate = () => {
-    //     let date = new Date(post.publishDateTime).toDateString();
-    //     return date;
-    // };
-
-
     useEffect(() => {
         getStepNotes();
-       
+
     }, [])
 
-    //TODO: Fix display to show project/step name above comments:
     return (
         <>
             <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
 
             <div className="container ">  Project name:  {notes[0]?.project?.name}
-        
+
                 <div className="row justify-content-center">
                     <Card >
                         <CardBody>
