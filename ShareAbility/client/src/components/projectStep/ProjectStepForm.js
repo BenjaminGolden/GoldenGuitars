@@ -40,7 +40,7 @@ const ProjectStepForm = () => {
                              
                     {/* <Button className="btn btn-primary" onClick={() => history.push(`/project/myTasks/${id}`)}>My Tasks</Button> */}
 
-                    <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
+                
 
                 </Form>
             </>

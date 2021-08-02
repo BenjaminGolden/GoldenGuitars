@@ -43,6 +43,7 @@ const ProjectNotesList = () => {
 
     return (
         <>
+          <Button className="btn btn-primary" onClick={() => history.push(`/project/details/${project.id}`)}>back</Button>
         <div className="container m-2">
             <div className="row justify-content-center">
                 <Card >

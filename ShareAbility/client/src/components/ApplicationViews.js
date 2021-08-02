@@ -9,6 +9,7 @@ import StepNotesList from "./stepNotes/StepNotesList";
 import ProjectNotesList from "./projectNotes/ProjectNotesList";
 import ProjectNoteEditForm from "./projectNotes/ProjectNotesEditForm";
 import ProjectStepNoteEditForm from "./stepNotes/StepNotesEditForm";
+import ProjectEditForm from "./projects/ProjectEditForm";
 
 
 
@@ -23,6 +24,10 @@ const ApplicationViews = ({ isLoggedIn }) => {
 
         <Route path="/project/add" exact>
           {isLoggedIn ? <ProjectForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/project/edit/:id" exact>
+          {isLoggedIn ? <ProjectEditForm /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/projectStepNotes/:id" exact>

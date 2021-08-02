@@ -27,6 +27,7 @@ CREATE TABLE [project] (
   [name] nvarchar(255) NOT NULL,
   [startDate] datetime NOT NULL,
   [completionDate] datetime NULL,
+  [isDeleted] BIT DEFAULT (0) NOT NULL,
 )
 GO
 
@@ -41,7 +42,8 @@ CREATE TABLE [projectStepNotes] (
   [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
   [content] nvarchar(max) NOT NULL,
   [userProfileId] int NOT NULL,
-  [stepId] int NOT NULL
+  [stepId] int NOT NULL,
+  [isDeleted] BIT DEFAULT (0) NOT NULL
 
 )
 GO
@@ -50,7 +52,8 @@ CREATE TABLE [projectNotes] (
   [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
   [content] nvarchar(max) NOT NULL,
   [projectId] int NOT NULL,
-  [userProfileId] int NOT NULL
+  [userProfileId] int NOT NULL,
+  [isDeleted] BIT DEFAULT (0) NOT NULL
 )
 GO
 
