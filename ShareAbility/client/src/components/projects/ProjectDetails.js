@@ -2,7 +2,8 @@ import React from "react";
 import { Card, CardBody, FormGroup, Input, Button } from "reactstrap";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
-import { getProjectById } from "../../modules/projectManager";
+import { Link } from "react-router-dom";
+import { getProjectById, deleteProject } from "../../modules/projectManager";
 import { getAllProjectSteps } from "../../modules/projectStepManager";
 import { getAllProjectNotesbyProjectId, addProjectNote } from "../../modules/projectNotesManager";
 import ProjectStepForm from "../projectStep/ProjectStepForm";
@@ -19,12 +20,12 @@ const ProjectDetails = () => {
     })
 
     const history = useHistory();
-
+//get project details
     const getProjectDetails = () => {
         getProjectById(id)
             .then(setProjectDetails)
     }
-
+//get all project steps
     const getProjectSteps = () => {
         return getAllProjectSteps(id)
             .then(projectStepsFromAPI => {
@@ -32,12 +33,13 @@ const ProjectDetails = () => {
 
             })
     }
-
+//start date display function
     const handleStartDate = () => {
         let date = new Date(projectDetails.startDate).toDateString();
         return date;
     };
 
+    //handle change for project note
     const handleInputChange = (evt) => {
         const value = evt.target.value;
         const key = evt.target.id;
@@ -47,11 +49,22 @@ const ProjectDetails = () => {
         setNewProjectNote(newProjectNoteCopy);
     };
 
+    //SAVE project note
     const handleSubmit = (event) => {
         event.preventDefault();
         addProjectNote(newProjectNote)
             .then(history.push(`/projectNotes/${id}`))
     }
+
+    //DELETE PROJECT
+    const handleDelete = () => {
+        if (window.confirm("Do you really want to delete this project?")) {
+            deleteProject(projectDetails.id)
+            .then(history.push("/"));
+
+        }
+
+    };
 
     //Project Notes Toggle
     const projectNotesToggle = () => setShowProjectNotesForm(!showProjectNotesForm)
@@ -76,17 +89,19 @@ const ProjectDetails = () => {
     return (
         <>
             <h2 className="text-center">Details </h2>
-            <Card className="w-75 mx-auto">
+                <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
+            <Card className="">
                 <CardBody>
 
                     <p><b>Name: </b>{projectDetails.name}</p>
                     <p><b>StartDate: </b>{handleStartDate()}</p>
                     <p><b>CompletionDate: </b>{projectDetails.completionDate}</p>
+                    
                     <Button className="btn btn-primary" onClick={projectNotesToggle}>
+                    {showProjectNotesForm ? 'Cancel' : 'Add a project Note'}</Button>
+                    <Button className="btn btn-primary" onClick={() => history.push(`/projectNotes/${projectDetails.id}`)}>View Project Notes</Button>
 
                     {/* Add Project Note Toggle     */}
-
-                    {showProjectNotesForm ? 'Cancel' : 'Add a project Note'}</Button>
                     {showProjectNotesForm &&
                         <>
                             <FormGroup>
@@ -99,11 +114,13 @@ const ProjectDetails = () => {
                         </>
                     }
                     <p>{ProjectStepForm()}</p>
-
-
-
                 </CardBody>
             </Card >
+
+            <Button className="btn btn-danger" onClick={handleDelete}>Delete</Button>
+                <Link to={`/project/edit/${projectDetails.id}`}>
+                    <Button className="btn btn-info">Edit Project</Button>
+                </Link>
         </>
     );
 };

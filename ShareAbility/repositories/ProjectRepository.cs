@@ -20,8 +20,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.Id, p.Name, p.StartDate, p.CompletionDate
+                    cmd.CommandText = @"SELECT p.Id, p.Name, p.StartDate, p.CompletionDate, p.isDeleted
                     From Project p 
+                    where isDeleted = 0
                    ";
 
                     var reader = cmd.ExecuteReader();
@@ -155,7 +156,7 @@ namespace GoldenGuitars.repositories
                     DbUtils.AddParameter(cmd, "@Name", project.Name);
                     DbUtils.AddParameter(cmd, "@StartDate", project.StartDate);
                     DbUtils.AddParameter(cmd, "@CompletionDate", project.CompletionDate);
-
+                    DbUtils.AddParameter(cmd, "@Id", project.Id);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -169,7 +170,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Project WHERE Id = @Id";
+                    cmd.CommandText = @"UPDATE Project 
+                                       SET isDeleted = 1 
+                                       WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
