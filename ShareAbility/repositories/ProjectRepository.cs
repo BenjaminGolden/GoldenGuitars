@@ -22,7 +22,7 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"SELECT p.Id, p.Name, p.StartDate, p.CompletionDate, p.isDeleted
                     From Project p 
-                    where isDeleted = 0
+                    where p.isDeleted = 0
                    ";
 
                     var reader = cmd.ExecuteReader();

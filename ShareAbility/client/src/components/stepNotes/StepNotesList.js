@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, Button } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import StepNotesCard from './StepNotesCard';
 import { getAllStepNotes} from "../../modules/stepNotesManager"; 
@@ -13,9 +13,16 @@ const StepNotesList = () => {
     const [notes, setNotes] = useState([]);
     const [project, setProject] = useState({});
     const { id } = useParams();
+    const history = useHistory();
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     const getStepNotes = () => {
-       getAllStepNotes(id)
+        
+       sleep(600).then(() => 
+       getAllStepNotes(id))
         .then((response) =>
         setNotes(response)
         );
@@ -44,6 +51,9 @@ const StepNotesList = () => {
     //TODO: Fix display to show project/step name above comments:
     return (
         <>
+                 <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
+            <Card className=""></Card>
+        
         <div className="container m-2">
             <div className="row justify-content-center">
                 <Card >

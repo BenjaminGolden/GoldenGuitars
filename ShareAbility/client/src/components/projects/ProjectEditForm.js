@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { getProjectById, updateProject } from '../../modules/projectManager';
+import { momentStartDateFixer, momentCompletionDateFixer } from '../../modules/helper';
 
 const ProjectEditForm = () => {
 
@@ -38,6 +39,14 @@ const ProjectEditForm = () => {
         })
     }
 
+//TODO: start date needs to populate on the edit form.
+const handleDate = (event) => {
+    event.preventDefault();
+    let editedProject = { ...editProject };
+    let editDate = event.target.value
+    editedProject[event.target.id] = editDate
+    setEditProject(editedProject)
+}
 
     useEffect(() => {
         getProject();
@@ -56,20 +65,20 @@ const ProjectEditForm = () => {
 
             <FormGroup>
                 <Label for="startDate">Start Date</Label>
-                <Input type="date" startDate="startDate" id="startDate" placeholder="start date" required
-                    value={editProject.startDate}
-                    onChange={handleInputChange} />
+                <Input type="date" name="startDate" id="startDate" placeholder="start date" 
+                    
+                     defaultValue={momentStartDateFixer(editProject)} format="YYYY-MM-DD" value={editProject.startDate} onChange={handleDate}/>
             </FormGroup>
 
             <FormGroup>
                 <Label for="completionDate">Completion Date</Label>
-                <Input type="date" completionDate="completionDate" id="completionDate" placeholder="completion date" required
-                    value={editProject.completionDate}
-                    onChange={handleInputChange} />
+                <Input type="date" name="completionDate" id="completionDate" placeholder="completion date" 
+                    
+                     defaultValue={momentCompletionDateFixer(editProject)} format="YYYY-MM-DD" value={editProject.completionDate} onChange={handleDate}/>
             </FormGroup>
 
             <Button className="btn btn-success" onClick={handleSubmit}>Submit</Button>
-            <Button className="btn btn-danger" onClick={() => history.push(`/project/details/${editProject.ProjectId}`)}>Cancel</Button>
+            <Button className="btn btn-danger" onClick={() => history.push(`/project/details/${editProject.id}`)}>Cancel</Button>
         </Form>
     );
 };
