@@ -13,18 +13,20 @@ namespace GoldenGuitars.repositories
     {
         public ProjectStepNotesRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<ProjectStepNotes> GetAllNotesByProjectAndStepId(int projectId, int stepId)
+        public List<ProjectStepNotes> GetAllNotesByStepId(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT sn.id, sn.content, sn.userProfileId, sn.stepId, ps.ProjectId FROM ProjectStepNotes sn
-                    Left Join ProjectStep ps on ps.stepId = sn.stepId
-                    WHERE sn.stepId = @stepId";
+                    cmd.CommandText = @"SELECT sn.id, sn.content, sn.userProfileId, sn.stepId, up.name, p.name as Project, p.id as ProjectId   FROM ProjectStepNotes sn               
+                        Left Join ProjectStep ps on sn.stepid = ps.stepId
+                        Left join UserProfile up on sn.userProfileId = up.id
+                        left Join Project p on ps.projectId = p.id
+                        WHERE sn.stepId = @stepId";
 
-                    DbUtils.AddParameter(cmd, "@stepId", stepId);
+                    DbUtils.AddParameter(cmd, "@stepId", id);
                     ;
 
                     var reader = cmd.ExecuteReader();
@@ -37,10 +39,17 @@ namespace GoldenGuitars.repositories
                             Content = DbUtils.GetString(reader, "content"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             StepId = DbUtils.GetInt(reader, "StepId"),
-                            ProjectStep = new ProjectStep()
-                            {
-                                ProjectId = DbUtils.GetInt(reader, "projectId")
-                            }
+                           UserProfile = new UserProfile()
+                           {
+                            Name = DbUtils.GetString(reader, "Name")
+                           },
+                           Project = new Project()
+                           {
+                               Id = DbUtils.GetInt(reader, "projectId"),
+                               Name = DbUtils.GetString(reader, "Project")
+                           }
+                       
+                           
                         });
 
                     }
@@ -94,8 +103,12 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT content, userProfileId, stepId FROM ProjectStepNotes
-                    WHERE id = @id";
+                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, up.name, p.name as Project, p.id as ProjectId   FROM ProjectStepNotes psn               
+                        Left Join ProjectStep ps on psn.stepid = ps.stepId
+                        Left join UserProfile up on psn.userProfileId = up.id
+                        left Join Project p on ps.projectId = p.id
+                        WHERE psn.Id =@Id";
+;
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -110,6 +123,16 @@ namespace GoldenGuitars.repositories
                             Content = DbUtils.GetString(reader, "content"),
                             UserProfileId = DbUtils.GetInt(reader, "userProfileId"),
                             StepId = DbUtils.GetInt(reader, "StepId"),
+                            UserProfile = new UserProfile()
+                            {
+                                Name = DbUtils.GetString(reader, "Name")
+                            },
+                            Project = new Project()
+                            {
+                                Id = DbUtils.GetInt(reader, "projectId"),
+                                Name = DbUtils.GetString(reader, "Project")
+                            }
+
                         };
                     }
                     reader.Close();
@@ -142,7 +165,7 @@ namespace GoldenGuitars.repositories
             }
         }
 
-        public void Update(ProjectStepNotes ProjectStepNote)
+        public void Update(ProjectStepNotes projectStepNote)
         {
             using (var conn = Connection)
             {
@@ -151,17 +174,11 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE ProjectStepNotes
-                               SET Content = @Content,
-                                   userProfileId = @userProfileId,
-                                   stepId = @stepId
-
+                               SET Content = @Content
                              WHERE Id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@Content", ProjectStepNote.Content);
-                    DbUtils.AddParameter(cmd, "@userProfileId", ProjectStepNote.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@StepId", ProjectStepNote.StepId);
-
-
+                    DbUtils.AddParameter(cmd, "@Content", projectStepNote.Content);
+                    DbUtils.AddParameter(cmd, "@Id", projectStepNote.Id);
                     cmd.ExecuteNonQuery();
                 }
             }

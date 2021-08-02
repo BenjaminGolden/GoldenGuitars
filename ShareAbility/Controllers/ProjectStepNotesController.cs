@@ -19,22 +19,22 @@ namespace GoldenGuitars.Controllers
         }
 
         //Get All
-        [HttpGet("/{projectId}/{stepId}")]
-        public IActionResult GetAll(int projectId, int stepId)
+        [HttpGet("{id}")]
+        public IActionResult GetAll(int id)
         {
-            return Ok(_projectStepNotesRepository.GetAllNotesByProjectAndStepId(projectId, stepId));
+            return Ok(_projectStepNotesRepository.GetAllNotesByStepId(id));
         }
 
         //Get by Id
-        [HttpGet("{id}")]
+        [HttpGet("singleNote/{id}")]
         public IActionResult Get(int id)
         {
-            var project = _projectStepNotesRepository.GetById(id);
-            if (project == null)
+            var projectNote = _projectStepNotesRepository.GetById(id);
+            if (projectNote == null)
             {
                 return NotFound();
             }
-            return Ok(project);
+            return Ok(projectNote);
         }
 
         //Add a ProjectStep Note
@@ -44,7 +44,7 @@ namespace GoldenGuitars.Controllers
             var userProfile = GetCurrentUserProfile();
             projectStepNote.UserProfileId = userProfile.Id;
             _projectStepNotesRepository.Add(projectStepNote);
-            return CreatedAtAction("get", new { id = projectStepNote.Id }, projectStepNote);
+            return CreatedAtAction(nameof(Get), new { id = projectStepNote.Id }, projectStepNote);
         }
 
         //Delete a ProjectStepNote

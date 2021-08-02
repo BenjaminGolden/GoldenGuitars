@@ -53,8 +53,8 @@ const ProjectDetails = () => {
             .then(history.push(`/projectNotes/${id}`))
     }
 
-    const toggle = () => setShowProjectNotesForm(!showProjectNotesForm)
-
+    //Project Notes Toggle
+    const projectNotesToggle = () => setShowProjectNotesForm(!showProjectNotesForm)
 
     // const handleCompletionDate = () => {
     //     let completionDate = new Date(projectDetails.completionDate).toDateString();
@@ -82,7 +82,11 @@ const ProjectDetails = () => {
                     <p><b>Name: </b>{projectDetails.name}</p>
                     <p><b>StartDate: </b>{handleStartDate()}</p>
                     <p><b>CompletionDate: </b>{projectDetails.completionDate}</p>
-                    <Button className="btn btn-primary" onClick={toggle}>{showProjectNotesForm ? 'Cancel' : 'Add a project Note'}</Button>
+                    <Button className="btn btn-primary" onClick={projectNotesToggle}>
+
+                    {/* Add Project Note Toggle     */}
+
+                    {showProjectNotesForm ? 'Cancel' : 'Add a project Note'}</Button>
                     {showProjectNotesForm &&
                         <>
                             <FormGroup>

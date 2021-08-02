@@ -2,7 +2,7 @@ import { getToken } from "./authManager";
 
 const baseUrl = '/api/projectStepNotes';
 
-export const getAllNotesByProjectAndStepId = (id) => {
+export const getAllStepNotes = (id) => {
     return getToken().then((token) => {
 
         return fetch(`${baseUrl}/${id}`, {
@@ -23,7 +23,7 @@ export const getAllNotesByProjectAndStepId = (id) => {
 export const getStepNoteById = (id) => {
     return getToken().then((token) => {
 
-        return fetch(`${baseUrl}/${id}`, {
+        return fetch(`${baseUrl}/singleNote/${id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
