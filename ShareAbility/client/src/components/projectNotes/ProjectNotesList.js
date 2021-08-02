@@ -15,13 +15,9 @@ const ProjectNotesList = () => {
     const { id } = useParams();
     const history = useHistory();
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     const getNotesByProjectId = () => {
-       sleep(600).then(() => 
-       getAllProjectNotesbyProjectId(id))
+      
+       getAllProjectNotesbyProjectId(id)
         .then((response) =>
         setNotes(response)
         )
@@ -33,12 +29,6 @@ const ProjectNotesList = () => {
          setProject(response)
          );
     }
-        
-    // const handleDate = () => {
-    //     let date = new Date(post.publishDateTime).toDateString();
-    //     return date;
-    // };
-
 
     useEffect(() => {
         getNotesByProjectId();

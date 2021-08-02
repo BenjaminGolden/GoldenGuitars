@@ -11,7 +11,8 @@ namespace GoldenGuitars.models
         public string Content { get; set; }
         public int UserProfileId { get; set; }
         public int StepId { get; set; }
-        public Project Project{ get; set; }
+        public Steps Steps { get; set; }
         public UserProfile UserProfile { get; set; }
+        public Project Project { get; set; }
     }
 }

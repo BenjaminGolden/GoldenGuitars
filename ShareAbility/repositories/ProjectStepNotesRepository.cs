@@ -20,14 +20,18 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT sn.id, sn.content, sn.userProfileId, sn.stepId, sn.isDeleted, up.name FROM ProjectStepNotes sn               
-                        Left Join ProjectStep ps on sn.stepid = ps.stepId
-                        Left join UserProfile up on sn.userProfileId = up.id
-                       
-                        WHERE sn.stepId = @stepId AND sn.isDeleted = 0";
+                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, 
+                        up.name, 
+                        p.name as Project, p.id as ProjectId, 
+                        s.name as StepName 
+                        FROM ProjectStepNotes psn               
+                        Left Join ProjectStep ps on psn.stepid = ps.id
+                        Left join UserProfile up on psn.userProfileId = up.id
+                          left Join Project p on ps.projectId = p.id
+                          Left Join Steps s on ps.stepId = s.id
+                        WHERE psn.stepId = @stepId AND psn.isDeleted = 0";
 
                     DbUtils.AddParameter(cmd, "@stepId", id);
-                    ;
 
                     var reader = cmd.ExecuteReader();
                     var ProjectStepNotes = new List<ProjectStepNotes>();
@@ -42,10 +46,16 @@ namespace GoldenGuitars.repositories
                            UserProfile = new UserProfile()
                            {
                             Name = DbUtils.GetString(reader, "Name")
+                           },
+                           Project = new Project()
+                           {
+                               Id = DbUtils.GetInt(reader, "ProjectId"),
+                               Name = DbUtils.GetString(reader, "project")
+                           },
+                           Steps = new Steps()
+                           {
+                               Name = DbUtils.GetString(reader, "StepName")
                            }
-                          
-                       
-                           
                         });
 
                     }
@@ -99,8 +109,11 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, up.name, p.name as Project, p.id as ProjectId   FROM ProjectStepNotes psn               
-                        Left Join ProjectStep ps on psn.stepid = ps.stepId
+                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, 
+                        up.name, 
+                        p.name as Project, p.id as ProjectId   
+                        FROM ProjectStepNotes psn               
+                        Left Join ProjectStep ps on psn.stepid = ps.Id
                         Left join UserProfile up on psn.userProfileId = up.id
                         left Join Project p on ps.projectId = p.id
                         WHERE psn.Id = @Id AND psn.isDeleted = 0";
@@ -125,7 +138,7 @@ namespace GoldenGuitars.repositories
                             },
                             Project = new Project()
                             {
-                                Id = DbUtils.GetInt(reader, "projectId"),
+                                Id = DbUtils.GetInt(reader, "ProjectId"),
                                 Name = DbUtils.GetString(reader, "Project")
                             }
 

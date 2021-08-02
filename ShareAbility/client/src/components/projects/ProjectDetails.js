@@ -49,17 +49,15 @@ const ProjectDetails = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         addProjectNote(newProjectNote)
-            .then(history.push(`/projectNotes/${id}`))
+            .then(() => history.push(`/projectNotes/${id}`))
     }
 
     //DELETE PROJECT
     const handleDelete = () => {
         if (window.confirm("Do you really want to delete this project?")) {
             deleteProject(projectDetails.id)
-            .then(history.push("/"));
-
+            .then(() => history.push("/"));
         }
-
     };
 
     //Project Notes Toggle
