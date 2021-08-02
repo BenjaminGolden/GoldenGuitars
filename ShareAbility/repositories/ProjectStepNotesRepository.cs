@@ -103,8 +103,12 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT content, userProfileId, stepId FROM ProjectStepNotes
-                    WHERE id = @id";
+                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, up.name, p.name as Project, p.id as ProjectId   FROM ProjectStepNotes psn               
+                        Left Join ProjectStep ps on psn.stepid = ps.stepId
+                        Left join UserProfile up on psn.userProfileId = up.id
+                        left Join Project p on ps.projectId = p.id
+                        WHERE psn.Id =@Id";
+;
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -119,6 +123,16 @@ namespace GoldenGuitars.repositories
                             Content = DbUtils.GetString(reader, "content"),
                             UserProfileId = DbUtils.GetInt(reader, "userProfileId"),
                             StepId = DbUtils.GetInt(reader, "StepId"),
+                            UserProfile = new UserProfile()
+                            {
+                                Name = DbUtils.GetString(reader, "Name")
+                            },
+                            Project = new Project()
+                            {
+                                Id = DbUtils.GetInt(reader, "projectId"),
+                                Name = DbUtils.GetString(reader, "Project")
+                            }
+
                         };
                     }
                     reader.Close();
