@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const ProjectNotesCard = ({ note, getNotes }) => {
 
-    // const history = useHistory();
+  
 
     const handleDelete = () => {
         if (window.confirm("Do you really want to delete this comment?")) {
@@ -18,13 +18,6 @@ const ProjectNotesCard = ({ note, getNotes }) => {
         }
 
     };
-
-    
-
-    // const handleDate = () => {
-    //     let date = new Date(notes.createDateTime).toDateString();
-    //     return date;
-    // };
     
     useEffect(() =>{
 

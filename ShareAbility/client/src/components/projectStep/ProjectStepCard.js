@@ -29,7 +29,7 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
 
         projectStepCopy[key] = parseInt(value);
         updateProjectStep(projectStepCopy)
-            .then(setEdit(!edit));
+            .then(() => setEdit(!edit));
 
     };
 

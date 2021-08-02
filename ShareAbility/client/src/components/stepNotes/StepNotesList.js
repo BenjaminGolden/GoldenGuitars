@@ -3,7 +3,7 @@ import { Card, CardBody, Button } from "reactstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import StepNotesCard from './StepNotesCard';
-import { getAllStepNotes} from "../../modules/stepNotesManager"; 
+import { getAllStepNotes } from "../../modules/stepNotesManager";
 import { getProjectById } from "../../modules/projectManager";
 
 
@@ -11,32 +11,20 @@ import { getProjectById } from "../../modules/projectManager";
 const StepNotesList = () => {
 
     const [notes, setNotes] = useState([]);
-    const [project, setProject] = useState({});
     const { id } = useParams();
     const history = useHistory();
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
+    
     const getStepNotes = () => {
-        
-       sleep(600).then(() => 
-       getAllStepNotes(id))
-        .then((response) =>
-        setNotes(response)
-        );
-       
-    }
-   
 
-    // const getProject = () => {
-    //     getProjectById(notes.projectId)
-    //      .then((response) =>
-    //      setProject(response)
-    //      );
-    // }
-        
+            getAllStepNotes(id)
+            .then((response) =>
+                setNotes(response)
+            );
+
+    }
+
+    console.log(notes)
+
     // const handleDate = () => {
     //     let date = new Date(post.publishDateTime).toDateString();
     //     return date;
@@ -45,29 +33,29 @@ const StepNotesList = () => {
 
     useEffect(() => {
         getStepNotes();
-        // getProject();
+       
     }, [])
 
     //TODO: Fix display to show project/step name above comments:
     return (
         <>
-                 <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
-            <Card className=""></Card>
+            <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
+
+            <div className="container ">  Project name:  {notes[0]?.project?.name}
         
-        <div className="container m-2">
-            <div className="row justify-content-center">
-                <Card >
-                    <CardBody>
-                    <strong>{notes.stepId}</strong>
-                    </CardBody>
-                </Card>
+                <div className="row justify-content-center">
+                    <Card >
+                        <CardBody>
+                            <strong>Project Step: {notes[0]?.steps?.name}</strong>
+                        </CardBody>
+                    </Card>
+                </div>
+                <div className="row justify-content-center">
+                    {notes.map((note) =>
+                        <StepNotesCard note={note} key={note.id} getNotes={getStepNotes} />
+                    )}
+                </div>
             </div>
-            <div className="row justify-content-center">
-                {notes.map((note) =>
-                    <StepNotesCard note={note} key={note.id}  getNotes={getStepNotes}/>
-                )}
-            </div>
-        </div>
         </>
     );
 }

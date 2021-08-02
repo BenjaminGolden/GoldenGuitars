@@ -32,7 +32,7 @@ const ProjectStepNoteEditForm = () => {
         };
         updateStepNote(editedProjectStepNote)
         .then((res) => {
-            history.push(`/projectStepNotes/${editProjectStepNote.project.id}`)
+            history.push(`/projectStepNotes/${editProjectStepNote.stepId}`)
         })
     }
 

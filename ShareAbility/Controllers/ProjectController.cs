@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GoldenGuitars.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase
@@ -101,7 +101,7 @@ namespace GoldenGuitars.Controllers
         {
             var userProfile = GetCurrentUserProfile();
             var stepList = _stepsRepository.GetAll();
-            var id = 1;
+            var defaultStatus = 1;
             foreach (var step in stepList)
             {
                 ProjectStep ProjectStep = new ProjectStep()
@@ -109,7 +109,7 @@ namespace GoldenGuitars.Controllers
                     StepId = step.Id,
                     ProjectId = projectId,
                     UserProfileId = userProfile.Id,
-                    StatusId = id
+                    StatusId = defaultStatus
                 };
                 _projectStepRepository.Add(ProjectStep);
             }

@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace GoldenGuitars.Controllers
 {
-        //[Authorize]
-        [Route("api/[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
         [ApiController]
         public class UserProfileController : ControllerBase
         {
