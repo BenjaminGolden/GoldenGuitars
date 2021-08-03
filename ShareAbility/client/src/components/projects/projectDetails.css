@@ -1,0 +1,16 @@
+.opacity {
+    opacity: 80%;
+}
+/* .cardOpacity {
+    opacity: 50%;
+} */
+
+.font {
+    color: black;
+    font-size: 2em;
+    font-weight: 500;
+}
+
+.background {
+    background-color: black;
+}

@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Button, Form } from 'reactstrap';
 import { getAllProjectSteps } from '../../modules/projectStepManager';
 import ProjectStepCard from './ProjectStepCard';
+import "./projectStep.css"
 
 const ProjectStepForm = () => {
 
@@ -32,8 +33,8 @@ const ProjectStepForm = () => {
             <Form className="container w-75">
 
                 <h3 >Assign workers and Step Status: </h3>
-                <div className="container">
-                    <div className="row m-3 mx-auto justify-content-center">
+                <div className="container ">
+                    <div className="row m-3 mx-auto justify-content-center ">
 
                         {projectStep?.map((projectStep) => (
                             <ProjectStepCard projectStep={projectStep} key={projectStep.id} setEdit={setEdit} edit={edit} />

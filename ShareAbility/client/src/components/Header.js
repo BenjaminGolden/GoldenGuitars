@@ -10,6 +10,7 @@ import {
   NavLink
 } from 'reactstrap';
 import { logout } from '../modules/authManager';
+import './header.css'
 
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,23 +20,22 @@ export default function Header({ isLoggedIn }) {
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand tag={RRNavLink} src="images/GoldenGuitars_Logo.jpg" to="/">Golden Guitars</NavbarBrand>
-        <img></img>
+        
+      <Navbar   className="header" medium expand="md" >
+        <NavbarBrand  className="title" tag={RRNavLink} to="/">Golden Guitars</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
+          <Nav className="header" navbar>
             { /* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn &&
               <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/">Home</NavLink>
+                <NavItem className="mr-6">
+                  <NavLink className="headerFont" tag={RRNavLink} to="/">Home</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/project/add">New Project</NavLink>
+                <NavItem className="ml-6">
+                  <NavLink className="headerFont" tag={RRNavLink} to="/project/add">New Project</NavLink>
                 </NavItem>
-               
-          
+
               </>
             }
           </Nav>
@@ -43,7 +43,7 @@ export default function Header({ isLoggedIn }) {
             {isLoggedIn &&
               <>
                 <NavItem>
-                  <a aria-current="page" className="nav-link"
+                  <a aria-current="page" className="nav-link headerFont"
                     style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
                 </NavItem>
               </>

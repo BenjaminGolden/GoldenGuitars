@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, FormGroup, Input, Button } from "reactstrap";
+import { Card, CardBody, FormGroup, Input, Button, Toast } from "reactstrap";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import { getProjectById, deleteProject } from "../../modules/projectManager";
 import { getAllProjectSteps } from "../../modules/projectStepManager";
 import { getAllProjectNotesbyProjectId, addProjectNote } from "../../modules/projectNotesManager";
 import ProjectStepForm from "../projectStep/ProjectStepForm";
+import "./projectDetails.css"
 
 
 const ProjectDetails = () => {
@@ -90,40 +91,42 @@ const ProjectDetails = () => {
 
     return (
         <>
-            <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
-            <Card className="">
-                <CardBody>
-                    <h2 className="text-center">Details </h2>
+            {/* <Toast > */}
+            <Card className="opacity font">
+                <CardBody className="cardOpacity">
+                    <Button className="btn btn-dark mb-2" onClick={() => history.push(`/`)}>Home</Button>
+                    {/* <h2 className="text-center ">Details </h2> */}
 
-                    <p><b>Name: </b>{projectDetails.name}</p>
-                    <p><b>StartDate: </b>{handleStartDate()}</p>
-                    <p><b>CompletionDate: </b>{handleCompletionDate()}</p>
+                    <p><strong>{projectDetails.name}</strong></p>
+                    <p><b>Start Date: </b>{handleStartDate()}</p>
+                    <p><b>Completion Date: </b>{handleCompletionDate()}</p>
 
-                    <Button className="btn btn-primary m-3" onClick={projectNotesToggle}>
+                    <Button className="btn btn-dark m-3" onClick={projectNotesToggle}>
                         {showProjectNotesForm ? 'Cancel' : 'Add a project Note'}</Button>
 
-                    <Button className="btn btn-primary" onClick={() => history.push(`/projectNotes/${projectDetails.id}`)}>View Project Notes</Button>
+                    <Button className="btn btn-dark" onClick={() => history.push(`/projectNotes/${projectDetails.id}`)}>View Project Notes</Button>
 
                     {/* Add Project Note Toggle     */}
 
                     {showProjectNotesForm &&
                         <>
-                            <FormGroup>
-                                <Input type="textarea" row="4" col="100" name="content" id="content" placeholder="add a note to this project"
+                            <FormGroup >
+                                <Input className="" type="textarea" row="4" col="100" name="content" id="content" placeholder="add a note to this project"
                                     value={newProjectNote.content}
                                     onChange={handleInputChange} />
                             </FormGroup>
 
-                            <Button className="btn btn-primary" onClick={handleSubmit}>Save note</Button>
+                            <Button className="btn btn-dark" onClick={handleSubmit}>Save note</Button>
                         </>
                     }
                     <p>{ProjectStepForm()}</p>
                     <Link to={`/project/edit/${projectDetails.id}`}>
-                        <Button className="btn btn-info m-6">Edit Project</Button>
+                        <Button className="btn btn-dark m-6">Edit Project</Button>
                     </Link>
-                    <Button className="btn btn-danger m-3" onClick={handleDelete}>Delete Project</Button>
+                    <Button className="btn btn-dark m-3" onClick={handleDelete}>Delete Project</Button>
                 </CardBody>
-            </Card >
+            </Card>
+            {/* </Toast > */}
 
         </>
     );

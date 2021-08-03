@@ -43,17 +43,17 @@ const ProjectNoteEditForm = () => {
 
     return (
         <Form>
-            <h2>Edit note</h2>
+            <h2>Edit Note</h2>
            
-            <FormGroup>
-                <Label for="content">Content</Label>
+            <FormGroup className="w-50 mx-auto opacity">
+                
                 <Input type="textarea" name="content" id="content" placeholder="" required
                     value={editProjectNote.content}
                     onChange={handleInputChange} />
+            <Button className="btn btn-dark m-2" onClick={handleSubmit}>Submit</Button>
+            <Button className="btn btn-dark m-2" onClick={() => history.push(`/projectNotes/${editProjectNote.projectId}`)}>Cancel</Button>
             </FormGroup>
 
-            <Button className="btn btn-success" onClick={handleSubmit}>Submit</Button>
-            <Button className="btn btn-danger" onClick={() => history.push(`/projectNotes/${editProjectNote.ProjectId}`)}>Cancel</Button>
         </Form>
     );
 };

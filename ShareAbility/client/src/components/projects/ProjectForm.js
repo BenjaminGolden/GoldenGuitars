@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { addProject } from '../../modules/projectManager';
+import './projectDetails.css'
 
 const ProjectForm = () => {
     const emptyProject = {
@@ -43,11 +44,11 @@ const ProjectForm = () => {
 
     return (
         <>
-            <Form className="container w-75">
-                <h2>New Project</h2>
+            <Form className="container w-75 opacity">
+                <h2 className="font">Create A New Project</h2>
                 <FormGroup>
-                    <Label for="name">Project Name</Label>
-                    <Input type="text" name="name" id="name" placeholder="name"
+                    
+                    <Input type="text" name="name" id="name" placeholder="Project Name"
                         value={newProject.name}
                         onChange={handleInputChange} />
                 </FormGroup>
