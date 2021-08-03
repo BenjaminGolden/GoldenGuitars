@@ -22,24 +22,20 @@ export default function Header({ isLoggedIn }) {
     <div>
         
       <Navbar   className="header" medium expand="md" >
-        <NavbarBrand  tag={RRNavLink} to="/">Golden Guitars</NavbarBrand>
+        <NavbarBrand  className="title" tag={RRNavLink} to="/">Golden Guitars</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="logo" navbar>
+          <Nav className="header" navbar>
             { /* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn &&
               <>
                 <NavItem className="mr-6">
-                  <NavLink tag={RRNavLink} to="/">Home</NavLink>
+                  <NavLink className="headerFont" tag={RRNavLink} to="/">Home</NavLink>
                 </NavItem>
                 <NavItem className="ml-6">
-                  <NavLink tag={RRNavLink} to="/project/add">New Project</NavLink>
+                  <NavLink className="headerFont" tag={RRNavLink} to="/project/add">New Project</NavLink>
                 </NavItem>
-                <NavItem className="ml-6">
-                
-                </NavItem>
-           
-          
+
               </>
             }
           </Nav>
@@ -47,7 +43,7 @@ export default function Header({ isLoggedIn }) {
             {isLoggedIn &&
               <>
                 <NavItem>
-                  <a aria-current="page" className="nav-link"
+                  <a aria-current="page" className="nav-link headerFont"
                     style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
                 </NavItem>
               </>

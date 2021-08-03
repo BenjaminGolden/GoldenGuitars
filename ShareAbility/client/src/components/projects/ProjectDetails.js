@@ -94,12 +94,12 @@ const ProjectDetails = () => {
             {/* <Toast > */}
             <Card className="opacity font">
                 <CardBody className="cardOpacity">
-                    <Button className="btn btn-dark" onClick={() => history.push(`/`)}>Home</Button>
+                    <Button className="btn btn-dark mb-2" onClick={() => history.push(`/`)}>Home</Button>
                     {/* <h2 className="text-center ">Details </h2> */}
 
-                    <p><b>Name: </b>{projectDetails.name}</p>
-                    <p><b>StartDate: </b>{handleStartDate()}</p>
-                    <p><b>CompletionDate: </b>{handleCompletionDate()}</p>
+                    <p><strong>{projectDetails.name}</strong></p>
+                    <p><b>Start Date: </b>{handleStartDate()}</p>
+                    <p><b>Completion Date: </b>{handleCompletionDate()}</p>
 
                     <Button className="btn btn-dark m-3" onClick={projectNotesToggle}>
                         {showProjectNotesForm ? 'Cancel' : 'Add a project Note'}</Button>

@@ -27,9 +27,9 @@ const StepNotesCard = ({ note, getNotes }) => {
                     <p>{note.content}</p>
                 </CardText>
 
-                <Button className="btn btn-danger" onClick={handleDelete}>Delete</Button>
+                <Button className="btn btn-dark m-2" onClick={handleDelete}>Delete</Button>
                 <Link to={`/projectStepNote/edit/${note.id}`}>
-                    <Button className="btn btn-info">Edit Note</Button>
+                    <Button className="btn btn-dark m-2">Edit Note</Button>
                 </Link>
 
             </CardBody>

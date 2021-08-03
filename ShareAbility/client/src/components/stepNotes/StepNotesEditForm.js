@@ -43,18 +43,18 @@ const ProjectStepNoteEditForm = () => {
     }, [])
 
     return (
-        <Form>
+        <Form className="opacity w-75 mx-auto">
             <h2>Edit note</h2>
            
             <FormGroup>
-                <Label for="content">Content</Label>
-                <Input type="text" name="content" id="content" placeholder="" required
+       
+                <Input type="textarea" name="content" id="content" placeholder="" required
                     value={editProjectStepNote.content}
                     onChange={handleInputChange} />
             </FormGroup>
 
-            <Button className="btn btn-success" onClick={handleSubmit}>Submit</Button>
-            <Button className="btn btn-danger" onClick={() => history.push(`/projectNotes/${editProjectStepNote.ProjectId}`)}>Cancel</Button>
+            <Button className="btn btn-dark m-2" onClick={handleSubmit}>Submit</Button>
+            <Button className="btn btn-dark m-2" onClick={() => history.push(`/projectStepNotes/${editProjectStepNote.stepId}`)}>Cancel</Button>
         </Form>
     );
 };

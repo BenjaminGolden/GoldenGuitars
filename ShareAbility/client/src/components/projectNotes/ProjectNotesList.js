@@ -37,11 +37,11 @@ const ProjectNotesList = () => {
 
     return (
         <>
-          <Button className="btn btn-primary" onClick={() => history.push(`/project/details/${project.id}`)}>back</Button>
-        <div className="container m-2">
+          <Button className="btn btn-dark" onClick={() => history.push(`/project/details/${project.id}`)}>back</Button>
+        <div className="container opacity">
             <div className="row justify-content-center">
-                <Card >
-                    <CardBody>
+                <Card className="w-55 ">
+                    <CardBody >
                     <strong>{project.name}</strong>
                     </CardBody>
                 </Card>

@@ -28,14 +28,14 @@ const StepNotesList = () => {
 
     return (
         <>
-            <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Home</Button>
+            <Button className="btn btn-dark opacity" onClick={() => history.push(`/`)}>Home</Button>
 
-            <div className="container ">  Project name:  {notes[0]?.project?.name}
+            <div className="container opacity"> 
 
                 <div className="row justify-content-center">
                     <Card >
                         <CardBody>
-                            <strong>Project Step: {notes[0]?.steps?.name}</strong>
+                            <strong>{notes[0]?.project?.name}: {notes[0]?.steps?.name}</strong>
                         </CardBody>
                     </Card>
                 </div>

@@ -36,7 +36,7 @@ const Home = () => {
     
             <CardBody className="font">
                 <Link to={`/project/add`}>
-                <p>New Project: </p>
+                <p>Create a New Project </p>
                 </Link>
             </CardBody>
             

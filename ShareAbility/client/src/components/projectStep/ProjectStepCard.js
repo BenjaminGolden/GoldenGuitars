@@ -88,7 +88,7 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
 
                 {/* Select a Worker */}
 
-                <select defaultValue={projectStep.userProfileId} name="userProfileId" id="userProfileId" onChange={handleInputChange} className='font2'>
+                <select defaultValue={projectStep.userProfileId} name="userProfileId" id="userProfileId" onChange={handleInputChange} className='font2 m-1'>
                     <option  value="0">Select a Worker</option>
                     {users.map(u => (
                         projectStep.userProfileId == parseInt(u.id) ? <option id="userProfileId" selected key={u.id} value={u.id} >{u.name}</option> : <option id="userProfileId" key={u.id} value={u.id}>{u.name}</option>
@@ -97,7 +97,7 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
 
                 {/* Select a Status */}
 
-                <select defaultValue={projectStep.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='font2'>
+                <select defaultValue={projectStep.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='font2 m-1'>
                     <option value="0">Select a Status</option>
                     {status.map(s => (
                         projectStep.statusId == parseInt(s.id) ?

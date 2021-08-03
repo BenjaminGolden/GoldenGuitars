@@ -19,3 +19,12 @@
   font-size: .5rem;
 
 }
+
+.headerFont {
+  font-weight: 500;
+}
+
+.title {
+  text-align: right;
+  color: black;
+}
