@@ -10,6 +10,7 @@ import {
   NavLink
 } from 'reactstrap';
 import { logout } from '../modules/authManager';
+import './header.css'
 
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,22 +20,25 @@ export default function Header({ isLoggedIn }) {
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand tag={RRNavLink} src="images/GoldenGuitars_Logo.jpg" to="/">Golden Guitars</NavbarBrand>
-        <img></img>
+        
+      <Navbar   className="header" medium expand="md" >
+        <NavbarBrand  tag={RRNavLink} to="/">Golden Guitars</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
+          <Nav className="logo" navbar>
             { /* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn &&
               <>
-                <NavItem>
+                <NavItem className="mr-6">
                   <NavLink tag={RRNavLink} to="/">Home</NavLink>
                 </NavItem>
-                <NavItem>
+                <NavItem className="ml-6">
                   <NavLink tag={RRNavLink} to="/project/add">New Project</NavLink>
                 </NavItem>
-               
+                <NavItem className="ml-6">
+                
+                </NavItem>
+           
           
               </>
             }

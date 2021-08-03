@@ -6,7 +6,7 @@ import { getStepById } from "../../modules/stepsManager";
 import { updateProjectStep } from '../../modules/projectStepManager';
 import { addStepNote, getAllNotesByStepId } from "../../modules/stepNotesManager";
 import { useHistory } from 'react-router-dom';
-
+import './projectStep.css'
 
 const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
 
@@ -82,22 +82,22 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
     }, []);
 
     return (
-        <Card className="m-2 p-2 w-50 mx-auto">
-            <CardBody className="m-3">
+        <Card className=" w-50 m-2 mx-auto border-dark">
+            <CardBody className="">
                 <p>{singleStep.name}</p>
 
                 {/* Select a Worker */}
 
-                <select defaultValue={projectStep.userProfileId} name="userProfileId" id="userProfileId" onChange={handleInputChange} className='form-control'>
-                    <option value="0">Select a Worker</option>
+                <select defaultValue={projectStep.userProfileId} name="userProfileId" id="userProfileId" onChange={handleInputChange} className='font2'>
+                    <option  value="0">Select a Worker</option>
                     {users.map(u => (
-                        projectStep.userProfileId == parseInt(u.id) ? <option id="userProfileId" selected key={u.id} value={u.id}>{u.name}</option> : <option id="userProfileId" key={u.id} value={u.id}>{u.name}</option>
+                        projectStep.userProfileId == parseInt(u.id) ? <option id="userProfileId" selected key={u.id} value={u.id} >{u.name}</option> : <option id="userProfileId" key={u.id} value={u.id}>{u.name}</option>
                     ))}
                 </select>
 
                 {/* Select a Status */}
 
-                <select defaultValue={projectStep.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='form-control'>
+                <select defaultValue={projectStep.statusId} name="statusId" id="statusId" onChange={handleInputChange} className='font2'>
                     <option value="0">Select a Status</option>
                     {status.map(s => (
                         projectStep.statusId == parseInt(s.id) ?
@@ -105,18 +105,18 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
                     ))}
                 </select>
                         {/* View Step Notes */}
-                <Button className="btn btn-primary m-1" onClick={() => history.push(`/projectStepNotes/${projectStep.id}`)}>View Step Notes</Button>
-                <Button className="btn btn-primary" onClick={stepNotesToggle}>Add a note</Button>
+                <Button className="btn btn-dark m-1" onClick={() => history.push(`/projectStepNotes/${projectStep.id}`)}>View Step Notes</Button>
+                <Button className="btn btn-dark" onClick={stepNotesToggle}>Add a note</Button>
 
                 {showStepNotesForm &&
                            <>
-                           <FormGroup>
+                           <FormGroup className="font2">
                                <Input type="textarea" row="4" col="100" name="content" id="content" placeholder="add a note to this project step"
                                    value={newStepNote.content}
                                    onChange={handleStepNoteInputChange} />
                            </FormGroup>
 
-                           <Button className="btn btn-primary" onClick={handleSubmit}>Save note</Button>
+                           <Button className="btn btn-dark" onClick={handleSubmit}>Save note</Button>
                        </>
                 }
 
