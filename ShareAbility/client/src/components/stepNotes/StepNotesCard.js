@@ -7,13 +7,14 @@ import { deleteStepNote } from '../../modules/stepNotesManager';
 import { Link } from "react-router-dom";
 
 
-const StepNotesCard = ({ note, getNotes }) => {
+const StepNotesCard = ({ note, getNotes, user }) => {
 
     const handleDelete = () => {
         if (window.confirm("Do you really want to delete this comment?")) {
             deleteStepNote(note.id).then(() => getNotes());
         }
     };
+
 
     return (
         <Card className="m-2 w-50">
@@ -27,11 +28,14 @@ const StepNotesCard = ({ note, getNotes }) => {
                     <p>{note.content}</p>
                 </CardText>
 
-                <Button className="btn btn-dark m-2" onClick={handleDelete}>Delete</Button>
-                <Link to={`/projectStepNote/edit/${note.id}`}>
-                    <Button className="btn btn-dark m-2">Edit Note</Button>
-                </Link>
-
+                {user.id === note.userProfileId &&
+                    <>
+                        <Button className="btn btn-dark m-2" onClick={handleDelete}>Delete</Button>
+                        <Link to={`/projectStepNote/edit/${note.id}`}>
+                            <Button className="btn btn-dark m-2">Edit Note</Button>
+                        </Link>
+                    </>
+                }
             </CardBody>
         </Card>
     );

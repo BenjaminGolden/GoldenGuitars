@@ -6,7 +6,7 @@ import StepNotesCard from './StepNotesCard';
 import { getAllStepNotes } from "../../modules/stepNotesManager";
 import { getProjectById } from "../../modules/projectManager";
 
-const StepNotesList = () => {
+const StepNotesList = ({user}) => {
 
     const [notes, setNotes] = useState([]);
     const { id } = useParams();
@@ -41,7 +41,7 @@ const StepNotesList = () => {
                 </div>
                 <div className="row justify-content-center">
                     {notes.map((note) =>
-                        <StepNotesCard note={note} key={note.id} getNotes={getStepNotes} />
+                        <StepNotesCard note={note} key={note.id} user={user} getNotes={getStepNotes} />
                     )}
                 </div>
             </div>

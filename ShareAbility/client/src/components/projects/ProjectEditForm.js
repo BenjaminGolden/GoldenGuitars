@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { getProjectById, updateProject } from '../../modules/projectManager';
 import { momentStartDateFixer, momentCompletionDateFixer } from '../../modules/helper';
+import "./projectDetails.css"
 
 const ProjectEditForm = () => {
 
@@ -11,8 +12,12 @@ const ProjectEditForm = () => {
     const history = useHistory();
 
     const getProject = () => {
-        getProjectById(id)
-        .then(project => setEditProject(project));
+        return getProjectById(id)
+        .then(project => {
+            let editedProject = project
+            editedProject.startDate = momentStartDateFixer(project)
+            editedProject.completionDate = momentCompletionDateFixer(project)
+            setEditProject(editedProject)});
     }
 
     console.log(editProject);
@@ -35,6 +40,7 @@ const ProjectEditForm = () => {
         };
         updateProject(editedProject)
         .then((res) => {
+            console.log(res, "response")
             history.push(`/project/details/${id}`)
         })
     }
@@ -46,6 +52,7 @@ const handleDate = (event) => {
     let editDate = event.target.value
     editedProject[event.target.id] = editDate
     setEditProject(editedProject)
+    console.log("edited project", editedProject)
 }
 
     useEffect(() => {
@@ -53,32 +60,32 @@ const handleDate = (event) => {
     }, [])
 
     return (
-        <Form>
+        <Form className="opacity w-50 mx-auto">
             <h2>Edit Project</h2>
            
             <FormGroup>
-                <Label for="name">Name</Label>
+                <Label for="name"><strong>Name </strong></Label>
                 <Input type="text" name="name" id="name" placeholder="" required
                     value={editProject.name}
                     onChange={handleInputChange} />
             </FormGroup>
 
-            <FormGroup>
-                <Label for="startDate">Start Date</Label>
+            <FormGroup >
+                <Label  for="startDate"><strong>Start Date </strong></Label>
                 <Input type="date" name="startDate" id="startDate" placeholder="start date" 
                     
                      defaultValue={momentStartDateFixer(editProject)} format="YYYY-MM-DD" value={editProject.startDate} onChange={handleDate}/>
             </FormGroup>
 
             <FormGroup>
-                <Label for="completionDate">Completion Date</Label>
+                <Label for="completionDate"><strong>Completion Date </strong></Label>
                 <Input type="date" name="completionDate" id="completionDate" placeholder="completion date" 
                     
                      defaultValue={momentCompletionDateFixer(editProject)} format="YYYY-MM-DD" value={editProject.completionDate} onChange={handleDate}/>
             </FormGroup>
 
-            <Button className="btn btn-success" onClick={handleSubmit}>Submit</Button>
-            <Button className="btn btn-danger" onClick={() => history.push(`/project/details/${editProject.id}`)}>Cancel</Button>
+            <Button className="btn btn-dark" onClick={handleSubmit}>Submit</Button>
+            <Button className="btn btn-dark m-3" onClick={() => history.push(`/project/details/${editProject.id}`)}>Cancel</Button>
         </Form>
     );
 };

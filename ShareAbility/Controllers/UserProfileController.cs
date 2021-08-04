@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace GoldenGuitars.Controllers
@@ -66,16 +67,22 @@ namespace GoldenGuitars.Controllers
                 nameof(GetByFirebaseUserId), new { FirebaseId = userProfile.FirebaseId }, userProfile);
         }
 
-        //[HttpGet("GetByIdWithComments/{id}")]
-        //public IActionResult GetByIdWithComments(int id)
-        //{
-        //    var video = _userProfileRepository.GetByIdWithComments(id);
-        //    if (video == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(video);
-        //}
+        [HttpGet("getCurrentUser")]
+        public IActionResult GetUser()
+        {
+            var currentUser = GetCurrentUserProfile();
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+            return Ok(currentUser);
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
 
         //[HttpPost]
         //public IActionResult Post(UserProfile user)
