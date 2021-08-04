@@ -8,7 +8,7 @@ import { getProjectById } from "../../modules/projectManager";
 
 
 
-const ProjectNotesList = () => {
+const ProjectNotesList = ({user}) => {
 
     const [notes, setNotes] = useState([]);
     const [project, setProject] = useState({});
@@ -48,7 +48,7 @@ const ProjectNotesList = () => {
             </div>
             <div className="row justify-content-center">
                 {notes.map((note) =>
-                    <ProjectNotesCard note={note} key={note.id}  getNotes={getNotesByProjectId}/>
+                    <ProjectNotesCard note={note} key={note.id} user={user} getNotes={getNotesByProjectId}/>
                 )}
             </div>
         </div>

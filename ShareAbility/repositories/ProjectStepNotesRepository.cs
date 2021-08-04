@@ -21,7 +21,7 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, 
-                        up.name, 
+                        up.name as Username, up.Id as UserId, up.email as UserEmail, 
                         p.name as Project, p.id as ProjectId, 
                         s.name as StepName 
                         FROM ProjectStepNotes psn               
@@ -45,8 +45,11 @@ namespace GoldenGuitars.repositories
                             StepId = DbUtils.GetInt(reader, "StepId"),
                            UserProfile = new UserProfile()
                            {
-                            Name = DbUtils.GetString(reader, "Name")
-                           },
+                               Id = DbUtils.GetInt(reader, "UserId"),
+                               Name = DbUtils.GetString(reader, "userName"),
+                               Email = DbUtils.GetString(reader, "userEmail")
+                           
+                        },
                            Project = new Project()
                            {
                                Id = DbUtils.GetInt(reader, "ProjectId"),
@@ -110,7 +113,7 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, 
-                        up.name, 
+                        up.name as UserName, up.Id as UserId, up.Email as UserEmail, 
                         p.name as Project, p.id as ProjectId   
                         FROM ProjectStepNotes psn               
                         Left Join ProjectStep ps on psn.stepid = ps.Id
@@ -134,7 +137,9 @@ namespace GoldenGuitars.repositories
                             StepId = DbUtils.GetInt(reader, "StepId"),
                             UserProfile = new UserProfile()
                             {
-                                Name = DbUtils.GetString(reader, "Name")
+                                Id = DbUtils.GetInt(reader, "UserId"),
+                                Name = DbUtils.GetString(reader, "userName"),
+                                Email = DbUtils.GetString(reader, "userEmail")
                             },
                             Project = new Project()
                             {

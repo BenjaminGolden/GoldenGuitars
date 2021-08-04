@@ -7,7 +7,7 @@ import { deleteProjectNote} from '../../modules/projectNotesManager';
 import { Link } from "react-router-dom";
 
 
-const ProjectNotesCard = ({ note, getNotes }) => {
+const ProjectNotesCard = ({ note, getNotes, user }) => {
 
   
 
@@ -35,11 +35,15 @@ const ProjectNotesCard = ({ note, getNotes }) => {
                 <CardText>
                     <p>{note.content}</p>
                 </CardText>
-
+                {user.id === note.userProfileId &&
+            <>
+                
                 <Button className="btn btn-dark m-2" onClick={handleDelete}>Delete Note</Button>
                 <Link to={`/projectNote/edit/${note.id}`}>
                     <Button className="btn btn-dark m-2">Edit Note</Button>
                 </Link>
+            </>
+                }
 
             </CardBody>
         </Card>

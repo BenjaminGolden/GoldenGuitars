@@ -16,13 +16,16 @@ export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-
+// const logo = () => {
+//  const image = url("../components/images/GGOutline.png")
+//  return image;
+// }
 
   return (
     <div>
         
       <Navbar   className="header" medium expand="md" >
-        <NavbarBrand  className="title" tag={RRNavLink} to="/">Golden Guitars</NavbarBrand>
+        <NavbarBrand  className="title">{}</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="header" navbar>
