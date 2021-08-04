@@ -7,16 +7,19 @@ import { deleteProjectNote} from '../../modules/projectNotesManager';
 import { Link } from "react-router-dom";
 
 
+
 const ProjectNotesCard = ({ note, getNotes, user }) => {
 
-  
+    const handleDate = () => {
+        let date = new Date(note.date).toDateString();
+        return date;
+    };
+
 
     const handleDelete = () => {
-        if (window.confirm("Do you really want to delete this comment?")) {
+        if (window.confirm("Do you really want to delete this note?")) {
             deleteProjectNote(note.id).then(() => getNotes());
-
         }
-
     };
     
     useEffect(() =>{
@@ -29,11 +32,11 @@ const ProjectNotesCard = ({ note, getNotes, user }) => {
             <CardBody>
                 <CardTitle>
                     <strong>{note.userProfile.name} </strong>
-                    <hr />
+                   
                 </CardTitle>
                 
                 <CardText>
-                    <p>{note.content}</p>
+                <p> <strong>{handleDate()}</strong>: {note.content}</p>
                 </CardText>
                 {user.id === note.userProfileId &&
             <>

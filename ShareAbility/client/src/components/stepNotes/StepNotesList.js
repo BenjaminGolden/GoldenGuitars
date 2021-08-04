@@ -20,7 +20,7 @@ const StepNotesList = ({user}) => {
             );
 
     }
-
+console.log(notes)
     useEffect(() => {
         getStepNotes();
 
@@ -28,7 +28,7 @@ const StepNotesList = ({user}) => {
 
     return (
         <>
-            <Button className="btn btn-dark opacity" onClick={() => history.push(`/`)}>Home</Button>
+            <Button className="btn btn-dark opacity" onClick={() => history.push(`/project/details/${notes[0].project.id}`)}>Back</Button>
 
             <div className="container opacity"> 
 

@@ -11,3 +11,9 @@ export const momentCompletionDateFixer = (object) => {
     const cutDate = moment(date).format("YYYY-MM-DD")
     return cutDate
 };
+
+export const momentDateFixer = (object) => {
+    const date = new Date(object.date);
+    const cutDate = moment(date).format("YYYY-MM-DD")
+    return cutDate
+};

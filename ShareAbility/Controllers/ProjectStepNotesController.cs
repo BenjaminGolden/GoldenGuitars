@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace GoldenGuitars.Controllers
 {
@@ -45,6 +46,7 @@ namespace GoldenGuitars.Controllers
         {
             var userProfile = GetCurrentUserProfile();
             projectStepNote.UserProfileId = userProfile.Id;
+            projectStepNote.Date = DateTime.Now;
             _projectStepNotesRepository.Add(projectStepNote);
             return CreatedAtAction(nameof(Get), new { id = projectStepNote.Id }, projectStepNote);
         }
@@ -66,6 +68,7 @@ namespace GoldenGuitars.Controllers
                 return BadRequest();
             }
 
+            projectStepNote.Date = DateTime.Now;
             _projectStepNotesRepository.Update(projectStepNote);
             return NoContent();
         }

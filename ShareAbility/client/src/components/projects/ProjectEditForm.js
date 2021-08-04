@@ -16,7 +16,10 @@ const ProjectEditForm = () => {
         .then(project => {
             let editedProject = project
             editedProject.startDate = momentStartDateFixer(project)
-            editedProject.completionDate = momentCompletionDateFixer(project)
+            if (editedProject.completionDate !== null)
+            {
+                editedProject.completionDate = momentCompletionDateFixer(project)
+            }
             setEditProject(editedProject)});
     }
 

@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url(../src/components/images/GG.jpg);
+  background-image: url(../src/backgroundImage/GG.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

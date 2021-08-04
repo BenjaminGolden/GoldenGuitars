@@ -8,6 +8,7 @@ import { getProjectById } from "../../modules/projectManager";
 
 
 
+
 const ProjectNotesList = ({user}) => {
 
     const [notes, setNotes] = useState([]);
@@ -18,9 +19,8 @@ const ProjectNotesList = ({user}) => {
     const getNotesByProjectId = () => {
       
        getAllProjectNotesbyProjectId(id)
-        .then((response) =>
-        setNotes(response)
-        )
+        .then((response) => 
+            setNotes(response))
     };
 
     const getProject = () => {
@@ -37,10 +37,10 @@ const ProjectNotesList = ({user}) => {
 
     return (
         <>
-          <Button className="btn btn-dark" onClick={() => history.push(`/project/details/${project.id}`)}>back</Button>
+          <Button className="btn btn-dark m-1" onClick={() => history.push(`/project/details/${project.id}`)}>back</Button>
         <div className="container opacity">
             <div className="row justify-content-center">
-                <Card className="w-55 ">
+                <Card className="w-55 m-1">
                     <CardBody >
                     <strong>{project.name}</strong>
                     </CardBody>

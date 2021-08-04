@@ -20,7 +20,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, pn.isDeleted, up.name as userName, up.Id as UserId, up.email as UserEmail  FROM ProjectNotes pn
+                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, pn.isDeleted, pn.Date,
+                      up.name as userName, up.Id as UserId, up.email as UserEmail  
+                        FROM ProjectNotes pn
                         Left Join userProfile up on pn.userProfileId = up.id
                         
                        WHERE pn.projectId = @Id AND pn.isDeleted = 0";
@@ -37,6 +39,7 @@ namespace GoldenGuitars.repositories
                             Content = DbUtils.GetString(reader, "content"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            Date = DbUtils.GetDateTime(reader, "Date"),
                             UserProfile = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),
@@ -98,7 +101,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, pn.isDeleted, up.name as userName, up.id as UserId, up.email as UserEmail FROM ProjectNotes pn
+                    cmd.CommandText = @"SELECT pn.id, pn.content, pn.projectId, pn.userProfileId, pn.isDeleted, pn.Date, 
+                      up.name as userName, up.id as UserId, up.email as UserEmail 
+                        FROM ProjectNotes pn
                         Left Join userProfile up on pn.userProfileId = up.id
                     WHERE pn.id = @id AND pn.isDeleted = 0";
 
@@ -115,6 +120,7 @@ namespace GoldenGuitars.repositories
                             Content = DbUtils.GetString(reader, "content"),
                             ProjectId = DbUtils.GetInt(reader, "ProjectId"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            Date = DbUtils.GetDateTime(reader, "Date"),
                             UserProfile = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),
@@ -138,13 +144,14 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO ProjectNotes (Content, ProjectId, UserProfileId)
+                        INSERT INTO ProjectNotes (Content, ProjectId, UserProfileId, Date)
                         OUTPUT INSERTED.ID
-                        VALUES (@Content, @ProjectId, @userProfileId)";
+                        VALUES (@Content, @ProjectId, @userProfileId, @Date)";
 
                     DbUtils.AddParameter(cmd, "@Content", projectNote.Content);
                     DbUtils.AddParameter(cmd, "@projectId", projectNote.ProjectId);
                     DbUtils.AddParameter(cmd, "@userProfileId", projectNote.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@date", projectNote.Date);
 
 
                     projectNote.Id = (int)cmd.ExecuteScalar();
@@ -161,10 +168,12 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE ProjectNotes
-                               SET Content = @Content
+                               SET Content = @Content,
+                                   Date = @Date
                              WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Content", projectNote.Content);
+                    DbUtils.AddParameter(cmd, "@date", projectNote.Date);
                     DbUtils.AddParameter(cmd, "@Id", projectNote.Id);
 
                     cmd.ExecuteNonQuery();
