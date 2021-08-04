@@ -43,6 +43,7 @@ CREATE TABLE [projectStepNotes] (
   [content] nvarchar(max) NOT NULL,
   [userProfileId] int NOT NULL,
   [stepId] int NOT NULL,
+  [date] dateTime NOT NULL,
   [isDeleted] BIT DEFAULT (0) NOT NULL
 
 )
@@ -53,6 +54,7 @@ CREATE TABLE [projectNotes] (
   [content] nvarchar(max) NOT NULL,
   [projectId] int NOT NULL,
   [userProfileId] int NOT NULL,
+  [date] dateTime NOT NULL,
   [isDeleted] BIT DEFAULT (0) NOT NULL
 )
 GO

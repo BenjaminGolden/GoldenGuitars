@@ -20,10 +20,10 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, 
+                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, psn.date,
                         up.name as Username, up.Id as UserId, up.email as UserEmail, 
-                        p.name as Project, p.id as ProjectId, 
-                        s.name as StepName 
+                        p.name as Project, p.id as ProjectId, p.startDate, p.completionDate,
+                        s.name as StepName, s.id as StepsId 
                         FROM ProjectStepNotes psn               
                         Left Join ProjectStep ps on psn.stepid = ps.id
                         Left join UserProfile up on psn.userProfileId = up.id
@@ -43,6 +43,7 @@ namespace GoldenGuitars.repositories
                             Content = DbUtils.GetString(reader, "content"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             StepId = DbUtils.GetInt(reader, "StepId"),
+                            Date = DbUtils.GetDateTime(reader, "Date"),
                            UserProfile = new UserProfile()
                            {
                                Id = DbUtils.GetInt(reader, "UserId"),
@@ -53,10 +54,13 @@ namespace GoldenGuitars.repositories
                            Project = new Project()
                            {
                                Id = DbUtils.GetInt(reader, "ProjectId"),
-                               Name = DbUtils.GetString(reader, "project")
+                               Name = DbUtils.GetString(reader, "project"),
+                               StartDate = DbUtils.GetDateTime(reader, "startDate"),
+                               CompletionDate = DbUtils.GetDateTime(reader, "completionDate")
                            },
                            Steps = new Steps()
                            {
+                               Id = DbUtils.GetInt(reader, "StepsId"),
                                Name = DbUtils.GetString(reader, "StepName")
                            }
                         });
@@ -112,9 +116,9 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, 
+                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, psn.date 
                         up.name as UserName, up.Id as UserId, up.Email as UserEmail, 
-                        p.name as Project, p.id as ProjectId   
+                        p.name as Project, p.id as ProjectId, p.startDate, p.completionDate   
                         FROM ProjectStepNotes psn               
                         Left Join ProjectStep ps on psn.stepid = ps.Id
                         Left join UserProfile up on psn.userProfileId = up.id
@@ -135,6 +139,7 @@ namespace GoldenGuitars.repositories
                             Content = DbUtils.GetString(reader, "content"),
                             UserProfileId = DbUtils.GetInt(reader, "userProfileId"),
                             StepId = DbUtils.GetInt(reader, "StepId"),
+                            Date = DbUtils.GetDateTime(reader, "Date"),
                             UserProfile = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),
@@ -144,7 +149,9 @@ namespace GoldenGuitars.repositories
                             Project = new Project()
                             {
                                 Id = DbUtils.GetInt(reader, "ProjectId"),
-                                Name = DbUtils.GetString(reader, "Project")
+                                Name = DbUtils.GetString(reader, "Project"),
+                                StartDate = DbUtils.GetDateTime(reader, "startDate"),
+                                CompletionDate = DbUtils.GetDateTime(reader, "completionDate")
                             }
 
                         };
@@ -156,7 +163,7 @@ namespace GoldenGuitars.repositories
             }
         }
 
-        public void Add(ProjectStepNotes ProjectStepNotes)
+        public void Add(ProjectStepNotes projectStepNote)
         {
             using (var conn = Connection)
             {
@@ -164,17 +171,17 @@ namespace GoldenGuitars.repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO ProjectStepNotes (Content, UserProfileId, stepId)
+                    INSERT INTO ProjectStepNotes (Content, UserProfileId, stepId, Date)
                     OUTPUT INSERTED.ID
-                    VALUES (@Content, @userProfileId, @stepId)";
+                    VALUES (@Content, @userProfileId, @stepId, @Date)";
 
-                    DbUtils.AddParameter(cmd, "@Content", ProjectStepNotes.Content);
-                    DbUtils.AddParameter(cmd, "@stepId", ProjectStepNotes.StepId);
-                    DbUtils.AddParameter(cmd, "@userProfileId", ProjectStepNotes.UserProfileId);
-                    
+                    DbUtils.AddParameter(cmd, "@Content", projectStepNote.Content);
+                    DbUtils.AddParameter(cmd, "@stepId", projectStepNote.StepId);
+                    DbUtils.AddParameter(cmd, "@userProfileId", projectStepNote.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@Date", projectStepNote.Date);
 
 
-                    ProjectStepNotes.Id = (int)cmd.ExecuteScalar();
+                    projectStepNote.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
@@ -189,9 +196,11 @@ namespace GoldenGuitars.repositories
                     cmd.CommandText = @"
                             UPDATE ProjectStepNotes
                                SET Content = @Content
+                                   Date = @Date
                              WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Content", projectStepNote.Content);
+                    DbUtils.AddParameter(cmd, "@Date", projectStepNote.Date);
                     DbUtils.AddParameter(cmd, "@Id", projectStepNote.Id);
                     cmd.ExecuteNonQuery();
                 }

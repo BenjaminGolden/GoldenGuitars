@@ -11,6 +11,8 @@ namespace GoldenGuitars.models
         public string Content { get; set; }
         public int ProjectId { get; set; }
         public int UserProfileId { get; set; }
+
+        public DateTime Date { get; set; }
         public UserProfile UserProfile { get; set; }
 
     }

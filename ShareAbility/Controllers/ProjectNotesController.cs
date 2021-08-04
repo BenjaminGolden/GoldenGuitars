@@ -3,6 +3,7 @@ using GoldenGuitars.repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 
 namespace GoldenGuitars.Controllers
@@ -45,6 +46,7 @@ namespace GoldenGuitars.Controllers
         {
             var userProfile = GetCurrentUserProfile();
             project.UserProfileId = userProfile.Id;
+            project.Date = DateTime.Now;
             _projectNotesRepository.Add(project);
             return CreatedAtAction("get", new { id = project.Id }, project);
         }
