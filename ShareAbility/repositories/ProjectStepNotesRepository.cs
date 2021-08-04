@@ -116,7 +116,7 @@ namespace GoldenGuitars.repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, psn.date 
+                    cmd.CommandText = @"SELECT psn.id, psn.content, psn.userProfileId, psn.stepId, psn.isDeleted, psn.date, 
                         up.name as UserName, up.Id as UserId, up.Email as UserEmail, 
                         p.name as Project, p.id as ProjectId, p.startDate, p.completionDate   
                         FROM ProjectStepNotes psn               
@@ -195,7 +195,7 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE ProjectStepNotes
-                               SET Content = @Content
+                               SET Content = @Content,
                                    Date = @Date
                              WHERE Id = @Id";
 

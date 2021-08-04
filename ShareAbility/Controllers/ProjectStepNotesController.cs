@@ -68,6 +68,7 @@ namespace GoldenGuitars.Controllers
                 return BadRequest();
             }
 
+            projectStepNote.Date = DateTime.Now;
             _projectStepNotesRepository.Update(projectStepNote);
             return NoContent();
         }

@@ -16,16 +16,21 @@ const StepNotesCard = ({ note, getNotes, user }) => {
     };
 
 
+    const handleDate = () => {
+        let date = new Date(note.date).toDateString();
+        return date;
+    };
+
     return (
         <Card className="m-2 w-50">
             <CardBody>
                 <CardTitle>
                     <strong>{note.userProfile?.name} </strong>
-                    <hr />
+                    
                 </CardTitle>
 
                 <CardText>
-                    <p>{note.content}</p>
+                    <p><strong>{handleDate()}: </strong>{note.content}</p>
                 </CardText>
 
                 {user.id === note.userProfileId &&

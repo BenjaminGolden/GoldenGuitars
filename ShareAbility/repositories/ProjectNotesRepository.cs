@@ -168,7 +168,7 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                             UPDATE ProjectNotes
-                               SET Content = @Content
+                               SET Content = @Content,
                                    Date = @Date
                              WHERE Id = @Id";
 

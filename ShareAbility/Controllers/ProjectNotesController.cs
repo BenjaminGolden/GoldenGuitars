@@ -40,7 +40,7 @@ namespace GoldenGuitars.Controllers
             return Ok(project);
         }
 
-        //Add a project
+        //Add a project note
         [HttpPost]
         public IActionResult Post(ProjectNotes project)
         {
@@ -51,7 +51,7 @@ namespace GoldenGuitars.Controllers
             return CreatedAtAction("get", new { id = project.Id }, project);
         }
 
-        //Delete a project
+        //Delete a project note
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -59,7 +59,7 @@ namespace GoldenGuitars.Controllers
             return NoContent();
         }
 
-        //Update a project
+        //Update a project note
         [HttpPut("{id}")]
         public IActionResult Put(int id, ProjectNotes projectNote)
         {
@@ -67,7 +67,7 @@ namespace GoldenGuitars.Controllers
             {
                 return BadRequest();
             }
-   
+            projectNote.Date = DateTime.Now;
             _projectNotesRepository.Update(projectNote);
             return NoContent();
         }

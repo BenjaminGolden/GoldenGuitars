@@ -7,11 +7,18 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Container
 } from 'reactstrap';
 import { logout } from '../modules/authManager';
 import './header.css'
+import { Image } from 'cloudinary-react';
 
+
+const imgStyle = {
+  maxHeight: 90,
+  maxWidth: 80,
+}
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -25,7 +32,7 @@ export default function Header({ isLoggedIn }) {
     <div>
         
       <Navbar   className="header" medium expand="md" >
-        <NavbarBrand  className="title">{}</NavbarBrand>
+        <NavbarBrand  ><Image style={imgStyle} cloudName="djzvagvn5" publicId="https://res.cloudinary.com/djzvagvn5/image/upload/v1628107133/Golden_Guitars_Logo_ms1fir.jpg" /></NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="header" navbar>
