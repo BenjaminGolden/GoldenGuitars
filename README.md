@@ -6,5 +6,5 @@ clone git@github.com:BenjaminGolden/GoldenGuitars.git
 
 Run the SQL createDB script in a new query in Visual Studio.
 Run NPM Install in your terminal. 
-start the database in Visual Studio
-NPM Start in the terminal
+start the database in Visual Studio and then run 
+NPM Start in the terminal.
