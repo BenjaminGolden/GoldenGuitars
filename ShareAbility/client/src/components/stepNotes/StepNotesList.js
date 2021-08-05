@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, Button } from "reactstrap";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import StepNotesCard from './StepNotesCard';
 import { getAllStepNotes } from "../../modules/stepNotesManager";
-import { getProjectById } from "../../modules/projectManager";
 
 const StepNotesList = ({user}) => {
 

@@ -1,6 +1,5 @@
 import { Button } from 'reactstrap';
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
+import React, { useEffect } from 'react';
 import { Card, CardTitle, CardBody } from 'reactstrap';
 import CardText from 'reactstrap/lib/CardText';
 import { deleteProjectNote} from '../../modules/projectNotesManager';

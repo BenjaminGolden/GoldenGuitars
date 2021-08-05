@@ -1,11 +1,11 @@
 import React from "react";
-import { Card, CardBody, FormGroup, Input, Button, Toast } from "reactstrap";
+import { Card, CardBody, FormGroup, Input, Button } from "reactstrap";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { getProjectById, deleteProject } from "../../modules/projectManager";
 import { getAllProjectSteps } from "../../modules/projectStepManager";
-import { getAllProjectNotesbyProjectId, addProjectNote } from "../../modules/projectNotesManager";
+import { addProjectNote } from "../../modules/projectNotesManager";
 import ProjectStepForm from "../projectStep/ProjectStepForm";
 import "./projectDetails.css"
 
@@ -84,6 +84,7 @@ const ProjectDetails = () => {
 
     }
 
+
     useEffect(() => {
         getProjectDetails();
         getProjectSteps();
@@ -121,7 +122,7 @@ const ProjectDetails = () => {
                     }
                     <p>{ProjectStepForm()}</p>
                     <Link to={`/project/edit/${projectDetails.id}`}>
-                        <Button className="btn btn-dark m-6">Edit Project</Button>
+                        <Button className="btn btn-dark m-3">Edit Project</Button>
                     </Link>
                     <Button className="btn btn-dark m-3" onClick={handleDelete}>Delete Project</Button>
                 </CardBody>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody, Toast } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { Link } from 'react-router-dom';
 import { getAllProjects } from "../modules/projectManager";
 import { useHistory } from "react-router";
