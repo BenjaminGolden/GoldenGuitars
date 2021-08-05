@@ -7,8 +7,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  Container
+  NavLink
 } from 'reactstrap';
 import { logout } from '../modules/authManager';
 import './header.css'

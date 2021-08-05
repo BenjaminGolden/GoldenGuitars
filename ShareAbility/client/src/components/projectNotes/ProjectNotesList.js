@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, Button } from "reactstrap";
-import { Link } from "react-router-dom";
 import { useParams, useHistory } from "react-router";
 import ProjectNotesCard from './ProjectNotesCard';
 import { getAllProjectNotesbyProjectId} from "../../modules/projectNotesManager"; 

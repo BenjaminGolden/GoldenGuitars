@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 import { getStepNoteById, updateStepNote } from '../../modules/stepNotesManager';
 
 const ProjectStepNoteEditForm = () => {
@@ -13,8 +13,6 @@ const ProjectStepNoteEditForm = () => {
         getStepNoteById(id)
         .then(note => setEditProjectStepNote(note));
     }
-
-    console.log(editProjectStepNote);
     
     const handleInputChange = (event) => {
         const selectedVal = event.target.value;

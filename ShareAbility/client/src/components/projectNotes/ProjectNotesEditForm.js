@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 import { getProjectNoteById, updateProjectNote } from '../../modules/projectNotesManager';
 
 const ProjectNoteEditForm = () => {

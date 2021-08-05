@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { Button, Form } from 'reactstrap';
+import { useParams } from 'react-router-dom';
+import { Form } from 'reactstrap';
 import { getAllProjectSteps } from '../../modules/projectStepManager';
 import ProjectStepCard from './ProjectStepCard';
 import "./projectStep.css"
@@ -10,7 +10,7 @@ const ProjectStepForm = () => {
     const [projectStep, setProjectStep] = useState([]);
     const [edit, setEdit] = useState(false);
 
-    const history = useHistory();
+
     const { id } = useParams();
 
     //GET ALL PROJECT STEPS

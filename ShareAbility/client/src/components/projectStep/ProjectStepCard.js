@@ -4,7 +4,7 @@ import { getAllUsers } from "../../modules/userManager";
 import { getAllStatuses } from "../../modules/statusManager";
 import { getStepById } from "../../modules/stepsManager";
 import { updateProjectStep } from '../../modules/projectStepManager';
-import { addStepNote, getAllNotesByStepId } from "../../modules/stepNotesManager";
+import { addStepNote, getAllStepNotes } from "../../modules/stepNotesManager";
 import { useHistory } from 'react-router-dom';
 import './projectStep.css'
 
@@ -13,6 +13,7 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
     const [users, setUsers] = useState([]);
     const [status, setStatus] = useState([]);
     const [singleStep, setSingleStep] = useState({});
+    const [stepNotes, setStepNotes] = useState([]);
     const [showStepNotesForm, setShowStepNotesForm] = useState(false);
     const [newStepNote, setNewStepNote] = useState({
         stepId: projectStep.id,
@@ -73,18 +74,37 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
             .then(stepFromApi => {
                 setSingleStep(stepFromApi)
             })
+        }
+        
+        const getStepNotes = () => {
+            return getAllStepNotes(projectStep.id)
+            .then(stepNotesFromApi => {
+                setStepNotes(stepNotesFromApi)
+            })
+    }
+
+    const viewStepNotes = () => {
+        if (stepNotes.length < 1)
+        {
+            window.alert("This step does not have any notes.");
+        }
+        else
+        {
+            return history.push(`/projectStepNotes/${projectStep.id}`);
+        }
     }
 
     useEffect(() => {
         getUsers();
         getStatuses();
         getSingleStep();
+        getStepNotes();
     }, []);
 
     return (
         <Card className=" w-50 m-2 mx-auto border-dark">
             <CardBody className="">
-                <p>{singleStep.name}</p>
+                <p>{singleStep.id}: {singleStep.name}</p>
 
                 {/* Select a Worker */}
 
@@ -104,8 +124,10 @@ const ProjectStepCard = ({ projectStep, setEdit, edit }) => {
                             <option id="statusId" selected key={s.id} value={s.id}>{s.name}</option> : <option id="statusId" key={s.id} value={s.id}>{s.name}</option>
                     ))}
                 </select>
-                        {/* View Step Notes */}
-                <Button className="btn btn-dark m-1" onClick={() => history.push(`/projectStepNotes/${projectStep.id}`)}>View Step Notes</Button>
+
+                {/* View Step Notes */}
+
+                <Button className="btn btn-dark m-1" onClick={viewStepNotes}>View Step Notes</Button>
                 <Button className="btn btn-dark" onClick={stepNotesToggle}>Add a note</Button>
 
                 {showStepNotesForm &&
