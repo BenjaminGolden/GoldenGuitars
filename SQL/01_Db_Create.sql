@@ -182,7 +182,7 @@ SET IDENTITY_INSERT [projectNotes] ON
 INSERT INTO [projectNotes]
 	([id], [content], [userProfileId], [projectId], [date], [isDeleted])
 VALUES
-	(1, 'guitar with art piece, first produciton unit for sale', 1, 1, '3/14/2020', 0),
+	(1, 'guitar with art piece, first production unit for sale', 1, 1, '3/14/2020', 0),
 	(2, 'color scheme will be blue and royal blue mix', 2, 1, '3/14/2020', 0),
 	(3, 'no string tree, low setup', 3, 1, '3/14/2020', 0)
 SET IDENTITY_INSERT [projectNotes] OFF
