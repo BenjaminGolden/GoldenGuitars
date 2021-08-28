@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GoldenGuitars.repositories
 {
-    public class ExpensesRepository : BaseRepository
+    public class ExpensesRepository : BaseRepository, IExpensesRepository
     {
         public ExpensesRepository(IConfiguration configuration) : base(configuration) { }
 

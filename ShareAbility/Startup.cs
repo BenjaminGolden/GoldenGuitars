@@ -38,6 +38,7 @@ namespace ShareAbility
             services.AddTransient<IProjectNotesRepository, ProjectNotesRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<IExpensesRepository, ExpensesRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
