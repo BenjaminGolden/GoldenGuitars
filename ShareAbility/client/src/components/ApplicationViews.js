@@ -11,6 +11,7 @@ import ProjectNoteEditForm from "./projectNotes/ProjectNotesEditForm";
 import ProjectStepNoteEditForm from "./stepNotes/StepNotesEditForm";
 import ProjectEditForm from "./projects/ProjectEditForm";
 import { getCurrentUser } from "../modules/authManager";
+import ExpensesList from "./expenses/ExpensesList";
 
 
 
@@ -60,6 +61,10 @@ useEffect(() => {
 
       <Route path="/projectStepNote/edit/:id" exact>
         {isLoggedIn ? <ProjectStepNoteEditForm /> : <Redirect to="/login" />}
+      </Route>
+
+      <Route path="/expenses" exact>
+      {isLoggedIn ? <ExpensesList /> : <Redirect to="/login" />}
       </Route>
 
       <Route path="/login">

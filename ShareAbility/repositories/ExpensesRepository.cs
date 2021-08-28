@@ -14,30 +14,35 @@ namespace GoldenGuitars.repositories
     {
         public ExpensesRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Expenses> GetAll(int id)
+        public List<Expenses> GetAll()
         {
-            using (var cmd = Connection.CreateCommand())
+            using (var conn = Connection)
             {
-                cmd.CommandText = @"SELECT * FROM Expenses e";
-
-                DbUtils.AddParameter(cmd, "@Id", id);
-                var reader = cmd.ExecuteReader();
-                var expenses = new List<Expenses>();
-                while (reader.Read())
+                conn.Open();
+                using (var cmd = Connection.CreateCommand())
                 {
-                    expenses.Add(new Expenses()
-                    {
-                        Id = DbUtils.GetInt(reader, "Id"),
-                        Name = DbUtils.GetString(reader, "name"),
-                        Price = DbUtils.GetInt(reader, "price"),
-                        DatePurchased = DbUtils.GetDateTime(reader, "datePurchased"),
-                        Reimbursable = reader.GetBoolean("reimbursable"),
-                        TotalCost = DbUtils.GetInt(reader, "totalCost")
 
-                    });
+                    cmd.CommandText = @"SELECT e.id, e.name, e.price, e.datePurchased, e.Reimbursable, e.totalCost
+                    FROM Expenses e";
+
+                    var reader = cmd.ExecuteReader();
+                    var expenses = new List<Expenses>();
+                    while (reader.Read())
+                    {
+                        expenses.Add(new Expenses()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "name"),
+                            Price = DbUtils.GetInt(reader, "price"),
+                            DatePurchased = DbUtils.GetDateTime(reader, "datePurchased"),
+                            Reimbursable = DbUtils.GetString(reader, "reimbursable"),
+                            TotalCost = DbUtils.GetInt(reader, "totalCost")
+
+                        });
+                    }
+                    reader.Close();
+                    return expenses;
                 }
-                reader.Close();
-                return expenses;
             }
         }
 
@@ -64,7 +69,7 @@ namespace GoldenGuitars.repositories
                             Name = DbUtils.GetString(reader, "name"),
                             Price = DbUtils.GetInt(reader, "price"),
                             DatePurchased = DbUtils.GetDateTime(reader, "datePurchased"),
-                            Reimbursable = reader.GetBoolean("reimbursable"),
+                            Reimbursable = DbUtils.GetString(reader, "reimbursable"),
                             TotalCost = DbUtils.GetInt(reader, "totalCost")
                         };
                     }
