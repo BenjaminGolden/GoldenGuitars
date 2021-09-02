@@ -12,7 +12,7 @@ namespace GoldenGuitars.models
         public int Price { get; set; }
         public DateTime DatePurchased { get; set; }
         public string Reimbursable { get; set; }
-        public int TotalCost { get; set; }
+        
 
     }
 }

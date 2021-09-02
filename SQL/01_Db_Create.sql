@@ -88,7 +88,14 @@ CREATE TABLE [soldProjects] (
 )
 GO
 
-
+CREATE TABLE [expenses] (
+  [id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [name] nvarchar(255) NOT NULL,
+  [price] int NOT NULL,
+  [reimbursable] nvarchar(255) NOT NULL,
+  [datePurchased] datetime NOT NULL
+)
+GO
 
 
 

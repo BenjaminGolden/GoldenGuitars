@@ -2,11 +2,8 @@
 using GoldenGuitars.Repositories;
 using GoldenGuitars.Utils;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenGuitars.repositories
 {
@@ -19,13 +16,14 @@ namespace GoldenGuitars.repositories
             using (var conn = Connection)
             {
                 conn.Open();
-                using (var cmd = Connection.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
-
-                    cmd.CommandText = @"SELECT e.id, e.name, e.price, e.datePurchased, e.Reimbursable, e.totalCost
-                    FROM Expenses e";
+                    cmd.CommandText = @"
+               SELECT * From Expenses;
+            ";
 
                     var reader = cmd.ExecuteReader();
+
                     var expenses = new List<Expenses>();
                     while (reader.Read())
                     {
@@ -35,12 +33,13 @@ namespace GoldenGuitars.repositories
                             Name = DbUtils.GetString(reader, "name"),
                             Price = DbUtils.GetInt(reader, "price"),
                             DatePurchased = DbUtils.GetDateTime(reader, "datePurchased"),
-                            Reimbursable = DbUtils.GetString(reader, "reimbursable"),
-                            TotalCost = DbUtils.GetInt(reader, "totalCost")
-
+                            Reimbursable = DbUtils.GetString(reader, "reimbursable")
+                          
                         });
                     }
+
                     reader.Close();
+
                     return expenses;
                 }
             }
@@ -69,8 +68,7 @@ namespace GoldenGuitars.repositories
                             Name = DbUtils.GetString(reader, "name"),
                             Price = DbUtils.GetInt(reader, "price"),
                             DatePurchased = DbUtils.GetDateTime(reader, "datePurchased"),
-                            Reimbursable = DbUtils.GetString(reader, "reimbursable"),
-                            TotalCost = DbUtils.GetInt(reader, "totalCost")
+                            Reimbursable = DbUtils.GetString(reader, "reimbursable")
                         };
                     }
                     reader.Close();
@@ -89,15 +87,15 @@ namespace GoldenGuitars.repositories
                 {
                     cmd.CommandText = @"
                     INSERT INTO Expenses 
-                    (Name, Price, DatePUrchased,                               Reimbursable, TotalCost)
+                    (Name, Price, DatePUrchased,                               Reimbursable)
                      OUTPUT INSERTED.ID
-                     VALUES (@Name, @Price, @DatePurchased,                          @Reimbursable, @TotalCost)";
+                     VALUES (@Name, @Price, @DatePurchased,                          @Reimbursable)";
 
                     DbUtils.AddParameter(cmd, "@Name", expense.Name);
                     DbUtils.AddParameter(cmd, "@Price", expense.Price);
                     DbUtils.AddParameter(cmd, "@DatePurchased", expense.DatePurchased);
                     DbUtils.AddParameter(cmd, "@Reimbursable", expense.Reimbursable);
-                    DbUtils.AddParameter(cmd, "@TotalCost", expense.TotalCost);
+                    
 
                     expense.Id = (int)cmd.ExecuteScalar();
 
@@ -117,15 +115,12 @@ namespace GoldenGuitars.repositories
                     SET Name = @Name,
                         Price = @Price,
                         DatePurchased = @DatePurchased,
-                        Reimbursable = @Reimbursable,
-                        TotalCost = @TotalCost";
+                        Reimbursable = @Reimbursable";
 
                     DbUtils.AddParameter(cmd, "@Name", expense.Name);
                     DbUtils.AddParameter(cmd, "@Price", expense.Price);
                     DbUtils.AddParameter(cmd, "@DatePurchased", expense.DatePurchased);
                     DbUtils.AddParameter(cmd, "@Reimbursable", expense.Reimbursable);
-
-                    DbUtils.AddParameter(cmd, @"TotalCost", expense.TotalCost);
 
                     cmd.ExecuteNonQuery();
                 }

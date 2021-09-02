@@ -20,7 +20,7 @@ namespace GoldenGuitars.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
             return Ok(_expensesRepository.GetAll());
         }
