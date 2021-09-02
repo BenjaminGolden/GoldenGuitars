@@ -24,7 +24,7 @@ const ExpensesCard = ({expense}) => {
                 {expense.price}
                 {expense.DatePurchased}
                 {expense.reimbursable}
-                {expense.totalCost}
+               
             </CardText>
         </Card>
     )
