@@ -15,12 +15,12 @@ const NewExpense = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     handleInputChange = (evt) => {
+
+        const value = evt.target.value;
+        const key = evt.target.id;
         const newExpense = { ...expense }
-        let selectedVal = evt.target.value
-        if (evt.target.id.includes('Id"')) {
-            selectedVal = parseInt(selectedVal)
-        }
-        newExpense[evt.target.id] = selectedVal
+        
+        newExpense[key] = value;
         setExpense(newExpense)
     }
 
@@ -51,12 +51,19 @@ const NewExpense = () => {
 
     return (
         <>
-        <Form>       
-                <Row>
-                <Label>Name </Label>
-                <Input type='name' id='name' onChange={handleInputChange} placeholder='name' value={expense.name}/>
-                </Row>
-        </Form>
+         <Form className="container w-75 opacity">
+                <h2 className="font">Create A New Project</h2>
+                <FormGroup>
+                    
+                    <Input type="text" name="name" id="name" placeholder="Project Name"
+                        value={newProject.name}
+                        onChange={handleInputChange} />
+                </FormGroup>
+
+                <Button className="btn btn-primary" onClick={handleSave}>Submit</Button>
+                <Button className="btn btn-primary" onClick={() => history.push(`/`)}>Cancel</Button>
+
+            </Form>
         </>
     )
 }
