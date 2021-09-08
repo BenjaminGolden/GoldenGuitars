@@ -56,7 +56,7 @@ namespace GoldenGuitars.repositories
                                Id = DbUtils.GetInt(reader, "ProjectId"),
                                Name = DbUtils.GetString(reader, "project"),
                                StartDate = DbUtils.GetDateTime(reader, "startDate"),
-                               CompletionDate = DbUtils.GetDateTime(reader, "completionDate")
+                               CompletionDate = DbUtils.GetNullableDateTime(reader, "completionDate")
                            },
                            Steps = new Steps()
                            {
@@ -151,7 +151,7 @@ namespace GoldenGuitars.repositories
                                 Id = DbUtils.GetInt(reader, "ProjectId"),
                                 Name = DbUtils.GetString(reader, "Project"),
                                 StartDate = DbUtils.GetDateTime(reader, "startDate"),
-                                CompletionDate = DbUtils.GetDateTime(reader, "completionDate")
+                                CompletionDate = DbUtils.GetNullableDateTime(reader, "completionDate")
                             }
 
                         };

@@ -44,6 +44,9 @@ export default function Header({ isLoggedIn }) {
                 <NavItem className="ml-6">
                   <NavLink className="headerFont" tag={RRNavLink} to="/project/add">New Project</NavLink>
                 </NavItem>
+                <NavItem className="ml-6">
+                  <NavLink className="headerFont" tag={RRNavLink} to="/expenses">Expenses</NavLink>
+                </NavItem>
 
               </>
             }
