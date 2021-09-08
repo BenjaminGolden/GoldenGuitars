@@ -3,6 +3,8 @@ import { Card, CardBody, Button } from "reactstrap";
 import { useParams, useHistory } from "react-router";
 import { getAllExpenses } from "../../modules/expensesManager";
 import ExpensesCard from "./ExpensesCard";
+import { Link } from "react-router-dom";
+
 
 const ExpensesList = () => {
     const [expenses, setExpenses] = useState([]);
@@ -12,11 +14,17 @@ const ExpensesList = () => {
         .then((response) => setExpenses(response))
     };
 
+    
+
     useEffect(() => {
         getExpenses();
     }, [])
 
     return (
+        <>
+        <Link to={`/addexpense`}>
+                    <Button className="btn btn-dark m-2">Add Expense</Button>
+                </Link>
         <div>
             <Card>
                 <CardBody>
@@ -26,6 +34,7 @@ const ExpensesList = () => {
            <div >{expenses.map((expense) => <ExpensesCard expense={expense} key={expense.id} />)}
            </div>
         </div>
+        </>
     )
 
 }

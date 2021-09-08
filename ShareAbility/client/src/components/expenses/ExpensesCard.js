@@ -1,11 +1,12 @@
-import { Button } from 'reactstrap';
 import React from 'react';
+import { useState, useEffect } from 'react';
+import { addExpense } from '../../modules/expensesManager';
 import { useHistory } from 'react-router';
-import { Card, CardTitle, CardBody } from 'reactstrap';
+import { Card, CardTitle, CardBody, Row } from 'reactstrap';
 import CardText from 'reactstrap/lib/CardText';
 import { deleteExpense } from '../../modules/expensesManager';
 
-const ExpensesCard = ({expense}) => {
+const ExpensesCard = ({ expense }) => {
     const history = useHistory();
 
     const handleDelete = () => {
@@ -15,18 +16,28 @@ const ExpensesCard = ({expense}) => {
     }
 
     return (
-        <Card>
-            <CardTitle>
-                {expense.name}
-            </CardTitle>
+        <>
 
-            <CardText>
-                {expense.price}
-                {expense.DatePurchased}
-                {expense.reimbursable}
-               
-            </CardText>
-        </Card>
+            <Card>
+                <Row>
+                    <CardTitle>
+                      <strong>Item: </strong>{expense.name}
+                    </CardTitle>
+                    </Row>
+                    <Row>
+
+                    <CardText>
+                        Price: {expense.price}
+                    </CardText>
+                    <CardText>
+                        Date Purchased: {expense.datePurchased}
+                    </CardText>
+                    <CardText>
+                        Reimbursable: {expense.reimbursable}
+                    </CardText>
+                </Row>
+            </Card>
+        </>
     )
 }
 export default ExpensesCard;
