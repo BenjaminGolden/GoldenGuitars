@@ -93,7 +93,8 @@ CREATE TABLE [expenses] (
   [name] nvarchar(255) NOT NULL,
   [price] int NOT NULL,
   [reimbursable] nvarchar(255) NOT NULL,
-  [datePurchased] datetime NOT NULL
+  [datePurchased] datetime NOT NULL,
+  [isDeleted] BIT DEFAULT (0) NOT NULL
 )
 GO
 
@@ -152,6 +153,7 @@ VALUES
 	(5, 'Metal Scoring and Painting'),
 	(6, 'Post Installation and Final Assembly')
 SET IDENTITY_INSERT [steps] OFF
+
 SET IDENTITY_INSERT [project] ON
 INSERT INTO [project]
 	([id], [name], [startDate], [completionDate], [isDeleted])
@@ -203,3 +205,10 @@ VALUES
 	(3, 'input jack drilled, round over complete', 3, 1, '3/14/2020', 0)
 SET IDENTITY_INSERT [projectStepNotes] OFF
 
+SET IDENTITY_INSERT [expenses] ON
+INSERT INTO [expenses]
+	([id], [name], [price], [datePurchased], reimbursable, [isDeleted])
+VALUES
+	(1, '24" sanding beam', 200, '5/17/21', 'no', 0),
+	(2, 'clear nitro', 15.75, '2/23/20', 'yes', 0)
+SET IDENTITY_INSERT [expenses] OFF
